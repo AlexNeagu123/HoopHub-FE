@@ -1,3 +1,5 @@
+import type {Player} from "$lib/models/nba_data/Player";
+
 interface Team {
     id: string;
     apiId: number;
@@ -7,6 +9,7 @@ interface Team {
     conference: string;
     division: string;
     imageUrl: string;
+    players: Player[];
 }
 
 export type { Team };

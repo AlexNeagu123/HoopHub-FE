@@ -1,14 +1,13 @@
 <script lang="ts">
-	import '../app.pcss';
+    import '../app.pcss';
     import {AppShell} from "@skeletonlabs/skeleton";
-    import Navigation from "$lib/components/Navigation.svelte";
+    import NavBar from "$lib/components/NavBar.svelte";
 </script>
 
 
-<AppShell slotHeader="bg-primary-600/10">
-    <svelte:fragment slot="header"><Navigation /></svelte:fragment>
-    <svelte:fragment slot="sidebarLeft">
+<AppShell>
+    <svelte:fragment slot="header">
+        <NavBar/>
     </svelte:fragment>
-    <slot />
-    <svelte:fragment slot="footer"></svelte:fragment>
+    <slot/>
 </AppShell>

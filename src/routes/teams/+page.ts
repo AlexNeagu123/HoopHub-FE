@@ -1,6 +1,8 @@
-import type { PageLoad } from './$types';
+import type {PageLoad} from './$types';
 import {getAllTeams} from "$lib/services/nba_data/teams/getAllTeams";
+import type {Team} from "$lib/models/nba_data/Team";
+
 export const load: PageLoad = async () => {
-    const teams = await getAllTeams();
+    const teams: Team[] = await getAllTeams();
     return {teams}
 };
