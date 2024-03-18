@@ -1,24 +1,47 @@
 <script lang="ts">
     import type {Player} from "$lib/models/nba_data/Player";
     import {Avatar} from "@skeletonlabs/skeleton";
+
     export let player: Player;
 </script>
 
-<div class="card mt-5 w-[49%] drop-shadow variant-filled-primary flex justify-around">
-    <div class="flex align-middle justify-center">
+<div class="card mt-5 w-[49%] drop-shadow variant-filled-primary flex justify-between card-hover
+            hover:bg-secondary-200 cursor-pointer">
+
+    <div class="flex align-middle justify-center ml-8">
         <div class="mr-3 mt-3">
-            <div>{player.jerseyNumber}</div>
-            <div>{player.position}</div>
+            <div class="font-semibold h3">{player.jerseyNumber}</div>
+            <div class="text-gray-500">{player.position}</div>
         </div>
         <div>
             <Avatar src="{player.imageUrl}" width="w-40" rounded="rounded-lg" background="bg-transparent"/>
         </div>
     </div>
-
-    <div class="mt-3">
-        {player.firstName}
-        <div>
-            {player.lastName}
-        </div>
+    <div class="mt-3 mr-9">
+        <p class="mr-0 h3 font-semibold">
+            {player.firstName} {player.lastName}
+        </p>
+        <dl class="list-dl">
+            <div>
+                <span class="flex-auto">
+			        <dt class="text-gray-500">Draft Year</dt>
+			        <dd>
+                        {#if player.draftYear !== null}
+                            {player.draftYear}
+                        {:else}
+                            <span class="text-gray-600">Undrafted</span>
+                        {/if}
+                    </dd>
+		        </span>
+                <span class="flex-auto">
+			        <dt class="text-gray-500">Height</dt>
+			        <dd>{player.height}</dd>
+		        </span>
+                <span class="flex-auto">
+			        <dt class="text-gray-500">Weight</dt>
+			        <dd>{player.weight}</dd>
+		        </span>
+            </div>
+        </dl>
     </div>
 </div>

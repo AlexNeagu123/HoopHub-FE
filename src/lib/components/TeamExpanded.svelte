@@ -10,10 +10,10 @@
 
 <div class="flex justify-center">
     <div class="card variant-filled-primary m-10 w-3/4 text-center p-4 drop-shadow">
-        <header class="card-header variant-filled-primary h1">{team.fullName}</header>
+        <header class="card-header variant-filled-primary h2">{team.fullName}</header>
         <section>
             <div class="flex justify-center items-center">
-                <Avatar src="{team.imageUrl}" width="w-70" rounded="rounded-lg" background="bg-transparent"/>
+                <Avatar src="{team.imageUrl}" width="w-56" rounded="rounded-lg" background="bg-transparent"/>
             </div>
             <dl class="list-dl mt-5">
                 <div>

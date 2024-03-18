@@ -5,7 +5,7 @@
 
 <div class="flex-auto card variant-filled-primary drop-shadow">
     <span class="flex-auto">
-        <dt class="text-gray-600">{title}</dt>
-        <dd class="font-bold text-gray-600">{content}</dd>
+        <dt class="text-gray-500">{title}</dt>
+        <dd class="font-semibold">{content}</dd>
     </span>
 </div>
