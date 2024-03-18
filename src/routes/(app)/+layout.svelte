@@ -1,5 +1,5 @@
 <script lang="ts">
-    import '../app.pcss';
+    import '../../app.pcss';
     import {AppShell} from "@skeletonlabs/skeleton";
     import NavBar from "$lib/components/NavBar.svelte";
 </script>
