@@ -22,6 +22,6 @@
         <a type="button" class="btn variant-filled-primary text-xl" href="/">Games</a>
     </div>
     <svelte:fragment slot="trail">
-        <button type="button" class="btn variant-filled-primary text-xl">Sign Up</button>
+        <a type="button" class="btn variant-filled-primary text-xl" href="/register">Sign Up</a>
     </svelte:fragment>
 </AppBar>
