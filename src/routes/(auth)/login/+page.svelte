@@ -1,40 +1,18 @@
 <script lang="ts">
-    import Validation from "$lib/components/Validation.svelte";
+    import Validation from "$lib/components/auth/Validation.svelte";
     import {goto} from "$app/navigation";
     import LoginModel from "$lib/models/user_access/LoginModel";
     import login from "$lib/services/user_access/login";
-    import {authToken, currentUser} from "$lib/stores/auth.store";
-    import JWTParser from "$lib/utils/JWTParser";
-    import {ClaimTypes} from "$lib/constants";
-    import CurrentUser from "$lib/models/user_access/CurrentUser";
+    import {storeToken, storeUserDetails} from "$lib/utils/auth-utils";
+    import {AppRoute} from "$lib/constants";
 
     let logModel = new LoginModel();
     let validationErrors: { [key: string]: string } = {};
 
-    function storeToken(token: string): void {
-        localStorage.setItem('authToken', token);
-        authToken.set(token);
-    }
-
-    function extractLoggedUserInfo(claims: {[key: string]: string}): CurrentUser {
-        return {
-            isLoggedIn: true,
-            userId: claims[ClaimTypes.USERID],
-            userRole: claims[ClaimTypes.USERROLE],
-            userName: claims[ClaimTypes.USERNAME],
-            tokenExpTime: Number(claims[ClaimTypes.EXP_TIME])
-        };
-    }
-    function storeUserDetails(token: string) {
-        const jwtParser = new JWTParser(token);
-        const claims = jwtParser.parseClaimsFromJwt();
-        currentUser.set(extractLoggedUserInfo(claims));
-    }
-
     async function updateAuthStoreAndRedirect(token: string) {
         storeToken(token);
         storeUserDetails(token);
-        await goto('/');
+        await goto(AppRoute.HOME);
     }
 
     async function handleLogin(e: Event) {
@@ -77,7 +55,7 @@
 
         <button type="submit" class="btn border border-secondary-300 mt-3 bg-secondary-300 shadow w-full">Login</button>
         <p class="mt-4 text-gray-600">Don't have an account? Register
-            <a href="/register" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold">here</a>
+            <a href="{AppRoute.REGISTER}" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold">here</a>
         </p>
     </form>
 </div>

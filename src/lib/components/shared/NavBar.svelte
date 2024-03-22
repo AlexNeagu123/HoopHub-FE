@@ -2,7 +2,7 @@
     import {AppBar, Avatar} from "@skeletonlabs/skeleton";
     import {currentUser} from "$lib/stores/auth.store";
     import logout from "$lib/services/user_access/logout";
-    console.log($currentUser);
+    import {AppRoute} from "$lib/constants";
 </script>
 
 <style>
@@ -20,15 +20,15 @@
         </div>
     </svelte:fragment>
     <div class="flex justify-around">
-        <a type="button" class="btn variant-filled-primary text-xl" href="/teams">Teams</a>
-        <a type="button" class="btn variant-filled-primary text-xl" href="/">Standings</a>
-        <a type="button" class="btn variant-filled-primary text-xl" href="/">Games</a>
+        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.TEAMS}">Teams</a>
+        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.HOME}">Standings</a>
+        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.HOME}">Games</a>
     </div>
     <svelte:fragment slot="trail">
         {#if $currentUser.isLoggedIn}
-            <a on:click={logout} href="/" type="button" class="btn variant-filled-primary text-xl">Logout</a>
+            <a on:click={logout} href="/static" type="button" class="btn variant-filled-primary text-xl">Logout</a>
         {:else}
-            <a type="button" class="btn variant-filled-primary text-xl" href="/login">Login</a>
+            <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.LOGIN}">Login</a>
         {/if}
     </svelte:fragment>
 </AppBar>

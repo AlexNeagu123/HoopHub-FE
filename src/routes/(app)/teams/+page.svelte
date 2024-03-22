@@ -1,5 +1,5 @@
 <script lang="ts">
-    import TeamPreview from "$lib/components/TeamPreview.svelte";
+    import TeamPreview from "$lib/components/teams/TeamPreview.svelte";
     import type {PageData} from './$types';
     import {RadioGroup, RadioItem} from "@skeletonlabs/skeleton";
 

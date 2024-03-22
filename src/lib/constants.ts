@@ -4,3 +4,15 @@ export enum ClaimTypes {
     USERNAME = 'unique_name',
     EXP_TIME = 'exp'
 }
+
+export enum LocalStorageKeys {
+    AUTH_TOKEN = 'authToken'
+}
+
+export enum AppRoute {
+    HOME = '/',
+    LOGIN = '/login',
+    REGISTER = '/register',
+    TEAMS = '/teams',
+    TEAM = '/team'
+}

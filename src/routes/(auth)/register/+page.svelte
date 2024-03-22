@@ -1,20 +1,20 @@
 <script lang="ts">
     import RegistrationModel from "$lib/models/user_access/RegistrationModel";
     import register from "$lib/services/user_access/register";
-    import Validation from "$lib/components/Validation.svelte";
+    import Validation from "$lib/components/auth/Validation.svelte";
     import {goto} from "$app/navigation";
+    import {AppRoute} from "$lib/constants";
 
     let regModel = new RegistrationModel();
-    let validationErrors: {[key: string]: string} = {};
+    let validationErrors: { [key: string]: string } = {};
 
     async function handleRegister(e: Event) {
         e.preventDefault();
         let response = await register(regModel);
         if (!response.success) {
             validationErrors = response.validationErrors;
-        }
-        else {
-            await goto('/login');
+        } else {
+            await goto(AppRoute.LOGIN);
         }
     }
 
@@ -58,12 +58,14 @@
             <input bind:value={regModel.confirmPassword} on:keypress={resetValidation} class="w-full border border-secondary-600 px-3 py-2 rounded-full shadow
             focus:outline-0 focus:border-secondary-700 focus:ring-1 focus:ring-secondary-700 selection:bg-secondary-600"
                    type="password" id="confirm-password" name="confirm-password"/>
-            <Validation validationErrors={validationErrors} errorKey="ConfirmPassword" />
+            <Validation validationErrors={validationErrors} errorKey="ConfirmPassword"/>
         </label>
 
-        <button type="submit" class="btn border border-secondary-300 mt-3 bg-secondary-300 shadow w-full">Create</button>
+        <button type="submit" class="btn border border-secondary-300 mt-3 bg-secondary-300 shadow w-full">Create
+        </button>
         <p class="mt-4 text-gray-600">Already have an account? Click
-            <a href="/login" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold">here</a>
+            <a href="{AppRoute.LOGIN}"
+               class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold">here</a>
             to login</p>
     </form>
 </div>
