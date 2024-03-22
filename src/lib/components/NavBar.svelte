@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
     import {AppBar, Avatar} from "@skeletonlabs/skeleton";
+    import {currentUser} from "$lib/stores/auth.store";
 </script>
 
 <style>
@@ -13,7 +14,7 @@
         background="bg-primary-500" border="border border-solid border-primary-600 border-t-0">
     <svelte:fragment slot="lead">
         <div class="avatar">
-            <Avatar src="/images/logo/HoopHub.png" width="w-16" rounded="rounded-lg" background="bg-transparent"/>
+            <Avatar src="/images/logo/HoopHub.png" width="w-14" rounded="rounded-lg" background="bg-transparent"/>
         </div>
     </svelte:fragment>
     <div class="flex justify-around">
@@ -22,6 +23,10 @@
         <a type="button" class="btn variant-filled-primary text-xl" href="/">Games</a>
     </div>
     <svelte:fragment slot="trail">
-        <a type="button" class="btn variant-filled-primary text-xl" href="/register">Sign Up</a>
+        {#if $currentUser.isLoggedIn}
+            <a type="button" class="btn variant-filled-primary text-xl" href="/login">Login</a>
+        {:else}
+            <a type="button" class="btn variant-filled-primary text-xl" href="/login">Login</a>
+        {/if}
     </svelte:fragment>
 </AppBar>

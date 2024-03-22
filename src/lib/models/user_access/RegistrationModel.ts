@@ -1,10 +1,6 @@
-class RegistrationModel {
+export default class RegistrationModel {
     email: string = "";
     userName: string = "";
     password: string = "";
     confirmPassword: string = "";
-}
-
-export {
-    RegistrationModel
 }

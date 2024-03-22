@@ -1,6 +1,6 @@
 <script lang="ts">
-    import {RegistrationModel} from "$lib/models/user_access/RegistrationModel";
-    import {register} from "$lib/services/user_access/register";
+    import RegistrationModel from "$lib/models/user_access/RegistrationModel";
+    import register from "$lib/services/user_access/register";
     import Validation from "$lib/components/Validation.svelte";
     import {goto} from "$app/navigation";
 
@@ -62,5 +62,8 @@
         </label>
 
         <button type="submit" class="btn border border-secondary-300 mt-3 bg-secondary-300 shadow w-full">Create</button>
+        <p class="mt-4 text-gray-600">Already have an account? Click
+            <a href="/login" class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold">here</a>
+            to login</p>
     </form>
 </div>
