@@ -11,21 +11,24 @@
     let logModel = new LoginModel();
     let validationErrors: { [key: string]: string } = {};
 
-    function storeToken(token: string) {
+    function storeToken(token: string): void {
         localStorage.setItem('authToken', token);
-        $authToken = token;
+        authToken.set(token);
     }
 
+    function extractLoggedUserInfo(claims: {[key: string]: string}): CurrentUser {
+        return {
+            isLoggedIn: true,
+            userId: claims[ClaimTypes.USERID],
+            userRole: claims[ClaimTypes.USERROLE],
+            userName: claims[ClaimTypes.USERNAME],
+            tokenExpTime: Number(claims[ClaimTypes.EXP_TIME])
+        };
+    }
     function storeUserDetails(token: string) {
         const jwtParser = new JWTParser(token);
         const claims = jwtParser.parseClaimsFromJwt();
-
-        $currentUser = new CurrentUser(
-            claims[ClaimTypes.USERID],
-            claims[ClaimTypes.USERROLE],
-            claims[ClaimTypes.USERNAME],
-            Number(claims[ClaimTypes.EXP_TIME])
-        );
+        currentUser.set(extractLoggedUserInfo(claims));
     }
 
     async function updateAuthStoreAndRedirect(token: string) {

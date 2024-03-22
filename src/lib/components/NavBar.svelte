@@ -1,6 +1,8 @@
 <script lang="ts">
     import {AppBar, Avatar} from "@skeletonlabs/skeleton";
     import {currentUser} from "$lib/stores/auth.store";
+    import logout from "$lib/services/user_access/logout";
+    console.log($currentUser);
 </script>
 
 <style>
@@ -24,7 +26,7 @@
     </div>
     <svelte:fragment slot="trail">
         {#if $currentUser.isLoggedIn}
-            <a type="button" class="btn variant-filled-primary text-xl" href="/login">Login</a>
+            <a on:click={logout} href="/" type="button" class="btn variant-filled-primary text-xl">Logout</a>
         {:else}
             <a type="button" class="btn variant-filled-primary text-xl" href="/login">Login</a>
         {/if}
