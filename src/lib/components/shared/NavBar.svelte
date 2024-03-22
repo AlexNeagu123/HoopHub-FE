@@ -26,7 +26,7 @@
     </div>
     <svelte:fragment slot="trail">
         {#if $currentUser.isLoggedIn}
-            <a on:click={logout} href="/static" type="button" class="btn variant-filled-primary text-xl">Logout</a>
+            <a on:click={logout} href="{AppRoute.HOME}" type="button" class="btn variant-filled-primary text-xl">Logout</a>
         {:else}
             <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.LOGIN}">Login</a>
         {/if}
