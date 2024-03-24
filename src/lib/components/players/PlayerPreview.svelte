@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Player} from "$lib/models/nba_data/Player";
+    import type {Player} from "$lib/models/nba_data/players/Player";
     import {Avatar} from "@skeletonlabs/skeleton";
 
     export let player: Player;

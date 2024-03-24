@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Team} from "$lib/models/nba_data/Team";
+    import type {Team} from "$lib/models/nba_data/teams/Team";
     import {Avatar} from "@skeletonlabs/skeleton";
     import {AppRoute} from "$lib/constants";
 

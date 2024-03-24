@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {Team} from "$lib/models/nba_data/Team";
+    import type {Team} from "$lib/models/nba_data/teams/Team";
     import {Avatar, RadioGroup, RadioItem} from "@skeletonlabs/skeleton";
     import AboutCard from "$lib/components/shared/AboutCard.svelte";
     import PlayerPreview from "$lib/components/players/PlayerPreview.svelte";

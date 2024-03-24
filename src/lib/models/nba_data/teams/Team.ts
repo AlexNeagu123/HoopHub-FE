@@ -1,4 +1,5 @@
-import type {Player} from "$lib/models/nba_data/Player";
+import type {Player} from "$lib/models/nba_data/players/Player";
+import type {TeamBio} from "$lib/models/nba_data/teams/TeamBio";
 
 interface Team {
     id: string;
@@ -9,7 +10,9 @@ interface Team {
     conference: string;
     division: string;
     imageUrl: string;
+
     players: Player[];
+    teamBio: TeamBio[];
 }
 
 export type { Team };
