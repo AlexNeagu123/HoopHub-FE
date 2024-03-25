@@ -1,6 +1,6 @@
 <script lang="ts">
     export let title: string;
-    export let content: string;
+    export let content: number | string;
     export let border: boolean;
 </script>
 

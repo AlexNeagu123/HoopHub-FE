@@ -5,7 +5,8 @@
     import TeamHeader from "$lib/components/teams/TeamHeader.svelte";
     import {TabAnchor, TabGroup} from "@skeletonlabs/skeleton";
     import {AppRoute} from "$lib/constants";
-    import { page } from '$app/stores';
+    import {page} from '$app/stores';
+
     let id = $page.params.id;
 
     export let team: Team;
@@ -45,6 +46,6 @@
             </TabGroup>
         </div>
 
-       <slot />
+        <slot/>
     </div>
 </div>

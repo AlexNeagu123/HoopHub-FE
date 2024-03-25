@@ -19,7 +19,7 @@ export const hoopHubTheme: CustomThemeConfig = {
         "--on-success": "0 0 0",
         "--on-warning": "0 0 0",
         "--on-error": "255 255 255",
-        "--on-surface": "255 255 255",
+        "--on-surface": "0 0 0",
         // =~= Theme Colors  =~=
         // primary | #f2f2f2
         "--color-primary-50": "253 253 253", // #fdfdfd
@@ -32,17 +32,17 @@ export const hoopHubTheme: CustomThemeConfig = {
         "--color-primary-700": "182 182 182", // #b6b6b6
         "--color-primary-800": "145 145 145", // #919191
         "--color-primary-900": "119 119 119", // #777777
-        // secondary | #E8EBE5
-        "--color-secondary-50": "252 252 251", // #fcfcfb
-        "--color-secondary-100": "250 251 250", // #fafbfa
-        "--color-secondary-200": "249 250 249", // #f9faf9
-        "--color-secondary-300": "246 247 245", // #f6f7f5
-        "--color-secondary-400": "239 241 237", // #eff1ed
-        "--color-secondary-500": "232 235 229", // #E8EBE5
-        "--color-secondary-600": "209 212 206", // #d1d4ce
-        "--color-secondary-700": "174 176 172", // #aeb0ac
-        "--color-secondary-800": "139 141 137", // #8b8d89
-        "--color-secondary-900": "114 115 112", // #727370
+        // secondary | #D6DAD1
+        "--color-secondary-50": "249 249 248", // #f9f9f8
+        "--color-secondary-100": "247 248 246", // #f7f8f6
+        "--color-secondary-200": "245 246 244", // #f5f6f4
+        "--color-secondary-300": "239 240 237", // #eff0ed
+        "--color-secondary-400": "226 229 223", // #e2e5df
+        "--color-secondary-500": "214 218 209", // #D6DAD1
+        "--color-secondary-600": "193 196 188", // #c1c4bc
+        "--color-secondary-700": "161 164 157", // #a1a49d
+        "--color-secondary-800": "128 131 125", // #80837d
+        "--color-secondary-900": "105 107 102", // #696b66
         // tertiary | #94D2FD
         "--color-tertiary-50": "239 248 255", // #eff8ff
         "--color-tertiary-100": "234 246 255", // #eaf6ff
@@ -87,16 +87,16 @@ export const hoopHubTheme: CustomThemeConfig = {
         "--color-error-700": "159 19 89", // #9f1359
         "--color-error-800": "127 15 71", // #7f0f47
         "--color-error-900": "104 12 58", // #680c3a
-        // surface | #495a8f
-        "--color-surface-50": "228 230 238", // #e4e6ee
-        "--color-surface-100": "219 222 233", // #dbdee9
-        "--color-surface-200": "210 214 227", // #d2d6e3
-        "--color-surface-300": "182 189 210", // #b6bdd2
-        "--color-surface-400": "128 140 177", // #808cb1
-        "--color-surface-500": "73 90 143", // #495a8f
-        "--color-surface-600": "66 81 129", // #425181
-        "--color-surface-700": "55 68 107", // #37446b
-        "--color-surface-800": "44 54 86", // #2c3656
-        "--color-surface-900": "36 44 70", // #242c46
+        // surface | #D6DAD1
+        "--color-surface-50": "249 249 248", // #f9f9f8
+        "--color-surface-100": "247 248 246", // #f7f8f6
+        "--color-surface-200": "245 246 244", // #f5f6f4
+        "--color-surface-300": "239 240 237", // #eff0ed
+        "--color-surface-400": "226 229 223", // #e2e5df
+        "--color-surface-500": "214 218 209", // #D6DAD1
+        "--color-surface-600": "193 196 188", // #c1c4bc
+        "--color-surface-700": "161 164 157", // #a1a49d
+        "--color-surface-800": "128 131 125", // #80837d
+        "--color-surface-900": "105 107 102", // #696b66
     }
 }

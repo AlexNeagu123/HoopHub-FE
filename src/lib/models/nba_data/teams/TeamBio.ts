@@ -1,7 +1,7 @@
 import type {Season} from "$lib/models/nba_data/seasons/Season";
 
 interface TeamBio {
-    season: Season | null;
+    season: Season;
     winCount: number;
     lossCount: number;
     winLossRatio: number;

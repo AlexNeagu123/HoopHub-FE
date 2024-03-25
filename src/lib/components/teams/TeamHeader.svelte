@@ -12,8 +12,8 @@
 <div class="inline ml-3">
     <header class="card-header variant-filled-primary h2">{team.fullName}</header>
     <header class="card-header variant-filled-primary h3">
-                    <span class="border-r-secondary-900 border-r-2 pr-2">{team.teamBio[0].winCount}
+                    <span class="text-semibold">{team.teamBio[0].winCount}
                         - {team.teamBio[0].lossCount}</span>
-        <span>{team.teamBio[0].finish}</span>
+        <span class="text-gray-400">{team.teamBio[0].finish}</span>
     </header>
 </div>

@@ -16,3 +16,11 @@ export enum AppRoute {
     TEAMS = '/teams',
     TEAM = '/team'
 }
+
+export enum TeamConstants {
+    seasonsGroupSize = 8
+}
+
+export enum SeasonConstants {
+    currentSeason = 2023
+}

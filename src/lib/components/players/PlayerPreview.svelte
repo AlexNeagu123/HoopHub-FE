@@ -5,7 +5,7 @@
     export let player: Player;
 </script>
 
-<div class="card mt-5 w-[49%] drop-shadow variant-filled-primary flex justify-between card-hover
+<a href="/player/{player.id}" class="card mt-5 w-[49%] drop-shadow variant-filled-primary flex justify-between card-hover
             hover:bg-secondary-200 cursor-pointer">
 
     <div class="flex align-middle justify-center ml-8">
@@ -44,4 +44,4 @@
             </div>
         </dl>
     </div>
-</div>
+</a>
