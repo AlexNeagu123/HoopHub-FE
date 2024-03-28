@@ -12,8 +12,8 @@ interface SeasonAverageStats {
     fg3a: number;
     fg3m: number;
     reb: number;
-    oReb: number;
-    dReb: number;
+    oreb: number;
+    dreb: number;
     stl: number;
     blk: number;
     fgPct: number;
@@ -24,6 +24,7 @@ interface SeasonAverageStats {
     playerId: number;
     season: number;
     team: Team;
+    teamStr: string;
 }
 
 export type {SeasonAverageStats}

@@ -1,27 +1,63 @@
 <script lang="ts">
-    import {Avatar} from "@skeletonlabs/skeleton";
+    import {Avatar, TabAnchor, TabGroup} from "@skeletonlabs/skeleton";
     import type {Player} from "$lib/models/nba_data/players/Player";
     import type {SeasonAverageStats} from "$lib/models/nba_data/players/SeasonAverageStats";
     import PlayerHeader from "$lib/components/players/PlayerHeader.svelte";
+    import PlayerStat from "$lib/components/players/PlayerStat.svelte";
+    import PlayerCompoundStat from "$lib/components/players/PlayerCompoundStat.svelte";
+    import {AppRoute} from "$lib/constants";
+    import {page} from "$app/stores";
 
     export let player: Player;
-    let playerStats: SeasonAverageStats = player.seasonAverageStats[0];
+    export let pageType: string;
 
+    $: isLatest = pageType == "latest";
+    let playerStats: SeasonAverageStats = player.seasonAverageStats[0];
+    let id = $page.params.id;
 </script>
 
 <div class="flex justify-center">
-    <div class="card variant-filled-primary m-10 w-3/4 p-5 px-10 drop-shadow">
-        <div class="flex justify-start border-b-2 border-b-secondary-400">
+    <div class="card variant-filled-primary m-10 w-3/4 p-t-5 px-10 drop-shadow">
+        <div class="mt-4 flex justify-start">
             <div class="w-1/4 drop-shadow">
-                <a href="/team/{playerStats.team.id}">
-                    <Avatar width="w-1/3" rounded="rounded-lg" background="bg-transparent"
+                <a href="/team/{playerStats.team.id}" class="w-1/3 block">
+                    <Avatar width="w-full" rounded="rounded-lg" background="bg-transparent"
                             src="{playerStats.team.imageUrl}"/>
                 </a>
-                <div class="mb-0">
-                    <img class="drop-shadows w-6/7 bg-transparent" alt="AB" src="{player.imageUrl}"/>
+                <div>
+                    <img class="drop-shadows w-full bg-transparent" alt="AB" src="{player.imageUrl}"/>
                 </div>
             </div>
             <PlayerHeader player={player} playerStats={playerStats}/>
+        </div>
+        <div class="container flex flex-wrap justify-start w-full">
+            <div class="flex w-1/3">
+                <PlayerStat isLast={false} title="PPG" content={playerStats.pts.toFixed(1)}/>
+                <PlayerStat isLast={false} title="APG" content={playerStats.ast.toFixed(1)}/>
+                <PlayerStat isLast={false} title="RPG" content={(playerStats.oreb + playerStats.dreb).toFixed(1)}/>
+                <PlayerStat isLast={false} title="MIN" content={playerStats.min}/>
+            </div>
+            <div class="flex w-2/3">
+                <PlayerCompoundStat isLast={false} titles={["BLK", "STL"]} contents={[`${playerStats.blk.toFixed(1)}`,
+                `${playerStats.stl.toFixed(1)}`]}/>
+                <PlayerCompoundStat isLast={false} titles={["FG", "FG3M"]} contents={[playerStats.fgm.toFixed(1),
+                playerStats.fg3m.toFixed(1)]}/>
+                <PlayerCompoundStat isLast={false} titles={["Height", "Weight"]} contents={[`${player.height}ft`,
+                `${player.weight}lb`]}/>
+                <PlayerCompoundStat isLast={true} titles={["College", "Country"]} contents={[player.college,
+                player.country]}/>
+            </div>
+        </div>
+        <div class="mt-3">
+            <TabGroup border="none" justify="justify-start"
+                      active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
+                      hover="hover:bg-secondary-500">
+                <TabAnchor href="{AppRoute.PLAYER}/{id}" selected={isLatest}>Latest</TabAnchor>
+                <TabAnchor href="{AppRoute.PLAYER}/{id}/bio">History</TabAnchor>
+            </TabGroup>
+        </div>
+        <div class="mt-3">
+            <slot />
         </div>
     </div>
 </div>

@@ -12,6 +12,7 @@ interface TeamBio {
     oRtg: number;
     dRtg: number;
     playoffs: string;
+    seasonStr: string;
 }
 
 export type {TeamBio}

@@ -4,4 +4,5 @@
     export let data: PageData;
 </script>
 
-<PlayerExpanded player={data.player}/>
+<PlayerExpanded player={data.player} pageType="latest"/>
+

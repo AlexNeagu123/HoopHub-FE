@@ -1,29 +1,37 @@
 <script lang="ts">
     import TeamExpanded from "$lib/components/teams/TeamExpanded.svelte";
     import type {PageData} from './$types';
-    import TeamBioTable from "$lib/components/teams/TeamBioTable.svelte";
-    import {TeamConstants} from "$lib/constants";
+    import Table from "$lib/components/shared/Table.svelte";
+    import {TableTypes, TeamConstants} from "$lib/constants";
+    import type {LabeledTeamBio} from "$lib/models/nba_data/teams/LabeledTeamBio";
+    import {tableMapperValues} from "@skeletonlabs/skeleton";
 
     export let data: PageData;
 
+
     data.team.teamBio.forEach(t => {
-        t.season = t.season.seasonPeriod;
+        t.seasonStr = t.season.seasonPeriod;
         if (t.playoffs == null) {
             t.playoffs = "";
         }
     });
 
-    const groups = [];
+    const groups: LabeledTeamBio[] = [];
     for (let i = 0; i < data.team.teamBio.length; i += TeamConstants.seasonsGroupSize) {
         const group = data.team.teamBio.slice(i, i + TeamConstants.seasonsGroupSize);
-        const endYear = group[0].season.split('-')[1];
-        const startYear = group[group.length - 1].season.split('-')[0];
+        const endYear = group[0].seasonStr.split('-')[1];
+        const startYear = group[group.length - 1].seasonStr.split('-')[0];
 
         const label = `${startYear}-${endYear}`;
-        groups.push({teamBios: group, label});
+        groups.push({teamBio: group, label});
     }
 
     let selectedGroup = 0;
+    $: table = {
+        head: ['Season', 'W', 'L', 'W-L %', 'Finish', 'Srs', 'Pace', 'RelPace', 'ORtg', 'DRtg', 'Playoffs'],
+        body: tableMapperValues(groups[selectedGroup].teamBio, ['seasonStr', 'winCount', 'lossCount', 'winLossRatio', 'finish',
+            'srs', 'pace', 'relPace', 'oRtg', 'dRtg', 'playoffs']),
+    };
 </script>
 
 <style>
@@ -38,5 +46,5 @@
             <option value={index}>{g.label}</option>
         {/each}
     </select>
-    <TeamBioTable teamBio={groups[selectedGroup].teamBios}/>
+    <Table table={table} tableType={TableTypes.teamTable}/>
 </TeamExpanded>

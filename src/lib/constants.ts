@@ -14,13 +14,23 @@ export enum AppRoute {
     LOGIN = '/login',
     REGISTER = '/register',
     TEAMS = '/teams',
-    TEAM = '/team'
+    TEAM = '/team',
+    PLAYER = '/player',
 }
 
 export enum TeamConstants {
     seasonsGroupSize = 8
 }
 
+export enum PlayerConstants {
+    seasonGroupSize = 4
+}
+
 export enum SeasonConstants {
     currentSeason = 2023
+}
+
+export enum TableTypes {
+    playerTable = 0,
+    teamTable = 1
 }
