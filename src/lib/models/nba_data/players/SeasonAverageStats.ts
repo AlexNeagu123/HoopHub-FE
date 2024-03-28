@@ -7,10 +7,13 @@ interface SeasonAverageStats {
     pf: number;
     fga: number;
     fgm: number;
+    fgp: number;
     fta: number;
     ftm: number;
+    ftp: number;
     fg3a: number;
     fg3m: number;
+    fg3p: number;
     reb: number;
     oreb: number;
     dreb: number;
@@ -25,6 +28,7 @@ interface SeasonAverageStats {
     season: number;
     team: Team;
     teamStr: string;
+    seasonStr: string;
 }
 
 export type {SeasonAverageStats}

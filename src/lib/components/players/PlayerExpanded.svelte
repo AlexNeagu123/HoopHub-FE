@@ -17,7 +17,7 @@
 </script>
 
 <div class="flex justify-center">
-    <div class="card variant-filled-primary m-10 w-3/4 p-t-5 px-10 drop-shadow">
+    <div class="card variant-filled-primary m-10 w-5/6 p-t-5 px-10 drop-shadow">
         <div class="mt-4 flex justify-start">
             <div class="w-1/4 drop-shadow">
                 <a href="/team/{playerStats.team.id}" class="w-1/3 block">
@@ -53,7 +53,7 @@
                       active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
                       hover="hover:bg-secondary-500">
                 <TabAnchor href="{AppRoute.PLAYER}/{id}" selected={isLatest}>Latest</TabAnchor>
-                <TabAnchor href="{AppRoute.PLAYER}/{id}/bio">History</TabAnchor>
+                <TabAnchor href="{AppRoute.PLAYER}/{id}/bio" selected={!isLatest}>History</TabAnchor>
             </TabGroup>
         </div>
         <div class="mt-3">
