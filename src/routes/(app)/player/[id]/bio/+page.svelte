@@ -15,12 +15,12 @@
     let playerStats: SeasonAverageStats[] = player.seasonAverageStats;
 
     completeStats(playerStats);
+    $: teamIds = playerStats.map(e => e.teamId);
 
     let id = $page.params.id;
     let isLoading: boolean = true;
 
     const groups: string[][] = [];
-
     for (let season = SeasonConstants.currentSeason; season >= player.draftYear; season -= PlayerConstants.seasonGroupSize) {
         const endSeason = (season + 1).toString();
         const startSeason = Math.max((season - PlayerConstants.seasonGroupSize + 1), player.draftYear).toString()
@@ -37,12 +37,14 @@
             'fgm', 'fga', 'fgp', 'fg3m', 'fg3a', 'fg3p', 'ftm', 'fta', 'ftp', 'turnover']),
     };
 
+
     let selectedGroup = 0;
 
     function completeStats(playerStats: SeasonAverageStats[]) {
         playerStats.forEach(stat => {
             const season = stat.season;
             stat.teamStr = stat.team.abbreviation;
+            stat.teamId = stat.team.id;
             stat.seasonStr = `${season}-${(season + 1).toString().substring(2)}`;
             const roundToOneDecimal = (value: number) => parseFloat(value.toFixed(1));
 
@@ -62,7 +64,7 @@
         playerStats.sort((a, b) => b.seasonStr.localeCompare(a.seasonStr));
     }
 
-    async function updatePlayerStats(startSeason: string, endSeason: string) {
+    async function updatePlayerStats(startSeason: string, endSeason: string): string[] {
         isLoading = true;
         player = await getPlayerBio(id, parseInt(startSeason), parseInt(endSeason));
         playerStats = player.seasonAverageStats;
@@ -94,6 +96,6 @@
             <ProgressRadial width="w-12" value={undefined}/>
         </div>
     {:else}
-        <Table table={table} tableType={TableTypes.playerTable}/>
+        <Table table={table} tableType={TableTypes.playerTable} teamIds={teamIds}/>
     {/if}
 </PlayerExpanded>

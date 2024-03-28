@@ -29,6 +29,7 @@ interface SeasonAverageStats {
     team: Team;
     teamStr: string;
     seasonStr: string;
+    teamId: string;
 }
 
 export type {SeasonAverageStats}

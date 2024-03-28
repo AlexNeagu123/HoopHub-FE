@@ -11,6 +11,7 @@
 
     export let team: Team;
     export let pageType: string;
+
     $: isRoster = pageType == "roster";
 </script>
 
@@ -45,7 +46,6 @@
                 <TabAnchor href="{AppRoute.TEAM}/{id}/bio" selected={!isRoster}>History</TabAnchor>
             </TabGroup>
         </div>
-
         <slot/>
     </div>
 </div>

@@ -22,7 +22,7 @@
     <div class="flex justify-around">
         <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.TEAMS}">Teams</a>
         <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.HOME}">Standings</a>
-        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.HOME}">Games</a>
+        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.GAMES}">Games</a>
     </div>
     <svelte:fragment slot="trail">
         {#if $currentUser.isLoggedIn}
