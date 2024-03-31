@@ -1,0 +1,13 @@
+<script lang="ts">
+    import type {Game} from "$lib/models/nba_data/games/Game";
+    import type {GameWithBoxScore} from "$lib/models/nba_data/box-scores/GameWithBoxScore";
+    import GamePresentation from "$lib/components/games/GamePresentation.svelte";
+
+    export let game: Game | GameWithBoxScore;
+    export let hiddenScores: boolean = false;
+</script>
+
+<a href="/game?homeTeam={game.homeTeam.apiId}&visitorTeam={game.visitorTeam.apiId}&date={game.date}"
+   class="hover:bg-secondary-200 cursor-pointer lg:w-[48%] shadow p-5 my-5 md:w-full rounded-2xl">
+    <GamePresentation hiddenScores={hiddenScores} game={game}/>
+</a>

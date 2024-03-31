@@ -1,0 +1,22 @@
+<script lang="ts">
+    import Calendar from "$lib/components/icons/Calendar.svelte";
+    import {SlideToggle} from "@skeletonlabs/skeleton";
+    import SveltyPicker from "svelty-picker";
+    import Card from "$lib/components/games/Card.svelte";
+
+    export let dateChangeHandler: (e: CustomEvent) => void;
+    export let hideScoresHandler: () => void;
+</script>
+
+<Card>
+    <div class="flex items-center align-middle gap-1">
+        <Calendar/>
+        <SveltyPicker todayBtn={false} clearBtn={false} on:change={dateChangeHandler} initialDate={new Date()}
+                      inputClasses="relative z-100 cursor-pointer border-none h-full variant-filled-primary drop-shadow rounded"/>
+    </div>
+    <div class="flex justify-end items-center text-lg">
+        <SlideToggle active="dark:bg-surface-600" background="dark:bg-surface-800" name="slider-label" on:click={hideScoresHandler}>
+            Hide Scores
+        </SlideToggle>
+    </div>
+</Card>

@@ -3,7 +3,7 @@ import type {BoxScorePlayer} from "$lib/models/nba_data/box-scores/BoxScorePlaye
 interface BoxScoreTeam {
     id: string;
     apiId: number;
-    fullName?: string;
+    fullName: string;
     abbreviation?: string;
     city?: string;
     conference?: string;

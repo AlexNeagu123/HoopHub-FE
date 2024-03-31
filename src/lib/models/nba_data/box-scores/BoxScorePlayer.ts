@@ -1,7 +1,7 @@
 import type {Player} from "$lib/models/nba_data/players/Player";
 
 interface BoxScorePlayer {
-    min?: string;
+    min: string;
     fgm?: number;
     fga?: number;
     fgPct?: number;
@@ -20,8 +20,10 @@ interface BoxScorePlayer {
     turnover?: number;
     pf?: number;
     pts: number;
-
     player?: Player;
+
+    playerFullName?: string;
+    playerImageUrl?: string;
 }
 
 export type {BoxScorePlayer}

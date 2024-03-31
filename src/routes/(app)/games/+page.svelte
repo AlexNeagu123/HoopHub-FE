@@ -1,4 +1,6 @@
-<script>
+<script lang="ts">
+    import GamePreviewList from "$lib/components/games/GamePreviewList.svelte";
 </script>
 
-<input type="date">
+
+<GamePreviewList/>

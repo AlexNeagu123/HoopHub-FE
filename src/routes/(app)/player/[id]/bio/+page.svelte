@@ -64,7 +64,7 @@
         playerStats.sort((a, b) => b.seasonStr.localeCompare(a.seasonStr));
     }
 
-    async function updatePlayerStats(startSeason: string, endSeason: string): string[] {
+    async function updatePlayerStats(startSeason: string, endSeason: string) {
         isLoading = true;
         player = await getPlayerBio(id, parseInt(startSeason), parseInt(endSeason));
         playerStats = player.seasonAverageStats;

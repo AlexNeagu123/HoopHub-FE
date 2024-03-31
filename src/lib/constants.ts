@@ -33,5 +33,6 @@ export enum SeasonConstants {
 
 export enum TableTypes {
     playerTable = 0,
-    teamTable = 1
+    teamTable = 1,
+    boxScoreType = 2
 }

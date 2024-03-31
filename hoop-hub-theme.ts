@@ -1,5 +1,4 @@
-
-import type { CustomThemeConfig } from '@skeletonlabs/tw-plugin';
+import type {CustomThemeConfig} from '@skeletonlabs/tw-plugin';
 
 export const hoopHubTheme: CustomThemeConfig = {
     name: 'hoop-hub-theme',
