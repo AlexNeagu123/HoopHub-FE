@@ -16,7 +16,8 @@ export enum AppRoute {
     TEAMS = '/teams',
     TEAM = '/team',
     PLAYER = '/player',
-    GAMES = '/games'
+    GAMES = '/games',
+    GAME = '/game'
 }
 
 export enum TeamConstants {

@@ -8,6 +8,6 @@
 </script>
 
 <a href="/game?homeTeam={game.homeTeam.apiId}&visitorTeam={game.visitorTeam.apiId}&date={game.date}"
-   class="hover:bg-secondary-200 cursor-pointer lg:w-[48%] shadow p-5 my-5 md:w-full rounded-2xl">
+   class="hover:bg-secondary-200 cursor-pointer lg:w-[49%] shadow p-5 my-5 md:w-full rounded-2xl">
     <GamePresentation hiddenScores={hiddenScores} game={game}/>
 </a>

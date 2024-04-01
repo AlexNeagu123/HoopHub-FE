@@ -15,7 +15,7 @@
                       inputClasses="relative z-100 cursor-pointer border-none h-full variant-filled-primary drop-shadow rounded"/>
     </div>
     <div class="flex justify-end items-center text-lg">
-        <SlideToggle active="dark:bg-surface-600" background="dark:bg-surface-800" name="slider-label" on:click={hideScoresHandler}>
+        <SlideToggle active="bg-success-700" background="bg-surface-700" name="slider-label" on:click={hideScoresHandler}>
             Hide Scores
         </SlideToggle>
     </div>
