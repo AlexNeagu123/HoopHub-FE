@@ -16,7 +16,7 @@
 </script>
 
 <div class="flex justify-center">
-    <div class="card container w-3/4 variant-filled-primary shadow p-8">
+    <div class="card container w-3/4 variant-filled-primary shadow p-6">
         <div class="card-header flex justify-around">
             <Avatar src="{game.visitorTeam.imageUrl}" width="w-1/12" rounded="rounded-lg"
                     background="bg-transparent"/>
@@ -30,8 +30,8 @@
             <LeadersEntry field="pts" game={game} homeTeamPlayerIndex={pointIndexes[0]} visitorTeamPlayerIndex={pointIndexes[1]} entryName="Points"/>
             <LeadersEntry field="reb" game={game} homeTeamPlayerIndex={reboundIndexes[0]} visitorTeamPlayerIndex={reboundIndexes[1]} entryName="Rebounds"/>
             <LeadersEntry field="ast" game={game} homeTeamPlayerIndex={assistIndexes[0]} visitorTeamPlayerIndex={assistIndexes[1]} entryName="Assists"/>
-            <LeadersEntry field="blk" game={game} homeTeamPlayerIndex={stealIndexes[0]} visitorTeamPlayerIndex={stealIndexes[1]} entryName="Steals"/>
-            <LeadersEntry field="stl" game={game} homeTeamPlayerIndex={blockIndexes[0]} visitorTeamPlayerIndex={blockIndexes[1]} entryName="Blocks"/>
+            <LeadersEntry field="stl" game={game} homeTeamPlayerIndex={stealIndexes[0]} visitorTeamPlayerIndex={stealIndexes[1]} entryName="Steals"/>
+            <LeadersEntry field="blk" game={game} homeTeamPlayerIndex={blockIndexes[0]} visitorTeamPlayerIndex={blockIndexes[1]} entryName="Blocks"/>
         </div>
     </div>
 </div>
