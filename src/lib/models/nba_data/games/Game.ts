@@ -10,6 +10,7 @@ interface Game {
     homeTeamScore: number;
     visitorTeamScore: number;
 
+    status: string;
     homeTeam: Team;
     visitorTeam: Team;
 }

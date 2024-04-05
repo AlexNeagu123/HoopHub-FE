@@ -2,6 +2,7 @@
 import {Avatar} from "@skeletonlabs/skeleton";
 import type {Game} from "$lib/models/nba_data/games/Game";
 import type {GameWithBoxScore} from "$lib/models/nba_data/box-scores/GameWithBoxScore";
+import {statusToET} from "$lib/utils/date-parser";
 export let game: Game | GameWithBoxScore;
 export let hiddenScores: boolean = false;
 export let imageWidth: string = "w-1/2";
@@ -28,7 +29,7 @@ if(game.time && game.time != "Final") {
             {/if}
         </div>
         <h6 class="h6 font-semibold text-gray-400">
-            {game.time ? game.time : "Upcoming"}
+            {statusToET(game.status)}
         </h6>
         <div class="text-end w-1/3">
             {#if !hiddenScores}

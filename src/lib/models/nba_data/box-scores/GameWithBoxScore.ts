@@ -4,8 +4,8 @@ interface GameWithBoxScore {
     date?: string;
     season?: number;
     period?: number;
-    status?: string;
-    time?: string;
+    status: string;
+    time: string;
     postseason: boolean;
     homeTeamScore?: number;
     visitorTeamScore?: number;
