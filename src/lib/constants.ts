@@ -5,6 +5,11 @@ export enum ClaimTypes {
     EXP_TIME = 'exp'
 }
 
+export enum WebSockets {
+    BOX_SCORE_SOCKET_URL = 'wss://localhost:5001/box-scores-live',
+    BOX_SCORES_CHANNEL = 'ReceiveLiveBoxScores'
+}
+
 export enum LocalStorageKeys {
     AUTH_TOKEN = 'authToken'
 }

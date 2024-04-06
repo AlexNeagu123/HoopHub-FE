@@ -41,6 +41,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@microsoft/signalr": "^8.0.0",
     "axios": "^1.6.7",
     "date-picker-svelte": "^2.11.0",
     "echarts": "^5.5.0",
