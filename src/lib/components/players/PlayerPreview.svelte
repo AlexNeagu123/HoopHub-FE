@@ -5,8 +5,8 @@
     export let player: Player;
 </script>
 
-<a href="/player/{player.id}" class="card mt-5 xl:w-[49%] sm:w-full drop-shadow variant-filled-primary flex justify-between card-hover
-            hover:bg-secondary-200 cursor-pointer">
+<a href="/player/{player.id}" class="card mt-5 xl:w-[49%] sm:w-full drop-shadow variant-filled-surface flex justify-between card-hover
+            hover:bg-primary-200 cursor-pointer">
 
     <div class="flex align-middle justify-center ml-8">
         <div class="mr-3 mt-3">

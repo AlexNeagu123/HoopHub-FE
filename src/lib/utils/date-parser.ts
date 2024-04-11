@@ -7,7 +7,7 @@ export function dateToString(date: Date) {
 }
 
 export function statusToET(gameStatus: string) {
-    if (gameStatus.trim() === "Final" || gameStatus.search("Qtr") || gameStatus.search("Halftime")) {
+    if (gameStatus.trim() === "Final" || gameStatus.includes("Qtr") || gameStatus.includes("Halftime")) {
         return gameStatus;
     }
 

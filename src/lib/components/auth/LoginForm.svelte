@@ -39,21 +39,21 @@
         <Validation validationErrors={validationErrors} errorKey="Credentials"/>
         <label class="label mb-3">
             <span class="text-gray-500">Username</span>
-            <input bind:value={logModel.userName} on:keypress={resetValidation} class="w-full border border-secondary-600 px-3 py-2 rounded-full shadow
-            focus:outline-0 focus:border-secondary-700 focus:ring-1 focus:ring-secondary-700 selection:bg-secondary-600"
+            <input bind:value={logModel.userName} on:keypress={resetValidation} class="w-full border border-primary-600 px-3 py-2 rounded-full shadow
+            focus:outline-0 focus:border-primary-700 focus:ring-1 focus:ring-primary-700 selection:bg-primary-600"
                    type="text" id="username" name="username"/>
             <Validation validationErrors={validationErrors} errorKey="UserName"/>
         </label>
 
         <label class="label mb-3">
             <span class="text-gray-500">Password</span>
-            <input bind:value={logModel.password} on:keypress={resetValidation} class="w-full border border-secondary-600 px-3 py-2 rounded-full shadow
-            focus:outline-0 focus:border-secondary-700 focus:ring-1 focus:ring-secondary-700 selection:bg-secondary-600"
+            <input bind:value={logModel.password} on:keypress={resetValidation} class="w-full border border-primary-600 px-3 py-2 rounded-full shadow
+            focus:outline-0 focus:border-primary-700 focus:ring-1 focus:ring-primary-700 selection:bg-primary-600"
                    type="password" id="password" name="password"/>
             <Validation validationErrors={validationErrors} errorKey="Password"/>
         </label>
 
-        <button type="submit" class="btn border border-secondary-300 mt-3 bg-secondary-300 shadow w-full">Login</button>
+        <button type="submit" class="btn border border-primary-300 mt-3 bg-primary-300 shadow w-full">Login</button>
         <p class="mt-4 text-gray-600">Don't have an account? Register
             <a href="{AppRoute.REGISTER}"
                class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold">here</a>

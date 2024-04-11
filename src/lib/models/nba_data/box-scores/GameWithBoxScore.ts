@@ -1,7 +1,7 @@
 import type {BoxScoreTeam} from "$lib/models/nba_data/box-scores/BoxScoreTeam";
 
 interface GameWithBoxScore {
-    date?: string;
+    date: string;
     season?: number;
     period?: number;
     status: string;

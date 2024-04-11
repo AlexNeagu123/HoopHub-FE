@@ -13,22 +13,22 @@
 </style>
 
 <AppBar gridColumns="grid-cols-3" slotDefault="place-content-start" slotTrail="place-content-end"
-        background="bg-primary-500" border="border border-solid border-primary-600 border-t-0">
+        background="bg-surface-500" border="border border-solid border-surface-600 border-t-0">
     <svelte:fragment slot="lead">
         <div class="avatar">
-            <Avatar src="/images/logo/HoopHub.png" width="w-14" rounded="rounded-lg" background="bg-transparent"/>
+            <Avatar src="/images/logo/HoopHub.png" width="w-10" rounded="rounded-lg" background="bg-transparent"/>
         </div>
     </svelte:fragment>
     <div class="flex justify-around">
-        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.TEAMS}">Teams</a>
-        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.HOME}">Standings</a>
-        <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.GAMES}">Games</a>
+        <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.TEAMS}">Teams</a>
+        <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.HOME}">Standings</a>
+        <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.GAMES}">Games</a>
     </div>
     <svelte:fragment slot="trail">
         {#if $currentUser.isLoggedIn}
             <a on:click={logout} href="{AppRoute.HOME}" type="button" class="btn variant-filled-primary text-xl">Logout</a>
         {:else}
-            <a type="button" class="btn variant-filled-primary text-xl" href="{AppRoute.LOGIN}">Login</a>
+            <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.LOGIN}">Login</a>
         {/if}
     </svelte:fragment>
 </AppBar>

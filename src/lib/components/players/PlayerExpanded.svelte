@@ -7,6 +7,7 @@
     import PlayerCompoundStat from "$lib/components/players/PlayerCompoundStat.svelte";
     import {AppRoute} from "$lib/constants";
     import {page} from "$app/stores";
+    import InformativePopUps from "$lib/components/shared/InformativePopUps.svelte";
 
     export let player: Player;
     export let pageType: string;
@@ -17,7 +18,7 @@
 </script>
 
 <div class="flex justify-center">
-    <div class="card variant-filled-primary m-10 w-5/6 p-t-5 px-10 drop-shadow">
+    <div class="card variant-filled-surface m-10 w-5/6 p-t-5 px-10 drop-shadow">
         <div class="mt-4 flex justify-start">
             <div class="w-1/4 drop-shadow">
                 <a href="/team/{playerStats.team.id}" class="w-1/3 block">

@@ -9,8 +9,8 @@
     export let game: GameWithBoxScore;
     export let field: string;
 
-    let homePlayer: BoxScorePlayer = game.homeTeam.players[homeTeamPlayerIndex];
-    let visitorPlayer: BoxScorePlayer = game.visitorTeam.players[visitorTeamPlayerIndex];
+    $: homePlayer = game.homeTeam.players[homeTeamPlayerIndex];
+    $: visitorPlayer = game.visitorTeam.players[visitorTeamPlayerIndex];
 </script>
 
 <div class="w-full flex justify-around mt-5">

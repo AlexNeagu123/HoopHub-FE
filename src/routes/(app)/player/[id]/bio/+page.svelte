@@ -86,7 +86,7 @@
 <PlayerExpanded player={player} pageType="bio">
     <select bind:value={selectedGroup}
             on:change={() => updatePlayerStats(groups[selectedGroup][0], groups[selectedGroup][1])}
-            class="mt-5 select variant-filled-primary border-none shadow">
+            class="mt-5 select variant-filled-surface border-none shadow">
         {#each groups as g, index}
             <option value={index}>{g[2]}</option>
         {/each}

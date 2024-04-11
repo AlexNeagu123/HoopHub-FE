@@ -1,22 +1,26 @@
 <script lang="ts">
     import type {PageData} from './$types';
-    import {aggregatePercentage, aggregateProperty, completeStats, findMaxByProperty} from "$lib/utils/game-stats";
-    import {onMount} from "svelte";
+    import {aggregatePercentage, aggregateProperty, completeStats} from "$lib/utils/game-stats";
+    import {onDestroy, onMount} from "svelte";
     import * as echarts from 'echarts';
-    import GameWithBoxScore from "$lib/components/games/GameWithBoxScore.svelte";
+    import GameWithBoxScore from "$lib/components/games/GameWithBoxScoreC.svelte";
     import Leaders from "$lib/components/games/Leaders.svelte";
+    import {liveBoxScoreStore} from "$lib/stores/live-games.store";
+    import type {Unsubscriber} from "svelte/store";
+
     type EChartsOption = echarts.EChartsOption;
 
     export let data: PageData;
 
     let gameDetails = data.gameWithBoxScore;
-    let homeTeamPlayerStats = gameDetails.homeTeam.players;
-    let visitorTeamPlayerStats = gameDetails.visitorTeam.players;
+
+    $: homeTeamPlayerStats = gameDetails.homeTeam.players;
+    $: visitorTeamPlayerStats = gameDetails.visitorTeam.players;
 
     completeStats(gameDetails.homeTeam.players);
     completeStats(gameDetails.visitorTeam.players);
 
-    onMount(() => {
+    function updateChart() {
         const chartDom = document.getElementById('chart-container')!;
         const myChart = echarts.init(chartDom);
         let option: EChartsOption;
@@ -38,12 +42,37 @@
                     ['FT%', aggregatePercentage(visitorTeamPlayerStats, 'ftm', 'fta'), aggregatePercentage(homeTeamPlayerStats, 'ftm', 'fta')]
                 ]
             },
-            xAxis: { type: 'category' },
+            xAxis: {type: 'category'},
             yAxis: {},
-            series: [{ type: 'bar' }, { type: 'bar' }]
+            series: [{type: 'bar'}, {type: 'bar'}]
         };
 
         option && myChart.setOption(option);
+    }
+
+    let unsubscribe: Unsubscriber | null = null;
+
+    onMount(() => {
+        updateChart();
+        unsubscribe = liveBoxScoreStore.subscribe((boxScoreList) => {
+            boxScoreList.forEach(boxScore => {
+                if (boxScore.homeTeam.apiId !== gameDetails.homeTeam.apiId || boxScore.visitorTeam.apiId !== gameDetails.visitorTeam.apiId || boxScore.date !== gameDetails.date) {
+                    return;
+                }
+                if (boxScore.status.includes("Qtr") || boxScore.status.includes("Halftime")) {
+                    gameDetails = boxScore;
+                    completeStats(gameDetails.homeTeam.players);
+                    completeStats(gameDetails.visitorTeam.players);
+                    updateChart();
+                }
+            });
+        });
+    });
+
+    onDestroy(() => {
+        if (unsubscribe) {
+            unsubscribe();
+        }
     });
 </script>
 

@@ -12,10 +12,10 @@
     <div class="flex items-center align-middle gap-1">
         <Calendar/>
         <SveltyPicker todayBtn={false} clearBtn={false} on:change={dateChangeHandler} initialDate={new Date()}
-                      inputClasses="relative z-100 cursor-pointer border-none h-full variant-filled-primary drop-shadow rounded"/>
+                      inputClasses="relative z-100 cursor-pointer border-none h-full variant-filled-surface drop-shadow rounded"/>
     </div>
     <div class="flex justify-end items-center text-lg">
-        <SlideToggle active="bg-success-700" background="bg-surface-700" name="slider-label" on:click={hideScoresHandler}>
+        <SlideToggle active="bg-secondary-700" background="bg-surface-700" name="slider-label" on:click={hideScoresHandler}>
             Hide Scores
         </SlideToggle>
     </div>

@@ -28,7 +28,7 @@
 
     let selectedGroup = 0;
     $: table = {
-        head: ['Season', 'W', 'L', 'W-L %', 'Finish', 'Srs', 'Pace', 'RelPace', 'ORtg', 'DRtg', 'Playoffs'],
+        head: ['Season', 'W', 'L', 'W-L %', 'Finish', 'SRS', 'PACE', 'Rel PACE', 'ORTG', 'DRTG', 'Playoffs'],
         body: tableMapperValues(groups[selectedGroup].teamBio, ['seasonStr', 'winCount', 'lossCount', 'winLossRatio', 'finish',
             'srs', 'pace', 'relPace', 'oRtg', 'dRtg', 'playoffs']),
     };
@@ -41,7 +41,7 @@
 </style>
 
 <TeamExpanded team={data.team} pageType="bio">
-    <select bind:value={selectedGroup} class="mt-5 select variant-filled-primary border-none shadow">
+    <select bind:value={selectedGroup} class="mt-5 select variant-filled-surface border-none shadow">
         {#each groups as g, index}
             <option value={index}>{g.label}</option>
         {/each}

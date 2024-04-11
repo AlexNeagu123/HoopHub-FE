@@ -2,6 +2,9 @@ import type {BoxScorePlayer} from "$lib/models/nba_data/box-scores/BoxScorePlaye
 
 export function completeStats(playerGameStats: BoxScorePlayer[]) {
     playerGameStats.forEach(stat => {
+        stat.playerFullName = stat.player?.firstName + " " + stat.player?.lastName;
+        stat.playerImageUrl = stat.player?.imageUrl;
+
         const roundToOneDecimal = (value: number) => parseFloat(value.toFixed(1));
         const convertToPercent = (value: number | undefined) => {
             if (!value) {
@@ -36,6 +39,8 @@ export function aggregateProperty(playerGameStats: BoxScorePlayer[], prop: strin
     let aggregatedValue: number = 0;
     playerGameStats.forEach(p => {
         if (prop in p) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             aggregatedValue += p[prop];
         }
     });
@@ -61,8 +66,12 @@ export function aggregatePercentage(playerGameStats: BoxScorePlayer[], propM: st
 export function findMaxByProperty(playerGameStats: BoxScorePlayer[], prop: string) {
     let maxIndex = 0, maxVal = -1;
     playerGameStats.forEach((p, index) => {
-            if (prop in p && typeof p[prop] === "number" && p[prop] > maxVal) {
-                maxVal = p[prop];
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        if (prop in p && typeof p[prop] === "number" && p[prop] > maxVal) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            maxVal = p[prop];
                 maxIndex = index;
             }
         }

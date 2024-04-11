@@ -10,8 +10,8 @@
 </div>
 
 <div class="inline ml-3">
-    <header class="card-header variant-filled-primary h2">{team.fullName}</header>
-    <header class="card-header variant-filled-primary h3">
+    <header class="card-header h2">{team.fullName}</header>
+    <header class="card-header h3">
                     <span class="text-semibold">{team.teamBio[0].winCount}
                         - {team.teamBio[0].lossCount}</span>
         <span class="text-gray-400">{team.teamBio[0].finish}</span>

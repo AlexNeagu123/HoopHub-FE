@@ -16,16 +16,16 @@
 </script>
 
 <div class="flex justify-center">
-    <div class="card variant-filled-primary m-10 w-3/4 p-5 px-10 drop-shadow">
+    <div class="card variant-filled-surface m-10 w-3/4 p-5 px-10 drop-shadow">
         <div class="flex items-center">
             <TeamHeader team={team}/>
 
             <div class="flex ml-auto text-center">
-                <StatCard title="W-L %" border={true} content={team.teamBio[0].winLossRatio}/>
+                <StatCard title="SRS" border={true} content={team.teamBio[0].srs}/>
                 <StatCard title="ORTG" border={true} content={team.teamBio[0].oRtg}/>
                 <StatCard title="DRTG" border={true} content={team.teamBio[0].dRtg}/>
                 <StatCard title="PACE" border={true} content={team.teamBio[0].pace}/>
-                <StatCard title="SRS" border={false} content={team.teamBio[0].srs}/>
+                <StatCard title="W-L %" border={false} content={team.teamBio[0].winLossRatio}/>
             </div>
         </div>
 

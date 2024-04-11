@@ -8,8 +8,8 @@
 </script>
 
 <div class="flex justify-center mt-5">
-    <RadioGroup gap="gap-5" border="none" background="variant-filled-secondary" active="variant-filled-primary"
-                hover="hover:variant-soft-primary">
+    <RadioGroup gap="gap-5" border="none" background="variant-filled-surface" active="variant-filled-primary"
+                hover="hover:variant-filled-primary">
         <RadioItem bind:group={value} name="conference" value="East">East</RadioItem>
         <RadioItem bind:group={value} name="conference" value="West">West</RadioItem>
     </RadioGroup>

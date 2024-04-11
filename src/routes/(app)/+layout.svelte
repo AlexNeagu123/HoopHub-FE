@@ -2,8 +2,12 @@
     import '../../app.pcss';
     import {AppShell} from "@skeletonlabs/skeleton";
     import NavBar from "$lib/components/shared/NavBar.svelte";
+    import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
     import {authToken} from "$lib/stores/auth.store";
     import axios from "axios";
+    import { storePopup } from '@skeletonlabs/skeleton';
+
+    storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
     axios.interceptors.request.use(
         function(config) {
