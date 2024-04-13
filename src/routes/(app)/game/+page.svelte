@@ -107,16 +107,16 @@
 
 <GameWithBoxScoreC gameDetails={gameDetails}>
     <div class="flex justify-between mx-10">
-        <SlideToggle active="bg-secondary-700" background="bg-surface-700" name="slider-label"
+        <SlideToggle active="bg-primary-800" background="bg-surface-700" name="slider-label"
                      bind:checked={isVisitorTeamBoxScore} on:click={toggleBoxScore}/>
         <select bind:value={selectedValue}
                 on:change={() => sortBothBoxScores(updatableDtoProps[selectedValue]) }
                 class="w-1/6 select variant-filled-surface border-none shadow">
             {#each headFieldsForSorting as g, index}
-                <option value={index}>{g}</option>
+                <option value={index} class="font-thin text-sm">{g}</option>
             {/each}
         </select>
-        <SlideToggle active="bg-secondary-700" background="bg-surface-700" name="slider-label"
+        <SlideToggle active="bg-primary-800" background="bg-surface-700" name="slider-label"
                      bind:checked={isHomeTeamBoxScore} on:click={toggleBoxScore}/>
     </div>
     <Table table={table} tableType={TableTypes.boxScoreType} playersInfo={teamBoxScore}

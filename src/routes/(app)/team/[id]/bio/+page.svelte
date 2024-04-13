@@ -43,7 +43,7 @@
 <TeamExpanded team={data.team} pageType="bio">
     <select bind:value={selectedGroup} class="mt-5 select variant-filled-surface border-none shadow">
         {#each groups as g, index}
-            <option value={index}>{g.label}</option>
+            <option value={index} class="font-thin text-sm">{g.label}</option>
         {/each}
     </select>
     <Table table={table} tableType={TableTypes.teamTable}/>

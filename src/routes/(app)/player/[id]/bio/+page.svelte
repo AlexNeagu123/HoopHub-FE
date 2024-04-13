@@ -88,7 +88,7 @@
             on:change={() => updatePlayerStats(groups[selectedGroup][0], groups[selectedGroup][1])}
             class="mt-5 select variant-filled-surface border-none shadow">
         {#each groups as g, index}
-            <option value={index}>{g[2]}</option>
+            <option value={index} class="font-thin text-sm">{g[2]}</option>
         {/each}
     </select>
     {#if isLoading}

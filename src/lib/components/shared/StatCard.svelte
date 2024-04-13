@@ -1,6 +1,5 @@
 <script lang="ts">
     import { popup } from '@skeletonlabs/skeleton';
-    import type {PopupSettings} from "@skeletonlabs/skeleton";
     import InformativePopUps from "$lib/components/shared/InformativePopUps.svelte";
     import {getInformativePopUpSettings} from "$lib/utils/pop-ups";
     export let title: string;
