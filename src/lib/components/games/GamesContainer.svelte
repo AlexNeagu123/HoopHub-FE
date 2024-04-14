@@ -1,7 +1,7 @@
 <script lang="ts">
     import {ProgressRadial} from "@skeletonlabs/skeleton";
     import type {Game} from "$lib/models/nba_data/games/Game";
-    import Card from "$lib/components/games/Card.svelte";
+    import Card from "$lib/components/shared/Card.svelte";
     import GamePreview from "$lib/components/games/GamePreview.svelte";
 
     export let isLoading: boolean = true;

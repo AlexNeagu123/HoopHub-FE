@@ -2,7 +2,7 @@
     import Calendar from "$lib/components/icons/Calendar.svelte";
     import {SlideToggle} from "@skeletonlabs/skeleton";
     import SveltyPicker from "svelty-picker";
-    import Card from "$lib/components/games/Card.svelte";
+    import Card from "$lib/components/shared/Card.svelte";
 
     export let dateChangeHandler: (e: CustomEvent) => void;
     export let hideScoresHandler: () => void;

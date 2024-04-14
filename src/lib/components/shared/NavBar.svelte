@@ -2,7 +2,8 @@
     import {AppBar, Avatar} from "@skeletonlabs/skeleton";
     import {currentUser} from "$lib/stores/auth.store";
     import logout from "$lib/services/user_access/logout";
-    import {AppRoute} from "$lib/constants";
+    import {AppRoute, SeasonConstants} from "$lib/constants";
+    import {seasonFromIntToStr} from "$lib/utils/standings-utils";
 </script>
 
 <style>
@@ -21,12 +22,16 @@
     </svelte:fragment>
     <div class="flex justify-around">
         <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.TEAMS}">Teams</a>
-        <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.HOME}">Standings</a>
+        <a type="button" class="btn variant-filled-surface text-xl"
+           href="{AppRoute.STANDINGS}?season={seasonFromIntToStr(SeasonConstants.currentSeason)}">
+            Standings
+        </a>
         <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.GAMES}">Games</a>
     </div>
     <svelte:fragment slot="trail">
         {#if $currentUser.isLoggedIn}
-            <a on:click={logout} href="{AppRoute.HOME}" type="button" class="btn variant-filled-primary text-xl">Logout</a>
+            <a on:click={logout} href="{AppRoute.HOME}" type="button"
+               class="btn variant-filled-primary text-xl">Logout</a>
         {:else}
             <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.LOGIN}">Login</a>
         {/if}

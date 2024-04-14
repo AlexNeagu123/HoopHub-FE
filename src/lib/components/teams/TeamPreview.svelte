@@ -5,12 +5,12 @@
     export let team: Team;
 </script>
 
-<div class="shrink-0 w-1/3 snap-start mx-2 text-center p-1 card-hover variant-filled-surface shadow">
+<div class="shrink-0 sm:w-1/2 md:w-1/4 snap-start mx-2 text-center p-1 card-hover variant-filled-surface shadow">
     <a href="{AppRoute.TEAM}/{team.id}">
-        <header class="card-header text-3xl p-5">{team.fullName}</header>
+        <header class="card-header sm:text-sm md:text-3xl p-5">{team.fullName}</header>
         <section>
             <div class="flex justify-center items-center">
-                <img src="{team.imageUrl}" class="w-2/3 rounded-lg bg-transparent" alt="AB"/>
+                <img src="{team.imageUrl}" class="sm:w-full md:w-2/3 rounded-lg bg-transparent" alt="AB"/>
             </div>
         </section>
     </a>

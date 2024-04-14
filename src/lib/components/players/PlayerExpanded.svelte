@@ -7,7 +7,6 @@
     import PlayerCompoundStat from "$lib/components/players/PlayerCompoundStat.svelte";
     import {AppRoute} from "$lib/constants";
     import {page} from "$app/stores";
-    import InformativePopUps from "$lib/components/shared/InformativePopUps.svelte";
 
     export let player: Player;
     export let pageType: string;

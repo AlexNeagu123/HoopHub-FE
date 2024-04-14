@@ -1,3 +1,5 @@
+import {seasonFromIntToStr} from "$lib/utils/standings-utils";
+
 export enum ClaimTypes {
     USERID = 'nameid',
     USERROLE = 'role',
@@ -22,7 +24,8 @@ export enum AppRoute {
     TEAM = '/team',
     PLAYER = '/player',
     GAMES = '/games',
-    GAME = '/game'
+    GAME = '/game',
+    STANDINGS = '/standings'
 }
 
 export enum TeamConstants {
@@ -34,7 +37,8 @@ export enum PlayerConstants {
 }
 
 export enum SeasonConstants {
-    currentSeason = 2023
+    currentSeason = 2023,
+    minStandingsSeason = 1970
 }
 
 export enum TableTypes {
@@ -42,6 +46,23 @@ export enum TableTypes {
     teamTable = 1,
     boxScoreType = 2
 }
+
+function generateAvailableSeasons() {
+    const availableSeasons = [];
+    for (let year = SeasonConstants.minStandingsSeason; year <= SeasonConstants.currentSeason; year++) {
+        const season = seasonFromIntToStr(year);
+        availableSeasons.push(season);
+    }
+    return availableSeasons.reverse();
+}
+
+export enum StandingGroups {
+    CONFERENCE = "Conference",
+    DIVISION = "DIVISION",
+    ALL = "ALL"
+}
+export const standingsAvailableSeasons = generateAvailableSeasons();
+export const standingsGroups = ["Conference", "Division", "All"]
 
 export type InformativePopUps = {
     [key: string ]: string
