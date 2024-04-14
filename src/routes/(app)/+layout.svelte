@@ -57,6 +57,10 @@
         --sdt-table-data-bg-hover: #eee; /** table selection data hover background color */
         --sdt-table-today-indicator: #ccc; /** date picker current day marker color */
     }
+
+    :global(body){
+        scrollbar-color: #c1c4bc #dadada;
+    }
 </style>
 
 <AppShell>
