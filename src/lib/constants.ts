@@ -93,5 +93,7 @@ export const informativePopUps : InformativePopUps = {
     "FTM": "Free Throws Made",
     "FTA": "Free Throws Attempted",
     "FT%": "Free Throw Percentage",
-    "TOV": "Turnovers"
+    "TOV": "Turnovers",
+    "Eastern": "Record against Eastern Conference",
+    "Western": "Record against Western Conference"
 }

@@ -3,12 +3,15 @@
 
     export let season;
     export let group;
+    export let seasonChangeCallback;
+
 
     let selectedGroupIndex = 0;
     let selectedSeasonIndex = 0;
 
-    function updateStandingsSeason(newSeason: string) {
+    async function updateStandingsSeason(newSeason: string) {
         season = newSeason;
+        await seasonChangeCallback();
     }
 
     function updateStandingsGroup(newGroup: string) {
@@ -24,7 +27,7 @@
             <div class="w-1/5">
                 <label for="season-select" class="font-semibold m-2">Season</label>
                 <select bind:value={selectedSeasonIndex}
-                        on:change={() => updateStandingsSeason(standingsAvailableSeasons[selectedSeasonIndex])}
+                        on:change={async () => await updateStandingsSeason(standingsAvailableSeasons[selectedSeasonIndex])}
                         class="select variant-filled-surface border-none shadow" id="season-select">
                     {#each standingsAvailableSeasons as season, index}
                         <option value={index} class="font-thin text-sm">{season}</option>

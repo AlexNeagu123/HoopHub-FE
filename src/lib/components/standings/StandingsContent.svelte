@@ -1,34 +1,74 @@
 <script lang="ts">
-    import {onMount} from "svelte";
-    import {ProgressRadial} from "@skeletonlabs/skeleton";
+    import {tableMapperValues} from "@skeletonlabs/skeleton";
     import type {Standings} from "$lib/models/nba_data/standings/Standings";
-    import getStandingsBySeason from "$lib/services/nba_data/standings/getStandingsBySeason";
-    import {seasonFromStrToInt} from "$lib/utils/standings-utils";
+    import StandingsTable from "$lib/components/standings/StandingsTable.svelte";
 
-    export let season: string;
     export let group: string;
+    export let standings: Standings[] = [];
 
-    let isLoading = false;
+    const tableHead = ['Team', 'Record', 'Win%', 'Home', 'Road', 'Eastern', 'Western', 'Id', 'Photo'];
+    const tableBody = ['teamFullName', 'overall', 'winLossPercentage', 'home', 'road',
+        'easternRecord', 'westernRecord', 'teamId', 'teamPhotoUrl'];
 
-    let standings: Standings;
+    const divisionTableTitles = ['Atlantic Division', 'Central Division', 'Southeast Division',
+        'Northwest Division', 'Pacific Division', 'Southwest Division'];
 
-    onMount(async () => {
-        isLoading = true;
-        standings = await getStandingsBySeason(seasonFromStrToInt(season));
-        
-        isLoading = false;
-    });
+    const conferenceTableTitles = ['Eastern Conference', 'Western Conference'];
+
+    const accumulatedTitle = ['Accumulated Standings'];
+
+    $: tables = group === 'Division' ? getDivisionTables()
+        : group === 'Conference' ? getConferenceTables()
+            : getAllTable();
+
+    let tableTitles = [];
+
+    $: {
+        if (group) {
+            onGroupChange();
+        }
+    }
+
+    function getAllTable() {
+        return [{
+            head: tableHead,
+            body: tableMapperValues(standings, tableBody)
+        }]
+    }
+
+    function getConferenceTables() {
+        return ['East', 'West'].map((conference) => ({
+            head: tableHead,
+            body: tableMapperValues(standings.filter((standing) => standing.team.conference === conference),
+                tableBody)
+        }));
+    }
+
+    function getDivisionTables() {
+        const divisions = ['Atlantic', 'Central', 'Southeast', 'Northwest', 'Pacific', 'Southwest'];
+        return divisions.map((division) => ({
+            head: tableHead,
+            body: tableMapperValues(standings.filter((standing) => standing.team.division === division),
+                tableBody)
+        }));
+    }
+
+    function onGroupChange() {
+        if (group === "Division") {
+            tableTitles = divisionTableTitles;
+        } else if (group === "Conference") {
+            tableTitles = conferenceTableTitles;
+        } else {
+            tableTitles = accumulatedTitle;
+        }
+    }
 </script>
 
 <div class="flex justify-center">
-    <div class="card variant-filled-surface w-5/6 p-3 px-10 shadow">
-        {#if isLoading}
-            <div class="my-5">
-                <ProgressRadial width="w-12" value={undefined}/>
-            </div>
-        {:else}
-            {season}
-            {group}
-        {/if}
+    <div class="w-[55%] flex justify-center flex-col">
+        {#each tables as table, index}
+            <h3 class="h3 font-bold mt-7">{tableTitles[index]}</h3>
+            <StandingsTable table={table}/>
+        {/each}
     </div>
 </div>

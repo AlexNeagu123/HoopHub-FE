@@ -10,6 +10,10 @@ interface Standings {
     road: string;
     easternRecord: string;
     westernRecord: string;
+    teamFullName: string;
+    winLossPercentage: string;
+    teamPhotoUrl: string;
+    teamId: string;
 }
 
 export type {Standings}
