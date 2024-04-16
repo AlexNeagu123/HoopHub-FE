@@ -25,7 +25,8 @@ export enum AppRoute {
     PLAYER = '/player',
     GAMES = '/games',
     GAME = '/game',
-    STANDINGS = '/standings'
+    STANDINGS = '/standings',
+    PLAYOFFS = '/playoffs'
 }
 
 export enum TeamConstants {
@@ -58,16 +59,26 @@ function generateAvailableSeasons() {
 
 export enum StandingGroups {
     CONFERENCE = "Conference",
-    DIVISION = "DIVISION",
-    ALL = "ALL"
+    DIVISION = "Division",
+    ALL = "All"
 }
+
+export enum PlayoffBorderTypes {
+    LEFT = 0,
+    RIGHT = 1,
+    NONE = 2
+}
+
+export const playoffRounds = ["Western Conference First Round", "Western Conference Semifinals", "Western Conference Finals", "Finals",
+    "Eastern Conference Finals", "Eastern Conference Semifinals", "Eastern Conference First Round"]
+
 export const standingsAvailableSeasons = generateAvailableSeasons();
 export const standingsGroups = ["Conference", "Division", "All"]
 
 export type InformativePopUps = {
-    [key: string ]: string
+    [key: string]: string
 }
-export const informativePopUps : InformativePopUps = {
+export const informativePopUps: InformativePopUps = {
     "W-L %": "Win Loss Percentage",
     "ORTG": "An estimate of points produced or scored per 100 possessions",
     "DRTG": "An estimate of points allowed per 100 possessions",

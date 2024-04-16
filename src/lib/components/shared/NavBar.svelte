@@ -22,16 +22,20 @@
     </svelte:fragment>
     <div class="flex justify-around">
         <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.TEAMS}">Teams</a>
+        <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.GAMES}">Games</a>
         <a type="button" class="btn variant-filled-surface text-xl"
            href="{AppRoute.STANDINGS}?season={seasonFromIntToStr(SeasonConstants.currentSeason)}">
             Standings
         </a>
-        <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.GAMES}">Games</a>
+        <a type="button" class="btn variant-filled-surface text-xl"
+           href="{AppRoute.PLAYOFFS}?season={seasonFromIntToStr(SeasonConstants.currentSeason - 1)}">
+            Playoffs
+        </a>
     </div>
     <svelte:fragment slot="trail">
         {#if $currentUser.isLoggedIn}
             <a on:click={logout} href="{AppRoute.HOME}" type="button"
-               class="btn variant-filled-primary text-xl">Logout</a>
+               class="btn variant-filled-surface text-xl">Logout</a>
         {:else}
             <a type="button" class="btn variant-filled-surface text-xl" href="{AppRoute.LOGIN}">Login</a>
         {/if}

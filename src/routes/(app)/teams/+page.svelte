@@ -51,7 +51,7 @@
     }
 </script>
 
-<div class="flex w-full justify-center mt-5">
+<div class="flex w-full justify-center mt-5 shadow py-7">
     <div class="container ml-5 w-1/3">
         <input
                 class="shadow variant-filled-surface
@@ -64,7 +64,7 @@
                 use:popup={popupSettings}
                 on:keydown={onKeyPress}
         />
-        <div data-popup="popupAutocomplete" class="font-semibold text-sm variant-filled-surface">
+        <div data-popup="popupAutocomplete" class="font-semibold p-2 rounded-md text-xs variant-filled-tertiary">
             <Autocomplete
                     bind:input={inputTeamSearch}
                     options={teamOptions}
