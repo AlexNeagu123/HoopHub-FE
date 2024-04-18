@@ -21,7 +21,7 @@
         : group === 'Conference' ? getConferenceTables()
             : getAllTable();
 
-    let tableTitles = [];
+    let tableTitles: string[] = [];
 
     $: {
         if (group) {

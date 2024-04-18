@@ -22,6 +22,9 @@ export function completeStats(playerGameStats: BoxScorePlayer[]) {
             stat[property] = roundToOneDecimal(stat[property]);
         });
 
+        if(stat.min[0] === "0") {
+            stat.min = stat.min.substring(1);
+        }
         stat.fgPct = convertToPercent(stat.fgPct);
         stat.fg3Pct = convertToPercent(stat.fg3Pct);
         stat.ftPct = convertToPercent(stat.ftPct);

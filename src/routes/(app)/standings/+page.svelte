@@ -6,7 +6,7 @@
     import {fromOverallStrToPercentage, seasonFromStrToInt} from "$lib/utils/standings-utils";
     import getStandingsBySeason from "$lib/services/nba_data/standings/getStandingsBySeason";
     import {onMount} from "svelte";
-    import {ProgressRadial} from "@skeletonlabs/skeleton";
+    import LoadingIcon from "$lib/components/shared/LoadingIcon.svelte";
 
     const url = new URL(window.location.href);
 
@@ -39,8 +39,8 @@
 
 <StandingsHeader bind:season={season} bind:group={group} seasonChangeCallback={onSeasonChange}/>
 {#if isLoading}
-    <div class="my-5">
-        <ProgressRadial width="w-12" value={undefined}/>
+    <div class="flex justify-center">
+        <LoadingIcon/>
     </div>
 {:else}
     <StandingsContent group={group} standings={standings} isLoading={isLoading}/>

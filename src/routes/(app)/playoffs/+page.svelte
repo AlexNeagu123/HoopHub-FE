@@ -6,7 +6,7 @@
     import getPlayoffsBySeason from "$lib/services/nba_data/playoffs/getPlayoffsBySeason";
     import type {GroupedPlayoffSeries} from "$lib/models/nba_data/playoffs/GroupedPlayoffSeries";
     import {onMount} from "svelte";
-    import {ProgressRadial} from "@skeletonlabs/skeleton";
+    import LoadingIcon from "$lib/components/shared/LoadingIcon.svelte";
 
     const url = new URL(window.location.href);
     let season = url.searchParams.get("season");
@@ -41,8 +41,8 @@
 
 <PlayoffHeader bind:season={season} seasonChangeCallback={onSeasonChange}/>
 {#if isLoading}
-    <div class="my-5">
-        <ProgressRadial width="w-12" value={undefined}/>
+    <div class="flex justify-center">
+        <LoadingIcon/>
     </div>
 {:else}
     <PlayoffBracket playoffBracket={playoffBracket} teamIndexes={teamIndexes}/>

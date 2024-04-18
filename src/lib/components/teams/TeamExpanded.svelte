@@ -12,7 +12,9 @@
     export let team: Team;
     export let pageType: string;
 
-    $: isRoster = pageType == "roster";
+    $: isRoster = pageType === "roster";
+    $: isBio = pageType === "bio";
+
 </script>
 
 <div class="flex justify-center">
@@ -43,7 +45,8 @@
                       active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
                       hover="hover:bg-secondary-500">
                 <TabAnchor href="{AppRoute.TEAM}/{id}" selected={isRoster}>Roster</TabAnchor>
-                <TabAnchor href="{AppRoute.TEAM}/{id}/bio" selected={!isRoster}>History</TabAnchor>
+                <TabAnchor href="{AppRoute.TEAM}/{id}/bio" selected={!isRoster && isBio}>History</TabAnchor>
+                <TabAnchor href="{AppRoute.TEAM}/{id}/latest" selected={!isRoster && !isBio}>Latest</TabAnchor>
             </TabGroup>
         </div>
         <slot/>

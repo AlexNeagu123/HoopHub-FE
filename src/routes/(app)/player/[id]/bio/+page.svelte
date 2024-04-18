@@ -1,6 +1,6 @@
 <script lang="ts">
     import PlayerExpanded from "$lib/components/players/PlayerExpanded.svelte";
-    import {ProgressRadial, tableMapperValues} from "@skeletonlabs/skeleton";
+    import {tableMapperValues} from "@skeletonlabs/skeleton";
     import {PlayerConstants, SeasonConstants, TableTypes} from "$lib/constants";
     import Table from "$lib/components/shared/Table.svelte";
     import {page} from "$app/stores";
@@ -9,6 +9,7 @@
     import type {Player} from "$lib/models/nba_data/players/Player";
     import {onMount} from "svelte";
     import type {PageData} from './$types';
+    import LoadingIcon from "$lib/components/shared/LoadingIcon.svelte";
 
     export let data: PageData;
     let player: Player = data.player;
@@ -92,9 +93,7 @@
         {/each}
     </select>
     {#if isLoading}
-        <div class="my-5">
-            <ProgressRadial width="w-12" value={undefined}/>
-        </div>
+        <LoadingIcon/>
     {:else}
         <Table table={table} tableType={TableTypes.playerTable} teamIds={teamIds}/>
     {/if}
