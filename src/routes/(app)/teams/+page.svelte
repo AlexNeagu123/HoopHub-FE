@@ -8,7 +8,6 @@
     import type {Team} from "$lib/models/nba_data/teams/Team";
 
     export let data: PageData;
-
     let value: string = "East";
 
     let elemTeams: HTMLDivElement;

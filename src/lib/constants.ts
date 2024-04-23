@@ -1,19 +1,12 @@
 import {seasonFromIntToStr} from "$lib/utils/standings-utils";
-
-export enum ClaimTypes {
-    USERID = 'nameid',
-    USERROLE = 'role',
-    USERNAME = 'unique_name',
-    EXP_TIME = 'exp'
-}
+import {authToken} from "$lib/stores/auth.store";
+import {goto} from "$app/navigation";
+import {get} from "svelte/store";
+import axios from "axios";
 
 export enum WebSockets {
     BOX_SCORE_SOCKET_URL = 'wss://localhost:5001/box-scores-live',
     BOX_SCORES_CHANNEL = 'ReceiveLiveBoxScores'
-}
-
-export enum LocalStorageKeys {
-    AUTH_TOKEN = 'authToken'
 }
 
 export enum AppRoute {
@@ -26,7 +19,8 @@ export enum AppRoute {
     GAMES = '/games',
     GAME = '/game',
     STANDINGS = '/standings',
-    PLAYOFFS = '/playoffs'
+    PLAYOFFS = '/playoffs',
+    LOGOUT = "/logout"
 }
 
 export enum TeamConstants {
@@ -108,3 +102,26 @@ export const informativePopUps: InformativePopUps = {
     "Eastern": "Record against Eastern Conference",
     "Western": "Record against Western Conference"
 }
+
+export const axiosInstance = axios.create();
+axiosInstance.interceptors.request.use(
+    function (config) {
+        const token = get(authToken);
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    }
+);
+
+axios.interceptors.response.use(
+    function (response) {
+        return response;
+    },
+    function (error) {
+        if (error.response && error.response.status === 401) {
+            goto('/login');
+        }
+        return Promise.reject(error);
+    }
+);

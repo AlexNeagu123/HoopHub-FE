@@ -2,21 +2,14 @@
     import '../../app.pcss';
     import {AppShell} from "@skeletonlabs/skeleton";
     import NavBar from "$lib/components/shared/NavBar.svelte";
-    import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
-    import {authToken} from "$lib/stores/auth.store";
-    import axios from "axios";
-    import { storePopup } from '@skeletonlabs/skeleton';
+    import {computePosition, autoUpdate, offset, shift, flip, arrow} from '@floating-ui/dom';
+    import {storePopup} from '@skeletonlabs/skeleton';
+    import type {PageData} from './$types';
 
-    storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
+    storePopup.set({computePosition, autoUpdate, offset, shift, flip, arrow});
 
-    axios.interceptors.request.use(
-        function(config) {
-            if($authToken) {
-                config.headers['Authorization'] = `Bearer ${$authToken}`;
-            }
-            return config;
-        }
-    );
+    export let data: PageData;
+    const fanInfo = data.fanInfo;
 </script>
 
 <style>
@@ -58,14 +51,14 @@
         --sdt-table-today-indicator: #ccc; /** date picker current day marker color */
     }
 
-    :global(body){
+    :global(body) {
         scrollbar-color: #c1c4bc #dadada;
     }
 </style>
 
 <AppShell>
     <svelte:fragment slot="header">
-        <NavBar/>
+        <NavBar fanInfo={fanInfo}/>
     </svelte:fragment>
     <slot/>
 </AppShell>

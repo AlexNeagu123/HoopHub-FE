@@ -2,6 +2,7 @@
     import type {PageData} from './$types';
     import TeamExpanded from "$lib/components/teams/TeamExpanded.svelte";
     import PlayerPreview from "$lib/components/players/PlayerPreview.svelte";
+
     export let data: PageData;
 </script>
 
