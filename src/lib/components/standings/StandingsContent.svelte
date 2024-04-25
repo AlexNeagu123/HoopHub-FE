@@ -2,7 +2,6 @@
     import {tableMapperValues} from "@skeletonlabs/skeleton";
     import type {Standings} from "$lib/models/nba_data/standings/Standings";
     import StandingsTable from "$lib/components/standings/StandingsTable.svelte";
-
     export let group: string;
     export let standings: Standings[] = [];
 

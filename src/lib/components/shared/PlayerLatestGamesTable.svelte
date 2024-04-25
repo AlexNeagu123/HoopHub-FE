@@ -46,7 +46,7 @@
                                 {rowVal}
                             </Link>
                         {:else}
-                            <span class="text-xs {hasWon[indexRow] === true ? 'font-semibold' : 'opacity-80'}">
+                            <span class="text-xs whitespace-nowrap {hasWon[indexRow] === true ? 'font-semibold' : 'opacity-80'}">
                         {rowVal}
                         </span>
                         {/if}

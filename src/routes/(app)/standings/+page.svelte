@@ -43,5 +43,5 @@
         <LoadingIcon/>
     </div>
 {:else}
-    <StandingsContent group={group} standings={standings} isLoading={isLoading}/>
+    <StandingsContent group={group} standings={standings}/>
 {/if}

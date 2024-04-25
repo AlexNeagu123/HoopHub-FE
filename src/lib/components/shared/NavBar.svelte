@@ -65,7 +65,7 @@
             <div class="card variant-filled-surface p-4 shadow-xl" data-popup="fanPopUp">
                 <p class="font-semibold my-2 p-2 shadow-sm">{fanInfo.username}</p>
 
-                <UserIconLink link="aaa" linkText="Profile">
+                <UserIconLink link="{AppRoute.PROFILE}/{fanInfo.id}" linkText="Profile">
                     <Profile/>
                 </UserIconLink>
 

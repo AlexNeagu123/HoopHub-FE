@@ -20,7 +20,8 @@ export enum AppRoute {
     GAME = '/game',
     STANDINGS = '/standings',
     PLAYOFFS = '/playoffs',
-    LOGOUT = "/logout"
+    LOGOUT = "/logout",
+    PROFILE = "/profile"
 }
 
 export enum TeamConstants {
@@ -103,7 +104,14 @@ export const informativePopUps: InformativePopUps = {
     "Western": "Record against Western Conference"
 }
 
+export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
+
 export const axiosInstance = axios.create();
+
+export function refreshPage() {
+    window.location.reload();
+}
+
 axiosInstance.interceptors.request.use(
     function (config) {
         const token = get(authToken);

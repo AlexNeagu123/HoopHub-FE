@@ -5,7 +5,9 @@
     import {computePosition, autoUpdate, offset, shift, flip, arrow} from '@floating-ui/dom';
     import {storePopup} from '@skeletonlabs/skeleton';
     import type {PageData} from './$types';
+    import {initializeStores, Modal} from '@skeletonlabs/skeleton';
 
+    initializeStores();
     storePopup.set({computePosition, autoUpdate, offset, shift, flip, arrow});
 
     export let data: PageData;
@@ -56,6 +58,7 @@
     }
 </style>
 
+<Modal/>
 <AppShell>
     <svelte:fragment slot="header">
         <NavBar fanInfo={fanInfo}/>

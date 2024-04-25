@@ -1,8 +1,8 @@
 import {FanBadge} from "$lib/models/user_features/fans/FanBadge";
 
 export default class FanInfo {
-    public fanId: string = "";
-    public favouriteTeam: string = "";
+    public id: string = "";
+    public favouriteTeamId: string = "";
     public avatarPhotoUrl: string = "";
     public fanBadge: FanBadge = FanBadge.Rookie;
     public username: string = "";
