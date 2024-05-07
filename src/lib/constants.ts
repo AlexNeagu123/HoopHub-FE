@@ -152,3 +152,13 @@ axios.interceptors.response.use(
 export enum ToastMessages {
     actionRequiresLogIn = "You should be logged in to perform this action",
 }
+
+export enum ThreadWidthTypes {
+    FULL = "full",
+    HALF = "half"
+}
+
+export const ThreadWidthTypesConverter: {[key: string]: string} = {
+    "full": "w-[90%]",
+    "half": "w-[48%]"
+}

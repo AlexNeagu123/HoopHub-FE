@@ -23,7 +23,7 @@
 			validationErrors = response.validationErrors;
 		} else {
 			modalStore.close();
-			// window.location.reload();
+			window.location.reload();
 		}
 	}
 
