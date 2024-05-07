@@ -3,18 +3,34 @@
     import AboutCard from "$lib/components/shared/AboutCard.svelte";
     import StatCard from "$lib/components/shared/StatCard.svelte";
     import TeamHeader from "$lib/components/teams/TeamHeader.svelte";
-    import {TabAnchor, TabGroup} from "@skeletonlabs/skeleton";
-    import {AppRoute} from "$lib/constants";
+    import {Modal, TabAnchor, TabGroup} from "@skeletonlabs/skeleton";
+    import type {ModalComponent} from "@skeletonlabs/skeleton";
+    import type {ModalSettings} from "@skeletonlabs/skeleton";
+    import {AppRoute, TeamPageTypes} from "$lib/constants";
     import {page} from '$app/stores';
 
-    let id = $page.params.id;
+    import {getModalStore} from '@skeletonlabs/skeleton';
+    import ModalForm from "$lib/components/threads/TeamThreadModalForm.svelte";
 
+    const modalStore = getModalStore();
+
+    const modalRegistry: Record<string, ModalComponent> = {
+        formModal: {ref: ModalForm}
+    }
+
+    const modal: ModalSettings = {
+        type: 'component',
+        component: 'formModal',
+        title: 'Create a new thread',
+        body: 'Fill up the fields and create a new thread..'
+    };
+
+    let id = $page.params.id;
     export let team: Team;
     export let pageType: string;
-
-    $: isRoster = pageType === "roster";
-    $: isBio = pageType === "bio";
-
+    function triggerCreateThreadModal() {
+        modalStore.trigger(modal);
+    }
 </script>
 
 <div class="flex justify-center">
@@ -40,15 +56,27 @@
             </div>
         </dl>
 
-        <div class="mt-5">
+        <div class="mt-5 flex justify-between">
             <TabGroup border="none" justify="justify-start"
                       active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
                       hover="hover:bg-secondary-500">
-                <TabAnchor href="{AppRoute.TEAM}/{id}" selected={isRoster}>Roster</TabAnchor>
-                <TabAnchor href="{AppRoute.TEAM}/{id}/bio" selected={!isRoster && isBio}>History</TabAnchor>
-                <TabAnchor href="{AppRoute.TEAM}/{id}/latest" selected={!isRoster && !isBio}>Latest</TabAnchor>
+                <TabAnchor href="{AppRoute.TEAM}/{id}" selected={pageType === TeamPageTypes.ROSTER}>Roster</TabAnchor>
+                <TabAnchor href="{AppRoute.TEAM}/{id}/bio" selected={pageType === TeamPageTypes.BIO}>History</TabAnchor>
+                <TabAnchor href="{AppRoute.TEAM}/{id}/latest" selected={pageType === TeamPageTypes.LATEST}>Latest
+                </TabAnchor>
+                <TabAnchor href="{AppRoute.TEAM}/{id}/threads" selected={pageType === TeamPageTypes.THREADS}>Threads
+                </TabAnchor>
             </TabGroup>
+            {#if pageType === TeamPageTypes.THREADS}
+                <button type="button" class="btn variant-filled-surface hover:variant-filled-primary"
+                        on:click={triggerCreateThreadModal}>
+                    <span><i class="fa-solid fa-plus"></i></span>
+                    <span>Create thread</span>
+                </button>
+            {/if}
         </div>
         <slot/>
     </div>
 </div>
+
+<Modal components={modalRegistry} />

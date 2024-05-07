@@ -8,6 +8,7 @@
     import getLatestBoxScoresByTeam from "$lib/services/nba_data/games/getLatestBoxScoresByTeam";
     import type {GameWithBoxScore} from "$lib/models/nba_data/box-scores/GameWithBoxScore";
     import TeamLatestGamesTable from "$lib/components/shared/TeamLatestGamesTable.svelte";
+    import {TeamPageTypes} from "$lib/constants";
 
     export let data: PageData;
     let isLoading: boolean = true;
@@ -16,7 +17,6 @@
     let latestTeamBoxScores: LatestTeamBoxScore[] = [];
 
     const hasWon: boolean[] = [];
-
     const headFields: string[] = ['Date', 'Against', 'Result', 'oppTeamPhoto', 'oppTeamId', 'homeTeamId', 'visitorTeamId'];
     const bodyFields: string[] = ['date', 'oppTeamAbbr', 'result', 'oppTeamPhoto', 'oppTeamId', 'homeTeamId', 'visitorTeamId'];
 
@@ -61,13 +61,12 @@
             }
         });
 
-        console.log(teamBoxScores);
         latestTeamBoxScores = teamBoxScores;
         isLoading = false;
     });
 </script>
 
-<TeamExpanded team={data.team} pageType="latest">
+<TeamExpanded team={data.team} pageType={TeamPageTypes.LATEST}>
     {#if isLoading}
         <LoadingIcon/>
     {:else}

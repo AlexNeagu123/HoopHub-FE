@@ -2,7 +2,7 @@
     import TeamExpanded from "$lib/components/teams/TeamExpanded.svelte";
     import type {PageData} from './$types';
     import Table from "$lib/components/shared/Table.svelte";
-    import {TableTypes, TeamConstants} from "$lib/constants";
+    import {TableTypes, TeamConstants, TeamPageTypes} from "$lib/constants";
     import type {LabeledTeamBio} from "$lib/models/nba_data/teams/LabeledTeamBio";
     import {tableMapperValues} from "@skeletonlabs/skeleton";
 
@@ -40,7 +40,7 @@
     }
 </style>
 
-<TeamExpanded team={data.team} pageType="bio">
+<TeamExpanded team={data.team} pageType={TeamPageTypes.BIO}>
     <select bind:value={selectedGroup} class="mt-5 select variant-filled-surface border-none shadow">
         {#each groups as g, index}
             <option value={index} class="font-thin text-sm">{g.label}</option>

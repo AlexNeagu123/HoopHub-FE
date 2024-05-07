@@ -104,6 +104,12 @@ export const informativePopUps: InformativePopUps = {
     "Western": "Record against Western Conference"
 }
 
+export enum TeamPageTypes {
+    ROSTER = "roster",
+    BIO = "bio",
+    LATEST = "latest",
+    THREADS = "threads"
+}
 export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
 
 export const axiosInstance = axios.create();
