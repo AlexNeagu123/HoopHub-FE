@@ -6,7 +6,7 @@ export default async function addTeamThread(
     teamId: string,
     title: string,
     content: string
-): Promise<TeamThread> {
+): Promise<Response<TeamThread>> {
     const payload = {
         teamId: teamId,
         title: title,
@@ -15,9 +15,10 @@ export default async function addTeamThread(
 
     const axiosRes = await axiosInstance.post<Response<TeamThread>>(
         "user-features/team-threads",
-        payload
+        payload,
+        { validateStatus: (status) => (status >= 200 && status < 300) || status === 400 }
     );
 
     const response = axiosRes.data;
-    return response.data;
+    return response;
 }

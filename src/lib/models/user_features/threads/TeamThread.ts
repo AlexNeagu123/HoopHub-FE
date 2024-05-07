@@ -6,6 +6,7 @@ interface TeamThread {
     fan: FanInfo;
     title: string;
     content: string;
+    createdDate: Date;
 }
 
 export type {TeamThread}

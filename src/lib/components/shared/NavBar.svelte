@@ -20,7 +20,6 @@
     };
 
     export let fanInfo: FanInfo;
-    console.log(fanInfo.avatarPhotoUrl);
 </script>
 
 <style>

@@ -64,6 +64,10 @@ export enum PlayoffBorderTypes {
     NONE = 2
 }
 
+export enum TruncateLengths {
+    ThreadContent = 500,
+}
+
 export const playoffRounds = ["Western Conference First Round", "Western Conference Semifinals", "Western Conference Finals", "Finals",
     "Eastern Conference Finals", "Eastern Conference Semifinals", "Eastern Conference First Round"]
 
@@ -110,6 +114,11 @@ export enum TeamPageTypes {
     LATEST = "latest",
     THREADS = "threads"
 }
+
+export enum DynamicPaginationThresholds {
+    TeamThreadsThreshold = 4,
+}
+
 export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
 
 export const axiosInstance = axios.create();
@@ -139,3 +148,7 @@ axios.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+export enum ToastMessages {
+    actionRequiresLogIn = "You should be logged in to perform this action",
+}
