@@ -36,10 +36,14 @@
 	>
 		{#each threads as t}
 			<ThreadPreview
+				id={t.id}
 				title={t.title}
 				author={t.fan}
 				time={t.createdDate}
 				content={t.content}
+				upvotes={t.upVotes}
+				downvotes={t.downVotes}
+                threadVoteStatus={t.voteStatus}
 				{threadWidthType}
 			/>
 		{/each}

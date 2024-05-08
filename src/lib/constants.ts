@@ -159,6 +159,6 @@ export enum ThreadWidthTypes {
 }
 
 export const ThreadWidthTypesConverter: {[key: string]: string} = {
-    "full": "w-[90%]",
+    "full": "w-[80%]",
     "half": "w-[48%]"
 }

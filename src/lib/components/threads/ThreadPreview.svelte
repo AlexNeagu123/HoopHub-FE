@@ -1,24 +1,36 @@
 <script lang="ts">
 	import { Avatar, RadioGroup } from '@skeletonlabs/skeleton';
 	import IComment from '$lib/components/icons/IComment.svelte';
-	import VotingContainer from '$lib/components/threads/VotingContainer.svelte';
+	import ThreadVotingContainer from '$lib/components/threads/ThreadVotingContainer.svelte';
 	import type FanInfo from '$lib/models/user_features/fans/FanInfo';
 	import Time from 'svelte-time/Time.svelte';
 	import { truncateString } from '$lib/utils/string-utils';
-	import { AppRoute, ThreadWidthTypes, ThreadWidthTypesConverter, TruncateLengths } from '$lib/constants';
+	import {
+		AppRoute,
+		ThreadWidthTypes,
+		ThreadWidthTypesConverter,
+		TruncateLengths
+	} from '$lib/constants';
+	import { ThreadVoteStatus } from '$lib/models/user_features/threads/ThreadVoteStatus';
 
 	export let title: string;
 	export let author: FanInfo;
 	export let time: Date;
 	export let content: string;
-	export let upvotes: number = 120;
-	export let downvotes: number = 120;
+	export let upvotes: number;
+	export let downvotes: number;
 	export let comments: number = 120;
+	export let id: string;
 
+	export let threadVoteStatus: ThreadVoteStatus;
 	export let threadWidthType: string = ThreadWidthTypes.HALF;
 </script>
 
-<div class="{ThreadWidthTypesConverter[threadWidthType]} card card-hover variant-filled-surface shadow p-5 my-2 cursor-pointer">
+<div
+	class="{ThreadWidthTypesConverter[
+		threadWidthType
+	]} card card-hover variant-filled-surface shadow p-5 my-2 cursor-pointer"
+>
 	<div class="flex flex-col">
 		<div class="flex flex-start justify-between py-3">
 			<a class="flex flex-start hover:underline" href="{AppRoute.PROFILE}/{author.id}">
@@ -42,14 +54,10 @@
 			</p>
 		</div>
 		<div class="flex justify-between">
-			<RadioGroup background="bg-surface" active="variant-filled-primary">
-				<div class="flex">
-					<VotingContainer {upvotes} {downvotes} />
-				</div>
-			</RadioGroup>
+			<ThreadVotingContainer {upvotes} {downvotes} {id} {threadVoteStatus} />
 			<div
-				class="flex variant-filled-secondary hover:variant-filled-tertiary
-                        items-center rounded-full w-1/4 justify-center m-1"
+				class="flex variant-filled-surface hover:variant-filled-primary
+                        items-center rounded-full w-1/6 justify-center m-1"
 			>
 				<IComment height={14} width={14} />
 				<p class="px-1">
