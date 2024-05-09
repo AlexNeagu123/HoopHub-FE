@@ -2,23 +2,20 @@
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import ModalInput from '$lib/components/threads/ModalInput.svelte';
 	import ModalTextArea from '$lib/components/threads/ModalTextArea.svelte';
-	import addTeamThread from '$lib/services/user_features/threads/addTeamThread';
 	import Validation from '../auth/Validation.svelte';
-
-	// dictionary please
+	
 	let validationErrors: { [key: string]: string } = {};
 	const modalStore = getModalStore();
 
 	const formData = {
-		title: '',
-		content: ''
+		title: $modalStore[0].meta.title ? $modalStore[0].meta.title : '',
+		content: $modalStore[0].meta.content ? $modalStore[0].meta.content : ''
 	};
 
-	const teamId: string = $modalStore[0].meta.teamId ?? '';
+	const operationId: string = $modalStore[0].meta.operationId ?? '';
 
 	async function onFormSubmit() {
-		console.log(formData);
-		const response = await addTeamThread(teamId, formData.title, formData.content);
+		const response = await $modalStore[0].meta.submitFormHandler(operationId, formData.title, formData.content);
 		if (response.success === false) {
 			validationErrors = response.validationErrors;
 		} else {

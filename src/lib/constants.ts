@@ -21,7 +21,8 @@ export enum AppRoute {
     STANDINGS = '/standings',
     PLAYOFFS = '/playoffs',
     LOGOUT = "/logout",
-    PROFILE = "/profile"
+    PROFILE = "/profile",
+    TEAM_THREAD = "/team-thread"
 }
 
 export enum TeamConstants {
@@ -65,7 +66,7 @@ export enum PlayoffBorderTypes {
 }
 
 export enum TruncateLengths {
-    ThreadContent = 500,
+    ThreadContent = 60,
 }
 
 export const playoffRounds = ["Western Conference First Round", "Western Conference Semifinals", "Western Conference Finals", "Finals",

@@ -19,7 +19,7 @@
 
 	let currentPage = 1;
 	let currentSize = DynamicPaginationThresholds.TeamThreadsThreshold;
-
+	
 	async function fetchData() {
 		threadsBatch = await getTeamThreadsPaged(currentPage, currentSize, id);
 		currentPage++;

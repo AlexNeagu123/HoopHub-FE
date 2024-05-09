@@ -13,6 +13,7 @@
 	import ModalForm from '$lib/components/threads/TeamThreadModalForm.svelte';
 	import { currentUser } from '$lib/stores/auth.store';
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import addTeamThread from '$lib/services/user_features/threads/addTeamThread';
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
@@ -29,12 +30,14 @@
 		title: 'Create a new thread',
 		body: 'Fill up the fields and create a new thread..',
 		meta: {
-			teamId: id
+			operationId: id,
+			submitFormHandler: addTeamThread
 		}
 	};
 
 	export let team: Team;
 	export let pageType: string;
+
 	function triggerCreateThreadModal() {
 		modalStore.trigger(modal);
 	}
@@ -42,9 +45,10 @@
 	function checkLoggedIn(event: Event) {
 		if (!$currentUser.isLoggedIn) {
 			event.preventDefault();
-			toastStore.trigger({ message: ToastMessages.actionRequiresLogIn, 
-                background: 'variant-filled-error'
-             });
+			toastStore.trigger({
+				message: ToastMessages.actionRequiresLogIn,
+				background: 'variant-filled-error'
+			});
 		}
 	}
 </script>
