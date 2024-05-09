@@ -13,6 +13,8 @@
 	import { page } from '$app/stores';
 	import updateTeamThread from '$lib/services/user_features/threads/updateTeamThread';
 	import DeleteModal from '../shared/DeleteThreadModal.svelte';
+	import Comment from '../comments/Comment.svelte';
+	import WriteCommentContainer from '../comments/WriteCommentContainer.svelte';
 
 	export let teamThread: TeamThread;
 	export let team: Team;
@@ -56,6 +58,12 @@
 	function triggerUpdateThreadModal() {
 		modalStore.trigger(updateModal);
 	}
+
+	let rootCommentAdded: boolean = false;
+
+	function toggleAddRootComment() {
+		rootCommentAdded = !rootCommentAdded;
+	}
 </script>
 
 <div class="flex justify-center">
@@ -71,9 +79,10 @@
 			threadVoteStatus={teamThread.voteStatus}
 			{team}
 		/>
-		<div class="card variant-filled-surface flex shadow w-full justify-between">
-			<button class="btn btn-primary hover:variant-filled-secondary items-center rounded-md"
-				>Add a comment</button
+		<div class="card variant-filled-surface flex  border-b-2 border-primary-400 w-full justify-between">
+			<button
+				class="btn btn-primary hover:variant-filled-secondary items-center rounded-md"
+				on:click={toggleAddRootComment}>Add a comment</button
 			>
 			{#if teamThread.fan.id === $currentUser.userId}
 				<div>
@@ -88,6 +97,13 @@
 				</div>
 			{/if}
 		</div>
+        {#if rootCommentAdded}
+            <WriteCommentContainer active={rootCommentAdded}/>
+        {/if}
+		<Comment commenter={teamThread.fan} />
+		<Comment commenter={teamThread.fan} />
+		<Comment commenter={teamThread.fan} />
+		<Comment commenter={teamThread.fan} />
 	</div>
 </div>
 

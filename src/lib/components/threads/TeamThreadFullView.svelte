@@ -15,13 +15,13 @@
 	export let content: string;
 	export let upvotes: number;
 	export let downvotes: number;
-	export let comments: number = 120;
+	export let comments: number = 0;
 	export let id: string;
     export let team: Team;
 	export let threadVoteStatus: ThreadVoteStatus;
 </script>
 
-<div class="card variant-filled-surface p-5 my-2 shadow w-full">
+<div class="card variant-filled-surface px-5 py-3 my-2 shadow w-full">
 	<div class="flex flex-col">
 		<div class="flex flex-start justify-between py-3">
 			<TeamThreadHeader>

@@ -19,17 +19,18 @@
 	export let content: string;
 	export let upvotes: number;
 	export let downvotes: number;
-	export let comments: number = 120;
+	export let comments: number = 0;
 	export let id: string;
 
 	export let threadVoteStatus: ThreadVoteStatus;
 	export let threadWidthType: string = ThreadWidthTypes.HALF;
 </script>
 
-<a href="{AppRoute.TEAM_THREAD}/{id}"
+<a
+	href="{AppRoute.TEAM_THREAD}/{id}"
 	class="{ThreadWidthTypesConverter[
 		threadWidthType
-	]} card card-hover variant-filled-surface shadow p-5 my-2 cursor-pointer"
+	]} card card-hover variant-filled-surface shadow px-5 py-3 my-2 cursor-pointer"
 >
 	<div class="flex flex-col">
 		<div class="flex flex-start justify-between py-3">
