@@ -1,6 +1,7 @@
 <script lang="ts">
 	let textData = '';
 	export let active: boolean;
+	export let currentWidth = 100;
 	// export let onSubmitComment: (content: string) => void;
 	function onDiscard() {
 		active = !active;
@@ -8,7 +9,7 @@
 </script>
 
 {#if active}
-	<div class="flex flex-col w-full mt-2">
+	<div class="flex flex-col w-[{currentWidth}%] mt-2">
 		<textarea
 			class="overflow-hidden variant-filled-surface w-full border border-primary-400
     px-3 py-2 rounded-xl focus:outline-0 focus:border-primary-700

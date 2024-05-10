@@ -1,5 +1,5 @@
 import type FanInfo from "$lib/models/user_features/fans/FanInfo";
-import type { ThreadVoteStatus } from "./ThreadVoteStatus";
+import type { VoteStatus } from "./VoteStatus";
 
 interface TeamThread {
     id: string;
@@ -11,7 +11,7 @@ interface TeamThread {
     createdDate: Date;
     upVotes: number;
     downVotes: number;
-    voteStatus: ThreadVoteStatus;
+    voteStatus: VoteStatus;
 }
 
 export type { TeamThread }

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type FanInfo from '$lib/models/user_features/fans/FanInfo';
-	import type { ThreadVoteStatus } from '$lib/models/user_features/threads/ThreadVoteStatus';
+	import type { VoteStatus } from '$lib/models/user_features/threads/VoteStatus';
 	import ThreadVotingContainer from './ThreadVotingContainer.svelte';
 	import IComment from '$lib/components/icons/IComment.svelte';
 	import ProfileLink from './ProfileLink.svelte';
@@ -18,7 +18,7 @@
 	export let comments: number = 0;
 	export let id: string;
     export let team: Team;
-	export let threadVoteStatus: ThreadVoteStatus;
+	export let threadVoteStatus: VoteStatus;
 </script>
 
 <div class="card variant-filled-surface px-5 py-3 my-2 shadow w-full">

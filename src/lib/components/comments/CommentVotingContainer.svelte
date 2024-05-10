@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Upvote from '$lib/components/icons/Upvote.svelte';
 	import Downvote from '$lib/components/icons/Downvote.svelte';
-	import { ThreadVoteStatus } from '$lib/models/user_features/threads/ThreadVoteStatus';
+	import { VoteStatus } from '$lib/models/user_features/threads/VoteStatus';
 
 	export let upvotes: number;
 	export let downvotes: number;
-	export let threadVoteStatus: ThreadVoteStatus;
+	export let threadVoteStatus: VoteStatus;
 	// export let id: string;
 	export let voteButtonWidth: string = 'w-1/2';
 
@@ -16,20 +16,20 @@
 
 	async function toggleVote(isUpvote: boolean) {
 		if (
-			(threadVoteStatus === ThreadVoteStatus.UpVoted && isUpvote) ||
-			(threadVoteStatus === ThreadVoteStatus.DownVoted && !isUpvote)
+			(threadVoteStatus === VoteStatus.UpVoted && isUpvote) ||
+			(threadVoteStatus === VoteStatus.DownVoted && !isUpvote)
 		) {
-			threadVoteStatus = ThreadVoteStatus.None;
+			threadVoteStatus = VoteStatus.None;
 			modifyVotes(isUpvote, -1);
 			// await deleteTeamThreadVote(id);
 		} else {
 			const oldVoteStatus = threadVoteStatus;
-			threadVoteStatus = isUpvote ? ThreadVoteStatus.UpVoted : ThreadVoteStatus.DownVoted;
+			threadVoteStatus = isUpvote ? VoteStatus.UpVoted : VoteStatus.DownVoted;
 			modifyVotes(isUpvote, +1);
-			if (oldVoteStatus === ThreadVoteStatus.None) {
+			if (oldVoteStatus === VoteStatus.None) {
 				// await addTeamThreadVote(id, isUpvote);
 			} else {
-				oldVoteStatus === ThreadVoteStatus.UpVoted ? upvotes-- : downvotes--;
+				oldVoteStatus === VoteStatus.UpVoted ? upvotes-- : downvotes--;
 				// await updateTeamThreadVote(id, isUpvote);
 			}
 		}
@@ -44,7 +44,7 @@
 		}}
 		class="flex hover:variant-filled-primary items-center rounded-full {voteButtonWidth} justify-center"
 	>
-		<Upvote height={16} width={16} isClicked={threadVoteStatus === ThreadVoteStatus.UpVoted} />
+		<Upvote height={16} width={16} isClicked={threadVoteStatus === VoteStatus.UpVoted} />
 		<p class="px-1">
 			{upvotes}
 		</p>
@@ -56,7 +56,7 @@
 		}}
 		class="flex hover:variant-filled-primary items-center rounded-full {voteButtonWidth} justify-center"
 	>
-		<Downvote height={16} width={16} isClicked={threadVoteStatus === ThreadVoteStatus.DownVoted} />
+		<Downvote height={16} width={16} isClicked={threadVoteStatus === VoteStatus.DownVoted} />
 		<p class="px-1">
 			{downvotes}
 		</p>

@@ -9,7 +9,7 @@
 		ThreadWidthTypesConverter,
 		TruncateLengths
 	} from '$lib/constants';
-	import { ThreadVoteStatus } from '$lib/models/user_features/threads/ThreadVoteStatus';
+	import { VoteStatus } from '$lib/models/user_features/threads/VoteStatus';
 	import ProfileLink from './ProfileLink.svelte';
 	import TimeAgo from './TimeAgo.svelte';
 
@@ -22,7 +22,7 @@
 	export let comments: number = 0;
 	export let id: string;
 
-	export let threadVoteStatus: ThreadVoteStatus;
+	export let threadVoteStatus: VoteStatus;
 	export let threadWidthType: string = ThreadWidthTypes.HALF;
 </script>
 

@@ -5,21 +5,27 @@
 	import Reply from '../icons/Reply.svelte';
 	import CommentVotingContainer from './CommentVotingContainer.svelte';
 	import WriteCommentContainer from './WriteCommentContainer.svelte';
-	import { ThreadVoteStatus } from '$lib/models/user_features/threads/ThreadVoteStatus';
+	import { VoteStatus } from '$lib/models/user_features/threads/VoteStatus';
 	export let commenter: FanInfo;
 
 	let replyActive: boolean = false;
+	export let currentWidth: number = 100;
+
+	export let hasBorder: boolean = false;
 	function onClickReply() {
 		replyActive = !replyActive;
 	}
 
+	const widthStyle = `w-[${currentWidth}%]`;
+	console.log(widthStyle);
 	function onSubmitRootComment(comment: string) {}
 </script>
 
 <div
-	class="w-full variant-filled-surface p-2 rounded-lg m-3 {replyActive
-		? 'drop-shadow'
-		: ''} hover:drop-shadow"
+	class="{widthStyle} {hasBorder
+		? 'border-l-4 border-l-surface-700'
+		: ''} variant-filled-surface p-2 my-3 {replyActive ? 'drop-shadow rounded-lg' : 'rounded-none'}
+		"
 >
 	<div>
 		<header class="flex justify-between px-2 items-center">
@@ -48,11 +54,15 @@
 			<CommentVotingContainer
 				upvotes={1}
 				downvotes={1}
-				threadVoteStatus={ThreadVoteStatus.None}
+				threadVoteStatus={VoteStatus.None}
 				voteButtonWidth="w-1/4"
 			/>
 		</main>
 	</div>
 </div>
 
-<WriteCommentContainer bind:active={replyActive} />
+<WriteCommentContainer bind:active={replyActive} {currentWidth} />
+
+{#if hasBorder === false}
+	<svelte:self {commenter} hasBorder={true} currentWidth={currentWidth - 3} />
+{/if}

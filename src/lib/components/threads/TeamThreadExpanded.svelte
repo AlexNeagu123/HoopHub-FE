@@ -100,10 +100,12 @@
         {#if rootCommentAdded}
             <WriteCommentContainer active={rootCommentAdded}/>
         {/if}
-		<Comment commenter={teamThread.fan} />
-		<Comment commenter={teamThread.fan} />
-		<Comment commenter={teamThread.fan} />
-		<Comment commenter={teamThread.fan} />
+		<div class="flex flex-col items-end">
+			<Comment commenter={teamThread.fan} />
+			<Comment commenter={teamThread.fan} />
+			<Comment commenter={teamThread.fan} />
+			<Comment commenter={teamThread.fan} />
+		</div>
 	</div>
 </div>
 
