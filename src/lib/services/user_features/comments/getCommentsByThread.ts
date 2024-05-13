@@ -1,8 +1,13 @@
 import { axiosInstance } from "$lib/constants";
-import type { PagedResponse, Response } from "$lib/models/common/Response";
+import type { PagedResponse } from "$lib/models/common/Response";
+import type { Comment } from "$lib/models/user_features/comments/Comment";
 
-export default async function getCommentsByThread(page: number, pageSize: number, isPopular: boolean,
-    firstCommentId: string | null, teamThreadId: string | null = null, gameThreadId: string | null = null):
+export default async function getCommentsByThread(page: number,
+    pageSize: number,
+    isPopular: boolean,
+    firstCommentId: string | null = null,
+    teamThreadId: string | null = null,
+    gameThreadId: string | null = null):
     Promise<Comment[]> {
     let url = `user-features/comments/?page=${page}&pageSize=${pageSize}&isPopular=${isPopular}`;
     teamThreadId != null ? url += `&teamThreadId=${teamThreadId}` : url += `&gameThreadId=${gameThreadId}`;

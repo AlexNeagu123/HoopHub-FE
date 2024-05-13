@@ -28,7 +28,7 @@
 		type: 'component',
 		component: 'formModal',
 		title: 'Create a new thread',
-		body: 'Fill up the fields and create a new thread..',
+	body: 'Fill up the fields and create a new thread..',
 		meta: {
 			operationId: id,
 			submitFormHandler: addTeamThread

@@ -45,6 +45,7 @@
 				downvotes={t.downVotes}
                 threadVoteStatus={t.voteStatus}
 				{threadWidthType}
+				comments={t.commentsCount}
 			/>
 		{/each}
 	</div>

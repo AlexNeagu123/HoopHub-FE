@@ -1,5 +1,6 @@
 import { axiosInstance } from "$lib/constants";
 import type { Response } from "$lib/models/common/Response";
+import type { Comment } from '$lib/models/user_features/comments/Comment';
 
 export default async function addComment(
     content: string,

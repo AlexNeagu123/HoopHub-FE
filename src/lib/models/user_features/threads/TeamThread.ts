@@ -12,6 +12,7 @@ interface TeamThread {
     upVotes: number;
     downVotes: number;
     voteStatus: VoteStatus;
+    commentsCount: number;
 }
 
 export type { TeamThread }

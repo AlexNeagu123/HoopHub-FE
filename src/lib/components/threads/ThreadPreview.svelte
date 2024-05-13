@@ -19,7 +19,7 @@
 	export let content: string;
 	export let upvotes: number;
 	export let downvotes: number;
-	export let comments: number = 0;
+	export let comments: number;
 	export let id: string;
 
 	export let threadVoteStatus: VoteStatus;

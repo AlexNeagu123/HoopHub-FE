@@ -2,41 +2,55 @@
 	import Upvote from '$lib/components/icons/Upvote.svelte';
 	import Downvote from '$lib/components/icons/Downvote.svelte';
 	import { VoteStatus } from '$lib/models/user_features/threads/VoteStatus';
+	import deleteComment from '$lib/services/user_features/comments/deleteComments';
+	import addCommentVote from '$lib/services/user_features/comments/votes/addCommentVote';
+	import updateCommentVote from '$lib/services/user_features/comments/votes/updateCommentVote';
+	import { currentUser } from '$lib/stores/auth.store';
+	import type { PopupSettings } from '@skeletonlabs/skeleton';
+	import { ListBox, popup } from '@skeletonlabs/skeleton';
+	import type { Comment } from '$lib/models/user_features/comments/Comment';
 
-	export let upvotes: number;
-	export let downvotes: number;
-	export let threadVoteStatus: VoteStatus;
-	// export let id: string;
-	export let voteButtonWidth: string = 'w-1/2';
+	export let comment: Comment;
+	export let onDelete: () => void;
+	export let onEdit: () => void;
+
+	const voteButtonWidth: string = 'w-1/2';
 
 	function modifyVotes(isUpvote: boolean, sign: number) {
-		upvotes += isUpvote ? sign : 0;
-		downvotes += isUpvote ? 0 : sign;
+		comment.upVotes += isUpvote ? sign : 0;
+		comment.downVotes += isUpvote ? 0 : sign;
 	}
 
 	async function toggleVote(isUpvote: boolean) {
 		if (
-			(threadVoteStatus === VoteStatus.UpVoted && isUpvote) ||
-			(threadVoteStatus === VoteStatus.DownVoted && !isUpvote)
+			(comment.voteStatus === VoteStatus.UpVoted && isUpvote) ||
+			(comment.voteStatus === VoteStatus.DownVoted && !isUpvote)
 		) {
-			threadVoteStatus = VoteStatus.None;
+			comment.voteStatus = VoteStatus.None;
 			modifyVotes(isUpvote, -1);
-			// await deleteTeamThreadVote(id);
+			await deleteComment(comment.id);
 		} else {
-			const oldVoteStatus = threadVoteStatus;
-			threadVoteStatus = isUpvote ? VoteStatus.UpVoted : VoteStatus.DownVoted;
+			const oldVoteStatus = comment.voteStatus;
+			comment.voteStatus = isUpvote ? VoteStatus.UpVoted : VoteStatus.DownVoted;
 			modifyVotes(isUpvote, +1);
 			if (oldVoteStatus === VoteStatus.None) {
-				// await addTeamThreadVote(id, isUpvote);
+				await addCommentVote(comment.id, isUpvote);
 			} else {
-				oldVoteStatus === VoteStatus.UpVoted ? upvotes-- : downvotes--;
-				// await updateTeamThreadVote(id, isUpvote);
+				oldVoteStatus === VoteStatus.UpVoted ? comment.upVotes-- : comment.downVotes--;
+				await updateCommentVote(comment.id, isUpvote);
 			}
 		}
 	}
+
+	let ownCommentOptionsCombobox: PopupSettings = {
+		event: 'click',
+		target: 'popupCombobox' + comment.id,
+		placement: 'bottom',
+		closeQuery: '.listbox-item'
+	};
 </script>
 
-<div class="flex w-1/5 justify-start">
+<div class="flex {$currentUser.userId === comment.fan.id ? 'w-[13%]' : 'w-[10%]'} justify-start">
 	<button
 		on:click={(event) => {
 			event.preventDefault();
@@ -44,9 +58,9 @@
 		}}
 		class="flex hover:variant-filled-primary items-center rounded-full {voteButtonWidth} justify-center"
 	>
-		<Upvote height={16} width={16} isClicked={threadVoteStatus === VoteStatus.UpVoted} />
+		<Upvote height={16} width={16} isClicked={comment.voteStatus === VoteStatus.UpVoted} />
 		<p class="px-1">
-			{upvotes}
+			{comment.upVotes}
 		</p>
 	</button>
 	<button
@@ -56,9 +70,31 @@
 		}}
 		class="flex hover:variant-filled-primary items-center rounded-full {voteButtonWidth} justify-center"
 	>
-		<Downvote height={16} width={16} isClicked={threadVoteStatus === VoteStatus.DownVoted} />
+		<Downvote height={16} width={16} isClicked={comment.voteStatus === VoteStatus.DownVoted} />
 		<p class="px-1">
-			{downvotes}
+			{comment.downVotes}
 		</p>
 	</button>
+
+	{#if $currentUser.userId === comment.fan.id}
+		<button
+			type="button"
+			class="btn-icon variant-filled-surface hover:variant-filled-primary"
+			use:popup={ownCommentOptionsCombobox}
+		>
+			<i class="fa-solid fa-ellipsis-vertical"></i>
+		</button>
+		<div class="z-50 variant-filled-primary card w-20 shadow-xl py-2" data-popup={'popupCombobox' + comment.id}>
+			<ListBox rounded="rounded-none">
+				<button
+					class="btn rounded-none w-full hover:variant-filled-surface"
+					on:click={onEdit}>Edit</button
+				>
+				<button
+					class="btn rounded-none w-full hover:variant-filled-surface"
+					on:click={onDelete}>Delete</button
+				>
+			</ListBox>
+		</div>
+	{/if}
 </div>

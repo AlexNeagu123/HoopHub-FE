@@ -10,14 +10,38 @@
 		type ModalSettings
 	} from '@skeletonlabs/skeleton';
 	import ModalForm from '$lib/components/threads/TeamThreadModalForm.svelte';
+	import CommentsList from '$lib/components/comments/CommentsList.svelte';
 	import { page } from '$app/stores';
 	import updateTeamThread from '$lib/services/user_features/threads/updateTeamThread';
 	import DeleteModal from '../shared/DeleteThreadModal.svelte';
-	import Comment from '../comments/Comment.svelte';
 	import WriteCommentContainer from '../comments/WriteCommentContainer.svelte';
+	import addComment from '$lib/services/user_features/comments/addComment';
+	import { onMount } from 'svelte';
+	import getCommentsByThread from '$lib/services/user_features/comments/getCommentsByThread';
+	import { DynamicPaginationThresholds } from '$lib/constants';
+	import type { Comment } from '$lib/models/user_features/comments/Comment';
 
 	export let teamThread: TeamThread;
 	export let team: Team;
+
+	let validationErrors: { [key: string]: string } = {};
+	let isLoading = false;
+
+	let commentsBatch: Comment[] = [];
+	let comments: Comment[] = [];
+	let addedComments: Comment[] = [];
+
+	$: comments = [...addedComments, ...comments, ...commentsBatch];
+
+	async function onSubmitComment(comment: string) {
+		var response = await addComment(comment, teamThread.id);
+		if (response.success === false) {
+			validationErrors = response.validationErrors;
+		} else {
+			addedComments = [response.data, ...addedComments];
+			toggleAddRootComment();
+		}
+	}
 
 	const modalStore = getModalStore();
 	const modalRegistry: Record<string, ModalComponent> = {
@@ -26,7 +50,6 @@
 	};
 
 	const id = $page.params.id;
-
 	const updateModal: ModalSettings = {
 		type: 'component',
 		component: 'formModal',
@@ -60,10 +83,30 @@
 	}
 
 	let rootCommentAdded: boolean = false;
-
 	function toggleAddRootComment() {
 		rootCommentAdded = !rootCommentAdded;
 	}
+
+	let currentPage = 1;
+	let currentSize = DynamicPaginationThresholds.CommentsThreshold;
+
+	async function fetchComments() {
+		commentsBatch = await getCommentsByThread(
+			currentPage,
+			currentSize,
+			false,
+			null,
+			teamThread.id,
+			null
+		);
+		currentPage++;
+	}
+
+	onMount(async () => {
+		isLoading = true;
+		await fetchComments();
+		isLoading = false;
+	});
 </script>
 
 <div class="flex justify-center">
@@ -77,9 +120,12 @@
 			downvotes={teamThread.downVotes}
 			id={teamThread.id}
 			threadVoteStatus={teamThread.voteStatus}
+			comments={teamThread.commentsCount}
 			{team}
 		/>
-		<div class="card variant-filled-surface flex  border-b-2 border-primary-400 w-full justify-between">
+		<div
+			class="card variant-filled-surface flex border-b-2 border-primary-400 w-full justify-between"
+		>
 			<button
 				class="btn btn-primary hover:variant-filled-secondary items-center rounded-md"
 				on:click={toggleAddRootComment}>Add a comment</button
@@ -97,15 +143,14 @@
 				</div>
 			{/if}
 		</div>
-        {#if rootCommentAdded}
-            <WriteCommentContainer active={rootCommentAdded}/>
-        {/if}
-		<div class="flex flex-col items-end">
-			<Comment commenter={teamThread.fan} />
-			<Comment commenter={teamThread.fan} />
-			<Comment commenter={teamThread.fan} />
-			<Comment commenter={teamThread.fan} />
-		</div>
+		{#if rootCommentAdded}
+			<WriteCommentContainer
+				bind:active={rootCommentAdded}
+				bind:validationErrors
+				onSubmit={onSubmitComment}
+			/>
+		{/if}
+		<CommentsList bind:isLoading bind:comments bind:commentsBatch {fetchComments} />
 	</div>
 </div>
 

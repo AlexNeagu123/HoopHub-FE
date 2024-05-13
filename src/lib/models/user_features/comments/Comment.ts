@@ -12,6 +12,7 @@ interface Comment {
     downVotes: number;
     voteStatus: VoteStatus;
     teamThread: TeamThread | null;
+    repliesCount: number
 }
 
 export type { Comment }

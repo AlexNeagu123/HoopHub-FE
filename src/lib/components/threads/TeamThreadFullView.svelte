@@ -8,16 +8,16 @@
 	import TeamThreadHeader from './TeamThreadHeader.svelte';
 	import type { Team } from '$lib/models/nba_data/teams/Team';
 	import TeamLink from './TeamLink.svelte';
-	
+
 	export let title: string;
 	export let author: FanInfo;
 	export let time: Date;
 	export let content: string;
 	export let upvotes: number;
 	export let downvotes: number;
-	export let comments: number = 0;
+	export let comments: number;
 	export let id: string;
-    export let team: Team;
+	export let team: Team;
 	export let threadVoteStatus: VoteStatus;
 </script>
 
@@ -27,7 +27,7 @@
 			<TeamThreadHeader>
 				<ProfileLink {author} />
 				<span class="font-bold">&bull;</span>
-                <TeamLink {team}/>
+				<TeamLink {team} />
 			</TeamThreadHeader>
 			<TimeAgo {time} />
 		</div>

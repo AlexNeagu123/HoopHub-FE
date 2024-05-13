@@ -118,6 +118,7 @@ export enum TeamPageTypes {
 
 export enum DynamicPaginationThresholds {
     TeamThreadsThreshold = 4,
+    CommentsThreshold = 2
 }
 
 export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
