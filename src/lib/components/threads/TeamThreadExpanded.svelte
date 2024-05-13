@@ -24,22 +24,22 @@
 	export let teamThread: TeamThread;
 	export let team: Team;
 
+	let firstCommentId: string | null = $page.url.searchParams.get('firstComment');
+	let passCommentId = firstCommentId;
+
 	let validationErrors: { [key: string]: string } = {};
 	let isLoading = false;
 
 	let commentsBatch: Comment[] = [];
 	let comments: Comment[] = [];
-	let addedComments: Comment[] = [];
-
-	$: comments = [...addedComments, ...comments, ...commentsBatch];
+	$: comments = [...comments, ...commentsBatch];
 
 	async function onSubmitComment(comment: string) {
 		var response = await addComment(comment, teamThread.id);
 		if (response.success === false) {
 			validationErrors = response.validationErrors;
 		} else {
-			addedComments = [response.data, ...addedComments];
-			toggleAddRootComment();
+			window.location.reload();
 		}
 	}
 
@@ -95,10 +95,12 @@
 			currentPage,
 			currentSize,
 			false,
-			null,
+			firstCommentId,
 			teamThread.id,
 			null
 		);
+
+		firstCommentId = null;
 		currentPage++;
 	}
 
@@ -111,18 +113,7 @@
 
 <div class="flex justify-center">
 	<div class="flex flex-col items-center w-2/3">
-		<TeamThreadFullView
-			title={teamThread.title}
-			author={teamThread.fan}
-			time={teamThread.createdDate}
-			content={teamThread.content}
-			upvotes={teamThread.upVotes}
-			downvotes={teamThread.downVotes}
-			id={teamThread.id}
-			threadVoteStatus={teamThread.voteStatus}
-			comments={teamThread.commentsCount}
-			{team}
-		/>
+		<TeamThreadFullView {teamThread} {team} />
 		<div
 			class="card variant-filled-surface flex border-b-2 border-primary-400 w-full justify-between"
 		>
@@ -150,7 +141,9 @@
 				onSubmit={onSubmitComment}
 			/>
 		{/if}
-		<CommentsList bind:isLoading bind:comments bind:commentsBatch {fetchComments} />
+		<div class="flex flex-col w-full py-5">
+			<CommentsList firstCommentId={passCommentId} bind:isLoading bind:comments bind:commentsBatch {fetchComments} />
+		</div>
 	</div>
 </div>
 

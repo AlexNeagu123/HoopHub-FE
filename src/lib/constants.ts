@@ -1,7 +1,7 @@
-import {seasonFromIntToStr} from "$lib/utils/standings-utils";
-import {authToken} from "$lib/stores/auth.store";
-import {goto} from "$app/navigation";
-import {get} from "svelte/store";
+import { seasonFromIntToStr } from "$lib/utils/standings-utils";
+import { authToken } from "$lib/stores/auth.store";
+import { goto } from "$app/navigation";
+import { get } from "svelte/store";
 import axios from "axios";
 
 export enum WebSockets {
@@ -22,7 +22,8 @@ export enum AppRoute {
     PLAYOFFS = '/playoffs',
     LOGOUT = "/logout",
     PROFILE = "/profile",
-    TEAM_THREAD = "/team-thread"
+    TEAM_THREAD = "/team-thread",
+    GAME_THREAD = "/game-thread"
 }
 
 export enum TeamConstants {
@@ -116,9 +117,23 @@ export enum TeamPageTypes {
     THREADS = "threads"
 }
 
+export enum ProfilePageTypes {
+    THREADS = "threads",
+    COMMENTS = "comments",
+    REVIEWS = "reviews"
+}
+
+
+export enum GamePageTypes {
+    BOX_SCORE = "box-score",
+    CHARTS = "charts",
+    THREAD = "thread"
+}
+
+
 export enum DynamicPaginationThresholds {
     TeamThreadsThreshold = 4,
-    CommentsThreshold = 2
+    CommentsThreshold = 4
 }
 
 export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
@@ -160,7 +175,7 @@ export enum ThreadWidthTypes {
     HALF = "half"
 }
 
-export const ThreadWidthTypesConverter: {[key: string]: string} = {
+export const ThreadWidthTypesConverter: { [key: string]: string } = {
     "full": "w-[80%]",
     "half": "w-[48%]"
 }

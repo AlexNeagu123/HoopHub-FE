@@ -1,61 +1,42 @@
 <script lang="ts">
-	import type FanInfo from '$lib/models/user_features/fans/FanInfo';
-	import type { VoteStatus } from '$lib/models/user_features/threads/VoteStatus';
 	import ThreadVotingContainer from './ThreadVotingContainer.svelte';
-	import IComment from '$lib/components/icons/IComment.svelte';
 	import ProfileLink from './ProfileLink.svelte';
 	import TimeAgo from './TimeAgo.svelte';
 	import TeamThreadHeader from './TeamThreadHeader.svelte';
 	import type { Team } from '$lib/models/nba_data/teams/Team';
 	import TeamLink from './TeamLink.svelte';
+	import type { TeamThread } from '$lib/models/user_features/threads/TeamThread';
 
-	export let title: string;
-	export let author: FanInfo;
-	export let time: Date;
-	export let content: string;
-	export let upvotes: number;
-	export let downvotes: number;
-	export let comments: number;
-	export let id: string;
+	export let teamThread: TeamThread;
 	export let team: Team;
-	export let threadVoteStatus: VoteStatus;
 </script>
 
 <div class="card variant-filled-surface px-5 py-3 my-2 shadow w-full">
 	<div class="flex flex-col">
 		<div class="flex flex-start justify-between py-3">
 			<TeamThreadHeader>
-				<ProfileLink {author} />
+				<ProfileLink author={teamThread.fan} />
 				<span class="font-bold">&bull;</span>
 				<TeamLink {team} />
 			</TeamThreadHeader>
-			<TimeAgo {time} />
+			<TimeAgo time={teamThread.createdDate} />
 		</div>
 		<h2 class="h2">
-			{title}
+			{teamThread.title}
 		</h2>
 		<div class="container py-3 px-1">
 			<p>
-				{content}
+				{teamThread.content}
 			</p>
 		</div>
 		<div class="flex justify-between">
 			<ThreadVotingContainer
 				voteButtonWidth="w-1/4"
-				{upvotes}
-				{downvotes}
-				{id}
-				{threadVoteStatus}
+				upvotes={teamThread.upVotes}
+				downvotes={teamThread.downVotes}
+				id={teamThread.id}
+				threadVoteStatus={teamThread.voteStatus}
 			/>
-			<div
-				class="flex variant-filled-surface
-                        items-center rounded-full justify-center m-1 cursor-default"
-			>
-				<IComment height={16} width={16} />
-				<p class="px-1">
-					{comments}
-				</p>
-			</div>
 		</div>
 	</div>
 </div>

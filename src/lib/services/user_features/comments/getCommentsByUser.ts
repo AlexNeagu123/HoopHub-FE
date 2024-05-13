@@ -1,5 +1,6 @@
 import { axiosInstance } from "$lib/constants";
 import type { PagedResponse } from "$lib/models/common/Response";
+import type { Comment } from '$lib/models/user_features/comments/Comment';
 
 export default async function getCommentsByUser(page: number, pageSize: number, isPopular: boolean,
     userId: string):

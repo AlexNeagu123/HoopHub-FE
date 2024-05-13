@@ -6,6 +6,5 @@ export default async function loadBoxScores(url: URL) {
     const visitorTeamId: number = Number(url.searchParams.get('visitorTeam'));
     const date: string = url.searchParams.get('date')!;
     const gameWithBoxScore: GameWithBoxScore = await getBoxScoreByGame(date, homeTeamId, visitorTeamId);
-
     return {gameWithBoxScore}
 }

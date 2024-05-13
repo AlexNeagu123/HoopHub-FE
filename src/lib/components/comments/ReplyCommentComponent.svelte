@@ -7,10 +7,14 @@
 	import updateComment from '$lib/services/user_features/comments/updateComment';
 	import CommentVotingContainer from './CommentVotingContainer.svelte';
 	import WriteCommentContainer from './WriteCommentContainer.svelte';
+	import addReplyComment from '$lib/services/user_features/comments/addReplyComments';
+	import { AppRoute } from '$lib/constants';
 
 	export let reply: Comment;
 	export let commentReplies: Comment[];
 	export let replyCount: number;
+	export let parentId: string;
+    export let onViewReplies: () => void;
 
 	let isReplyActive: boolean = false;
 	let isReplyEdit: boolean = false;
@@ -20,12 +24,22 @@
 		isReplyActive = !isReplyActive;
 	}
 
-	async function onSubmitReply(content: string) {}
+	async function onSubmitReply(content: string) {
+		let response = await addReplyComment(content, parentId, reply.fan.id, reply.teamThread?.id);
+		if (response.success === false) {
+			validationErrors = response.validationErrors;
+		} else {
+			commentReplies = [...commentReplies, response.data];
+			replyCount++;
+			toggleActiveReply();
+		}
+	}
 
 	async function onDeleteReply() {
 		await deleteComment(reply.id);
 		commentReplies = commentReplies.filter((c) => c.id !== reply.id);
 		replyCount--;
+        onViewReplies();
 	}
 
 	function onEditReply() {
@@ -53,6 +67,8 @@
 				<div class="flex">
 					<ProfileLink author={reply.fan} />
 					<span class="pr-2">&bull;</span>
+					<p class="font-thin">Replies to <a class="hover:underline font-semibold text-secondary-800" href="{AppRoute.PROFILE}/{reply.respondsToFan.id}">{reply.respondsToFan.username}</a></p>
+					<span class="px-2">&bull;</span>
 					<TimeAgo time={reply.createdDate} />
 				</div>
 				<button

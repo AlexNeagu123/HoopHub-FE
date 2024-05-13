@@ -2,7 +2,7 @@
     import type {PageData} from './$types';
     import GameWithBoxScoreC from "$lib/components/games/GameWithBoxScoreC.svelte";
 
-    import {TableTypes} from "$lib/constants";
+    import {GamePageTypes, TableTypes} from "$lib/constants";
     import Table from "$lib/components/shared/Table.svelte";
     import {SlideToggle, tableMapperValues} from "@skeletonlabs/skeleton";
     import type {BoxScorePlayer} from "$lib/models/nba_data/box-scores/BoxScorePlayer";
@@ -105,7 +105,7 @@
     }
 </style>
 
-<GameWithBoxScoreC gameDetails={gameDetails}>
+<GameWithBoxScoreC gameDetails={gameDetails} pageType={GamePageTypes.BOX_SCORE}>
     <div class="flex justify-between mx-10">
         <SlideToggle active="bg-primary-800" background="bg-surface-700" name="slider-label"
                      bind:checked={isVisitorTeamBoxScore} on:click={toggleBoxScore}/>

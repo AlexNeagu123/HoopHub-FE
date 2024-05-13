@@ -13,6 +13,7 @@
 	import getRepliesByComment from '$lib/services/user_features/comments/getRepliesByComment';
 
 	export let comment: Comment;
+	export let firstCommentId: string | null = null;
 
 	let replyActive: boolean = false;
 	let repliesLoading: boolean = false;
@@ -26,7 +27,13 @@
 	let commentReplies: Comment[] = [];
 
 	async function onSubmitReply(content: string) {
-		let response = await addReplyComment(content, comment.id, comment.teamThread?.id);
+		let response = await addReplyComment(
+			content,
+			comment.id,
+			comment.fan.id,
+			comment.teamThread?.id,
+			comment.gameThread?.id
+		);
 		if (response.success === false) {
 			validationErrors = response.validationErrors;
 		} else {
@@ -74,7 +81,8 @@
 	<div
 		class="w-full variant-filled-surface p-2 my-1 {replyActive
 			? 'drop-shadow rounded-lg'
-			: 'rounded-none'}"
+			: 'rounded-none'}
+			{firstCommentId === comment.id ? 'shadow' : ''}"
 	>
 		<div>
 			<header class="flex justify-between px-2 items-center">
@@ -108,7 +116,13 @@
 		<ViewReplies {arrowType} repliesNo={comment.repliesCount} onClick={onViewReplies} />
 	{/if}
 	{#if repliesViewed}
-		<ReplyCommentsList bind:commentReplies bind:isLoading={repliesLoading} bind:replyCount={comment.repliesCount} />
+		<ReplyCommentsList
+			bind:commentReplies
+			bind:isLoading={repliesLoading}
+			bind:replyCount={comment.repliesCount}
+			parentId={comment.id}
+			{onViewReplies}
+		/>
 	{/if}
 {:else}
 	<WriteCommentContainer

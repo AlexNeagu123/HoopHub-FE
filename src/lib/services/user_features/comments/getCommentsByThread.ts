@@ -9,9 +9,10 @@ export default async function getCommentsByThread(page: number,
     teamThreadId: string | null = null,
     gameThreadId: string | null = null):
     Promise<Comment[]> {
-    let url = `user-features/comments/?page=${page}&pageSize=${pageSize}&isPopular=${isPopular}`;
+    
+        let url = `user-features/comments/?page=${page}&pageSize=${pageSize}&isPopular=${isPopular}`;
     teamThreadId != null ? url += `&teamThreadId=${teamThreadId}` : url += `&gameThreadId=${gameThreadId}`;
-    firstCommentId != null ? url += `&firstCommentId=${firstCommentId}` : null;
+    firstCommentId != null ? url += `&firstComment=${firstCommentId}` : null;
 
     const axiosRes = await axiosInstance.get<PagedResponse<Comment[]>>(url);
     const response = axiosRes.data;

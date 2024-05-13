@@ -1,4 +1,5 @@
 import type FanInfo from "../fans/FanInfo";
+import type { GameThread } from "../threads/GameThread";
 import type { TeamThread } from "../threads/TeamThread";
 import type { VoteStatus } from "../threads/VoteStatus";
 
@@ -12,7 +13,9 @@ interface Comment {
     downVotes: number;
     voteStatus: VoteStatus;
     teamThread: TeamThread | null;
-    repliesCount: number
+    gameThread: GameThread | null;
+    repliesCount: number,
+    respondsToFan: FanInfo;
 }
 
 export type { Comment }

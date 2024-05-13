@@ -9,4 +9,5 @@ export default class FanInfo {
     public email: string = "";
     public downVotes: number = 0;
     public upVotes: number = 0;
+    public commentsCount: number = 0;
 }

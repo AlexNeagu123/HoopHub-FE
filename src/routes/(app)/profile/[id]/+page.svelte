@@ -5,7 +5,7 @@
 	export let data: PageData;
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { DynamicPaginationThresholds, ThreadWidthTypes } from '$lib/constants';
+	import { DynamicPaginationThresholds, ProfilePageTypes, ThreadWidthTypes } from '$lib/constants';
 	import type { TeamThread } from '$lib/models/user_features/threads/TeamThread';
 	import getTeamThreadsByUserPaged from '$lib/services/user_features/threads/getTeamThreadsByUserPaged';
 	import TeamThreadList from '$lib/components/threads/TeamThreadList.svelte';
@@ -31,7 +31,11 @@
 	});
 </script>
 
-<FanProfile profilePageInfo={data.profilePageInfo} ownInfo={data.fanInfo}>
+<FanProfile
+	profilePageInfo={data.profilePageInfo}
+	ownInfo={data.fanInfo}
+	profilePageType={ProfilePageTypes.THREADS}
+>
 	<TeamThreadList
 		bind:threadsBatch
 		bind:isLoading
