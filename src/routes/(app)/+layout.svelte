@@ -6,19 +6,24 @@
 	import { storePopup } from '@skeletonlabs/skeleton';
 	import type { PageData } from './$types';
 	import { initializeStores, Modal, Toast } from '@skeletonlabs/skeleton';
+	import type NotificationModel from '$lib/models/user_features/notifications/NotificationModel';
 
 	initializeStores();
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	export let data: PageData;
+
 	const fanInfo = data.fanInfo;
+	const unreadNotificationsCount: number = data.unreadNotificationsCount;
+	const unreadNotifications: NotificationModel[] = data.unreadNotifications;
+	const allNotifications: NotificationModel[] = data.allNotifications;
 </script>
 
 <Toast />
 <Modal />
 <AppShell>
 	<svelte:fragment slot="header">
-		<NavBar {fanInfo} />
+		<NavBar {fanInfo} {unreadNotificationsCount} {unreadNotifications} {allNotifications} />
 	</svelte:fragment>
 	<slot />
 </AppShell>

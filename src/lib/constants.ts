@@ -130,10 +130,15 @@ export enum GamePageTypes {
     THREAD = "thread"
 }
 
+export enum NotificationComponentTypes {
+    UNREAD,
+    ALL
+}
 
 export enum DynamicPaginationThresholds {
     TeamThreadsThreshold = 4,
-    CommentsThreshold = 4
+    CommentsThreshold = 4,
+    NotificationsThreshold = 8,
 }
 
 export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
