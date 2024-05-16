@@ -9,10 +9,16 @@
 	export let isLoading: boolean;
 	export let fetchComments = async () => {};
 	export let commentsBatch: Comment[];
-	
-	export let homeTeamRefferedByComments: { [key: string]: Team } = {};
-	export let visitorTeamRefferedByComments: { [key: string]: Team } = {};
-	
+
+	export let teams: Team[];
+
+	function extractTeam(comment: Comment, isHome: boolean): Team | null {
+		if (comment.gameThread === null) return null;
+
+		const searchTeamId = isHome ? comment.gameThread.homeTeamId : comment.gameThread.visitorTeamId;
+		return teams.find((team) => team.apiId === searchTeamId) || null;
+	}
+
 	function infiniteHandler({
 		detail: { loaded, complete }
 	}: {
@@ -33,7 +39,11 @@
 {:else}
 	<div class="flex flex-col items-end w-full">
 		{#each comments as comment}
-			<FanCommentComponent {homeTeamRefferedByComments} {visitorTeamRefferedByComments} {comment} />
+			<FanCommentComponent
+				{comment}
+				homeTeam={extractTeam(comment, true)}
+				visitorTeam={extractTeam(comment, false)}
+			/>
 		{/each}
 	</div>
 	<InfiniteLoading on:infinite={infiniteHandler}>

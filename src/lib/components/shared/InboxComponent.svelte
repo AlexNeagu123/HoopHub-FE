@@ -18,7 +18,7 @@
 		placement: 'bottom'
 	};
 
-	let notificationType: NotificationComponentTypes = NotificationComponentTypes.UNREAD;
+	let notificationType: NotificationComponentTypes = NotificationComponentTypes.ALL;
 	let unreadNotificationsBatch: NotificationModel[] = [];
 
 	let allNotificationsBatch: NotificationModel[] = [];
@@ -37,7 +37,7 @@
 			unreadNotificationsBatch = notificationsResponse.data;
 			currentUnreadPage++;
 		} else {
-			const notificationsResponse = await getNotifications(currentUnreadPage, allPageSize, false);
+			const notificationsResponse = await getNotifications(currentAllPage, allPageSize, false);
 			allNotificationsBatch = notificationsResponse.data;
 			currentAllPage++;
 		}
@@ -75,35 +75,41 @@
 	<div class="w-1/2">
 		<Inbox />
 	</div>
-	<div
-		class="absolute bottom-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
-	>
-		{unreadNotificationsCount}
-	</div>
+	{#if unreadNotificationsCount > 0}
+		<div
+			class="absolute bottom-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
+		>
+			{unreadNotificationsCount}
+		</div>
+	{/if}
 </div>
 
 <div
-	class="card variant-filled-surface px-2 pt-4 pb-28 w-1/6 max-h-full overflow-y-auto flex-grow"
+	class="card variant-filled-surface px-2 pt-4 pb-28 w-1/5 max-h-full overflow-y-auto flex-grow"
 	data-popup="notificationsPopUp"
 >
 	<div class="flex items-center py-2">
 		<h3 class="h3 font-bold">Notifications</h3>
 	</div>
 	<div class="flex w-3/4 justify-between py-3">
-		<RadioGroup>
-			<RadioItem
-				bind:group={notificationType}
-				name="justify"
-				value={NotificationComponentTypes.UNREAD}
-			>
-				Unread
-			</RadioItem>
+		<RadioGroup
+			background="variant-filled-surface"
+			active="variant-filled-primary"
+			hover="hover:variant-filled-primary"
+		>
 			<RadioItem
 				bind:group={notificationType}
 				name="justify"
 				value={NotificationComponentTypes.ALL}
 			>
 				All
+			</RadioItem>
+			<RadioItem
+				bind:group={notificationType}
+				name="justify"
+				value={NotificationComponentTypes.UNREAD}
+			>
+				Unread
 			</RadioItem>
 		</RadioGroup>
 	</div>
@@ -112,14 +118,18 @@
 			{#each unreadNotifications as notification}
 				<NotificationComponent {notification} />
 			{/each}
+			<InfiniteLoading on:infinite={infiniteHandler}>
+				<div slot="noMore"></div>
+				<div slot="noResults"></div>
+			</InfiniteLoading>
 		{:else}
 			{#each allNotifications as notification}
 				<NotificationComponent {notification} />
 			{/each}
+			<InfiniteLoading on:infinite={infiniteHandler}>
+				<div slot="noMore"></div>
+				<div slot="noResults"></div>
+			</InfiniteLoading>
 		{/if}
-		<InfiniteLoading on:infinite={infiniteHandler}>
-			<div slot="noMore"></div>
-			<div slot="noResults"></div>
-		</InfiniteLoading>
 	</div>
 </div>

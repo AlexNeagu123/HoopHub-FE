@@ -1,7 +1,7 @@
 interface GameThread {
     id: string;
-    homeTeamId: string;
-    visitorTeamId: string;
+    homeTeamId: number;
+    visitorTeamId: number;
     date: string;
     commentsCount: number;
 }

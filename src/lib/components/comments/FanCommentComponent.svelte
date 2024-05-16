@@ -3,27 +3,18 @@
 	import TimeAgo from '../threads/TimeAgo.svelte';
 	import ProfileLink from '../threads/ProfileLink.svelte';
 	import { AppRoute } from '$lib/constants';
-	import type { Team } from '$lib/models/nba_data/teams/Team';
 	import VersusLink from './VersusLink.svelte';
+	import type { Team } from '$lib/models/nba_data/teams/Team';
 
 	export let comment: Comment;
-	export let homeTeamRefferedByComments: { [key: string]: Team } = {};
-	export let visitorTeamRefferedByComments: { [key: string]: Team } = {};
+	export let homeTeam: Team | null;
+	export let visitorTeam: Team | null;
 
 	let redirectId = comment.parentId ? comment.parentId : comment.id;
 	let link: string =
 		comment.teamThread !== null
 			? `${AppRoute.TEAM_THREAD}/${comment.teamThread?.id}?firstComment=${redirectId}`
-			: '';
-
-	$: {
-		if (homeTeamRefferedByComments[comment.id] && visitorTeamRefferedByComments[comment.id]) {
-			link =
-				comment.teamThread !== null
-					? `${AppRoute.TEAM_THREAD}/${comment.teamThread?.id}?firstComment=${redirectId}`
-					: `${AppRoute.GAME_THREAD}?homeTeam=${homeTeamRefferedByComments[comment.id].apiId}&visitorTeam=${visitorTeamRefferedByComments[comment.id].apiId}&date=${comment.gameThread?.date}&firstComment=${redirectId}`;
-		}
-	}
+			: `${AppRoute.GAME_THREAD}?homeTeam=${comment.gameThread?.homeTeamId}&visitorTeam=${comment.gameThread?.visitorTeamId}&date=${comment.gameThread?.date}&firstComment=${redirectId}`;
 </script>
 
 <a class="w-full variant-filled-surface p-2 my-1 card card-hover cursor-pointer" href={link}>
@@ -45,8 +36,8 @@
 				{/if}
 				{#if comment.gameThread !== null}
 					<VersusLink
-						homeTeam={homeTeamRefferedByComments[comment.id]}
-						visitorTeam={visitorTeamRefferedByComments[comment.id]}
+						{homeTeam}
+						{visitorTeam}
 					/>
 					<span class="px-2">&bull;</span>
 				{/if}

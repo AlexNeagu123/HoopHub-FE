@@ -6,7 +6,7 @@
     import {liveBoxScoreStore} from "$lib/stores/live-games.store";
     import {onDestroy} from "svelte";
 
-    export let game: Game | GameWithBoxScore;
+    export let game: Game | GameWithBoxScore;    
     export let hiddenScores: boolean = false;
     export let imageWidth: string = "w-1/2";
     export let border: string = "";

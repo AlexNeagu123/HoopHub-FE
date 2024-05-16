@@ -8,9 +8,8 @@ export const load: PageLoad = async ({ url }) => {
     let gameWithBoxScore = game.gameWithBoxScore;
     const date: string = url.searchParams.get('date')!;
     let gameThreads: GameThread[] = await getGameThreadsByDate(date);
-
-    gameThreads = gameThreads.filter((gameThread) => gameWithBoxScore.homeTeam.id === gameThread.homeTeamId
-        && gameWithBoxScore.visitorTeam.id === gameThread.visitorTeamId);
+    gameThreads = gameThreads.filter((gameThread) => gameWithBoxScore.homeTeam.apiId === gameThread.homeTeamId
+        && gameWithBoxScore.visitorTeam.apiId === gameThread.visitorTeamId);
 
     let gameThread = gameThreads[0];
     return { gameWithBoxScore, gameThread };

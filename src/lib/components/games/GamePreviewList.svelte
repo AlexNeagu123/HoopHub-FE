@@ -1,38 +1,39 @@
 <script lang="ts">
-    import getGamesByDate from "$lib/services/nba_data/games/getGamesByDate";
-    import type {Game} from "$lib/models/nba_data/games/Game";
-    import GamesHeader from "$lib/components/games/GamesHeader.svelte";
-    import GamesContainer from "$lib/components/games/GamesContainer.svelte";
-    import {onMount} from "svelte";
-    import {dateToString} from "$lib/utils/date-parser";
-    let isLoading: boolean = false;
+	import getGamesByDate from '$lib/services/nba_data/games/getGamesByDate';
+	import type { Game } from '$lib/models/nba_data/games/Game';
+	import GamesHeader from '$lib/components/games/GamesHeader.svelte';
+	import GamesContainer from '$lib/components/games/GamesContainer.svelte';
+	import { onMount } from 'svelte';
+	import { dateToString } from '$lib/utils/date-parser';
 
-    let games: Game[];
-    let lastDate: string = dateToString(new Date());
-    let scoresHidden: boolean = false;
+	let isLoading: boolean = false;
 
-    async function fetchGames(date: string) {
-        isLoading = true;
-        games = await getGamesByDate(date);
-        isLoading = false;
-    }
+	let games: Game[];
+	let lastDate: string = dateToString(new Date());
+	let scoresHidden: boolean = false;
 
-    onMount(async() => {
-        await fetchGames(dateToString(new Date()));
-    });
+	async function fetchGames(date: string) {
+		isLoading = true;
+		games = await getGamesByDate(date);
+		isLoading = false;
+	}
 
-    async function changeGames(e: CustomEvent) {
-        if(e.detail === lastDate) {
-            return;
-        }
-        lastDate = e.detail;
-        await fetchGames(e.detail);
-    }
+	onMount(async () => {
+		await fetchGames(dateToString(new Date()));
+	});
 
-    function hideScores() {
-        scoresHidden = !scoresHidden;
-    }
+	async function changeGames(e: CustomEvent) {
+		if (e.detail === lastDate) {
+			return;
+		}
+		lastDate = e.detail;
+		await fetchGames(e.detail);
+	}
+
+	function hideScores() {
+		scoresHidden = !scoresHidden;
+	}
 </script>
 
-<GamesHeader dateChangeHandler={changeGames} hideScoresHandler={hideScores}/>
-<GamesContainer hiddenScores={scoresHidden} isLoading={isLoading} games={games}/>
+<GamesHeader dateChangeHandler={changeGames} hideScoresHandler={hideScores} />
+<GamesContainer hiddenScores={scoresHidden} {isLoading} {games} />

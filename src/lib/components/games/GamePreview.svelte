@@ -2,7 +2,7 @@
     import type {Game} from "$lib/models/nba_data/games/Game";
     import type {GameWithBoxScore} from "$lib/models/nba_data/box-scores/GameWithBoxScore";
     import GamePresentation from "$lib/components/games/GamePresentation.svelte";
-
+	
     export let game: Game | GameWithBoxScore;
     export let hiddenScores: boolean = false;
 </script>

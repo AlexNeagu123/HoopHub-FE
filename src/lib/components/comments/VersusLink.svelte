@@ -2,8 +2,8 @@
 	import type { Team } from '$lib/models/nba_data/teams/Team';
 	import { Avatar } from '@skeletonlabs/skeleton';
 
-	export let homeTeam: Team;
-	export let visitorTeam: Team;
+	export let homeTeam: Team | null;
+	export let visitorTeam: Team | null;
 </script>
 
 {#if homeTeam && visitorTeam}

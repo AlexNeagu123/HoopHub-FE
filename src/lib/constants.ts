@@ -23,7 +23,8 @@ export enum AppRoute {
     LOGOUT = "/logout",
     PROFILE = "/profile",
     TEAM_THREAD = "/team-thread",
-    GAME_THREAD = "/game-thread"
+    GAME_THREAD = "/game-thread",
+    GAME_REVIEWS = "/game-reviews",
 }
 
 export enum TeamConstants {
@@ -127,7 +128,8 @@ export enum ProfilePageTypes {
 export enum GamePageTypes {
     BOX_SCORE = "box-score",
     CHARTS = "charts",
-    THREAD = "thread"
+    THREAD = "thread",
+    REVIEWS = "reviews"
 }
 
 export enum NotificationComponentTypes {
@@ -173,6 +175,8 @@ axios.interceptors.response.use(
 
 export enum ToastMessages {
     actionRequiresLogIn = "You should be logged in to perform this action",
+    noGameThread = "No thread exists for this game",
+    gameNotStarted = "The game has not started yet"
 }
 
 export enum ThreadWidthTypes {
@@ -183,4 +187,25 @@ export enum ThreadWidthTypes {
 export const ThreadWidthTypesConverter: { [key: string]: string } = {
     "full": "w-[80%]",
     "half": "w-[48%]"
+}
+
+export const starConfig = {
+    size: 40,
+    fillColor: '#F9ED4F',
+    strokeColor: "#BB8511",
+    unfilledColor: '#FFF',
+    strokeUnfilledColor: '#000'
+};
+
+export const GameStarRatingConfig = {
+    readOnly: false,
+    countStars: 5,
+    range: {
+        min: 0,
+        max: 5,
+        step: 0.1
+    },
+    score: 0.0,
+    showScore: false,
+    starConfig: starConfig
 }

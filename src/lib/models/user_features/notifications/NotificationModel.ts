@@ -10,5 +10,6 @@ export default class NotificationModel {
     public title: string = "";
     public content: string = "";
     public attachedImageUrl: string | null = null;
+    public attachedNavigationData: string | null = null;
     public createdDate: Date = new Date();
 }

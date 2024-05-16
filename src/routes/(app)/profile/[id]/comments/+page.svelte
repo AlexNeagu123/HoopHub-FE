@@ -9,37 +9,28 @@
 	import { DynamicPaginationThresholds, ProfilePageTypes } from '$lib/constants';
 	import FanCommentsList from '$lib/components/comments/FanCommentsList.svelte';
 	import type { Comment } from '$lib/models/user_features/comments/Comment';
-	import getTeamById from '$lib/services/nba_data/teams/getTeamById';
 	import type { Team } from '$lib/models/nba_data/teams/Team';
+	import getAllTeams from '$lib/services/nba_data/teams/getAllTeams';
 
 	let isLoading = false;
 	let id = $page.params.id;
 	let currentPage = 1;
 	let currentSize = DynamicPaginationThresholds.TeamThreadsThreshold;
+
 	let comments: Comment[] = [];
 	let commentsBatch: Comment[] = [];
-
-	let homeTeamRefferedByComments: { [key: string]: Team } = {};
-	let visitorTeamRefferedByComments: { [key: string]: Team } = {};
+	let teams: Team[] = [];
 
 	$: comments = [...comments, ...commentsBatch];
-
 	async function fetchComments() {
 		commentsBatch = await getCommentsByUser(currentPage, currentSize, false, id);
-		commentsBatch.forEach(async (comment) => {
-			if (comment.gameThread === null) return;
-			homeTeamRefferedByComments[comment.id] = await getTeamById(comment.gameThread.homeTeamId);
-			visitorTeamRefferedByComments[comment.id] = await getTeamById(
-				comment.gameThread.visitorTeamId
-			);
-		});
-
 		currentPage++;
 	}
 
 	onMount(async () => {
 		isLoading = true;
 		await fetchComments();
+		teams = await getAllTeams();
 		isLoading = false;
 	});
 </script>
@@ -49,12 +40,5 @@
 	ownInfo={data.fanInfo}
 	profilePageType={ProfilePageTypes.COMMENTS}
 >
-	<FanCommentsList
-		{comments}
-		{homeTeamRefferedByComments}
-		{visitorTeamRefferedByComments}
-		bind:isLoading
-		{fetchComments}
-		{commentsBatch}
-	/>
+	<FanCommentsList {comments} bind:isLoading {fetchComments} {commentsBatch} {teams} />
 </FanProfile>
