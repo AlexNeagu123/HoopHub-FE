@@ -10,4 +10,5 @@ export default class FanInfo {
     public downVotes: number = 0;
     public upVotes: number = 0;
     public commentsCount: number = 0;
+    public reviewsCount: number = 0;
 }

@@ -8,6 +8,7 @@ interface GameReview {
     rating: number | null;
     averageRating: number | null;
     content: string | null;
+    createdDate: Date;
 }
 
 export type { GameReview }

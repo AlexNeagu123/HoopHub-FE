@@ -1,58 +1,46 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import GameWithBoxScoreC from '$lib/components/games/GameWithBoxScoreC.svelte';
-	import CreateReviewContainer from '$lib/components/reviews/CreateReviewContainer.svelte';
-	import { GamePageTypes } from '$lib/constants';
-	import ReviewTopButton from '$lib/components/reviews/ReviewTopButton.svelte';
-	import ReviewContainerReadonly from '$lib/components/reviews/ReviewContainerReadonly.svelte';
+	import { DynamicPaginationThresholds, GamePageTypes } from '$lib/constants';
+	import ReviewOwnSection from '$lib/components/reviews/ReviewOwnSection.svelte';
+	import { onMount } from 'svelte';
+	import AllGameReviewsContainer from '$lib/components/reviews/AllGameReviewsContainer.svelte';
+	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
+	import getAllGameReviewsPaged from '$lib/services/user_features/game-reviews/getAllGameReviewsPaged';
 
 	export let data: PageData;
 
 	let gameDetails = data.gameWithBoxScore;
 	let ownGameReview = data.ownGameReview;
-	let date = gameDetails.date;
+	let allReviewsLoading = false;
 
-	let addReviewActive = false;
-	let isUpdateReadonly = false;
+	let currentPage = 1;
+	let currentSize = DynamicPaginationThresholds.GameReviewsThreshold;
 
-	let selectedScore: number | null = ownGameReview.fan == null ? 0 : ownGameReview.rating;
-	let textData: string | null = ownGameReview.fan == null ? '' : ownGameReview.content;
+	let reviewsBatch: GameReview[] = [];
+	let reviews: GameReview[] = [];
+	$: reviews = [...reviews, ...reviewsBatch];
 
-	function toggleAddReview() {
-		addReviewActive = !addReviewActive;
+	async function fetchReviews() {
+		reviewsBatch = await getAllGameReviewsPaged(
+			currentPage,
+			currentSize,
+			gameDetails.homeTeam.apiId,
+			gameDetails.visitorTeam.apiId,
+			gameDetails.date
+		);
+
+		currentPage++;
 	}
 
-	function toggleUpdate() {
-		isUpdateReadonly = !isUpdateReadonly;
-	}
+	onMount(async () => {
+		allReviewsLoading = true;
+		await fetchReviews();
+		allReviewsLoading = false;
+	});
 </script>
 
-<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.REVIEWS}>
-	{#if ownGameReview.fan == null}
-		<ReviewTopButton onClick={toggleAddReview} text={'Add a review'} />
-		{#if addReviewActive}
-			<CreateReviewContainer
-				bind:isActive={addReviewActive}
-				bind:selectedScore
-				homeTeamId={gameDetails.homeTeam.apiId}
-				visitorTeamId={gameDetails.visitorTeam.apiId}
-				{date}
-			/>
-		{/if}
-	{:else}
-		<ReviewTopButton onClick={toggleUpdate} text={'Update your review'} />
-		{#if isUpdateReadonly}
-			<CreateReviewContainer
-				bind:isActive={isUpdateReadonly}
-				bind:selectedScore
-				bind:textData
-				isUpdate={true}
-				homeTeamId={gameDetails.homeTeam.apiId}
-				visitorTeamId={gameDetails.visitorTeam.apiId}
-				{date}
-			/>
-		{:else}
-			<ReviewContainerReadonly {ownGameReview} />
-		{/if}
-	{/if}
+<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.REVIEWS} {ownGameReview}>
+	<ReviewOwnSection {ownGameReview} {gameDetails} />
 </GameWithBoxScoreC>
+<AllGameReviewsContainer bind:allReviewsLoading bind:reviews bind:reviewsBatch {fetchReviews} />

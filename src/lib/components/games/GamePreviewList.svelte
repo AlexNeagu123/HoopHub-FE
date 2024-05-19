@@ -5,16 +5,21 @@
 	import GamesContainer from '$lib/components/games/GamesContainer.svelte';
 	import { onMount } from 'svelte';
 	import { dateToString } from '$lib/utils/date-parser';
-
+	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
+	import getAllGameReviewsByDateAndFan from '$lib/services/user_features/game-reviews/getAllGameReviewsByDateAndFan';
+	
 	let isLoading: boolean = false;
 
-	let games: Game[];
+	let games: Game[] = [];
+	let gameReviews: GameReview[] = [];
+
 	let lastDate: string = dateToString(new Date());
 	let scoresHidden: boolean = false;
 
 	async function fetchGames(date: string) {
 		isLoading = true;
 		games = await getGamesByDate(date);
+		gameReviews = await getAllGameReviewsByDateAndFan(date);
 		isLoading = false;
 	}
 
@@ -36,4 +41,4 @@
 </script>
 
 <GamesHeader dateChangeHandler={changeGames} hideScoresHandler={hideScores} />
-<GamesContainer hiddenScores={scoresHidden} {isLoading} {games} />
+<GamesContainer hiddenScores={scoresHidden} {isLoading} {games} {gameReviews} />

@@ -3,11 +3,26 @@
 	import Card from '$lib/components/shared/Card.svelte';
 	import GamePreview from '$lib/components/games/GamePreview.svelte';
 	import LoadingIcon from '$lib/components/shared/LoadingIcon.svelte';
-	
+	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
+
 	export let isLoading: boolean = true;
 	export let hiddenScores: boolean = false;
 
 	export let games: Game[] = [];
+	export let gameReviews: GameReview[] = [];
+
+	function getGameAverage(game: Game): number | null {
+		const reviews = gameReviews.filter(
+			(review) =>
+				review.homeTeamId === game.homeTeam.apiId &&
+				review.visitorTeamId === game.visitorTeam.apiId &&
+				review.date === game.date
+		);
+
+		if (reviews.length === 0) return null;
+
+		return reviews[0].averageRating;
+	}
 </script>
 
 <Card inputClass="mt-2">
@@ -15,7 +30,7 @@
 		<LoadingIcon />
 	{:else}
 		{#each games as game}
-			<GamePreview {hiddenScores} {game} />
+			<GamePreview {hiddenScores} {game} average={getGameAverage(game)} />
 		{/each}
 	{/if}
 </Card>

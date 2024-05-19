@@ -14,6 +14,8 @@
 	export let data: PageData;
 
 	let gameDetails = data.gameWithBoxScore;
+	let ownGameReview = data.ownGameReview;
+
 	let gameThread = data.gameThread;
 	let firstCommentId: string | null = $page.url.searchParams.get('firstComment');
 	let passCommentId = firstCommentId;
@@ -64,7 +66,7 @@
 	});
 </script>
 
-<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.THREAD}>
+<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.THREAD} {ownGameReview}>
 	<div class="flex justify-center">
 		<div class="w-[80%]">
 			<div

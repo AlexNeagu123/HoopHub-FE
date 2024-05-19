@@ -22,6 +22,7 @@
 		<div class="flex flex-col w-1/2 mt-2 items-center">
 			<div class="flex py-2">
 				<Validation {validationErrors} errorKey="Content" />
+				<Validation {validationErrors} errorKey="Rating" />
 			</div>
 			<CustomTextArea bind:textData {clearErrors} />
 			<div class="flex">

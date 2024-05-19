@@ -5,9 +5,10 @@
 	
     export let game: Game | GameWithBoxScore;
     export let hiddenScores: boolean = false;
+    export let average: number | null = null;
 </script>
 
 <a href="/game?homeTeam={game.homeTeam.apiId}&visitorTeam={game.visitorTeam.apiId}&date={game.date}"
    class="hover:bg-primary-200 cursor-pointer lg:w-[48%] shadow p-5 my-5 md:w-full rounded-2xl">
-    <GamePresentation hiddenScores={hiddenScores} game={game}/>
+    <GamePresentation hiddenScores={hiddenScores} game={game} {average}/>
 </a>

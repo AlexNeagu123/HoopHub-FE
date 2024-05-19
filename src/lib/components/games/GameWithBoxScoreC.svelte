@@ -5,10 +5,12 @@
 	import { AppRoute, GamePageTypes, ToastMessages } from '$lib/constants';
 	import getGameThreadsByDate from '$lib/services/user_features/game-threads/getGameThreadsByDate';
 	import type { GameThread } from '$lib/models/user_features/threads/GameThread';
+	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
 
 	export let gameDetails: GameWithBoxScore;
 	export let hiddenScores: boolean = false;
 	export let pageType: GamePageTypes;
+	export let ownGameReview: GameReview;
 
 	const url = new URL(window.location.href);
 	const toastStore = getToastStore();
@@ -17,7 +19,7 @@
 	const visitorTeamId = url.searchParams.get('visitorTeam');
 	const date = url.searchParams.get('date');
 
-    const boxScoresUrl = `${AppRoute.GAME}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
+	const boxScoresUrl = `${AppRoute.GAME}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const chartsUrl = `${AppRoute.GAME}/charts/?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const threadUrl = `${AppRoute.GAME_THREAD}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const reviewsUrl = `${AppRoute.GAME_REVIEWS}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
@@ -55,7 +57,12 @@
 
 <div class="flex justify-center">
 	<div class="w-5/6 shadow p-5 my-5 rounded-2xl">
-		<GamePresentation {hiddenScores} game={gameDetails} imageWidth="w-1/3" />
+		<GamePresentation
+			{hiddenScores}
+			game={gameDetails}
+			imageWidth="w-1/3"
+			average={ownGameReview.averageRating}
+		/>
 		<div class="flex justify-center my-10 mx-4">
 			<TabGroup
 				border="none"
@@ -77,8 +84,8 @@
 					on:click={checkThreadExists}>Thread</TabAnchor
 				>
 				<TabAnchor href={reviewsUrl} selected={pageType === GamePageTypes.REVIEWS}>
-                    Reviews
-                </TabAnchor>
+					Reviews
+				</TabAnchor>
 			</TabGroup>
 		</div>
 		<div class="mt-3">

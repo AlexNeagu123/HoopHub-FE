@@ -108,7 +108,11 @@ export const informativePopUps: InformativePopUps = {
     "FT%": "Free Throw Percentage",
     "TOV": "Turnovers",
     "Eastern": "Record against Eastern Conference",
-    "Western": "Record against Western Conference"
+    "Western": "Record against Western Conference",
+    "Upvotes": "Number of upvotes",
+    "Downvotes": "Number of downvotes",
+    "Comments": "Number of comments",
+    "Reviews": "Number of reviews",
 }
 
 export enum TeamPageTypes {
@@ -141,10 +145,10 @@ export enum DynamicPaginationThresholds {
     TeamThreadsThreshold = 4,
     CommentsThreshold = 4,
     NotificationsThreshold = 8,
+    GameReviewsThreshold = 4
 }
 
 export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
-
 export const axiosInstance = axios.create();
 
 export function refreshPage() {
@@ -208,4 +212,24 @@ export const GameStarRatingConfig = {
     score: 0.0,
     showScore: false,
     starConfig: starConfig
+}
+
+const lowStarColor = '#bf176a';
+const midStarColor = '#d3a107';
+const highStarColor = '#77b814';
+
+export function getDynamicStarConfig(score: number | null) {
+    if (score === null) {
+        score = 0;
+    }
+
+    let fillColor = score < 2.5 ? lowStarColor : score < 4 ? midStarColor : highStarColor;
+
+    return {
+        size: 20,
+        fillColor: fillColor,
+        strokeColor: '#BB8511',
+        unfilledColor: '#FFF',
+        strokeUnfilledColor: '#000'
+    }
 }

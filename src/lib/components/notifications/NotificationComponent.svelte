@@ -2,14 +2,13 @@
 	import type NotificationModel from '$lib/models/user_features/notifications/NotificationModel';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import TimeAgo from '../threads/TimeAgo.svelte';
-	import { goto } from '$app/navigation';
 	import markNotificationAsRead from '$lib/services/user_features/notifications/markNotificationAsRead';
 	export let notification: NotificationModel;
 
 	async function markAsRead() {
 		await markNotificationAsRead(notification.id);
-        window.location.reload();
-		if (notification.attachedNavigationData) goto(notification.attachedNavigationData);
+		if (notification.attachedNavigationData)
+			window.location.href = notification.attachedNavigationData;
 	}
 </script>
 

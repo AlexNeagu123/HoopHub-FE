@@ -7,6 +7,7 @@
 	import updateFanInfo from '$lib/services/user_features/fans/updateFanInfo';
 	import type FanInfo from '$lib/models/user_features/fans/FanInfo';
 	import type ProfilePageInfo from '$lib/models/user_features/fans/ProfilePageInfo';
+	import InformativePopUps from '../shared/InformativePopUps.svelte';
 
 	export let ownInfo: FanInfo;
 	export let profilePageInfo: ProfilePageInfo;
@@ -40,6 +41,8 @@
 		refreshPage();
 	}
 </script>
+
+<InformativePopUps/>
 
 <div class="flex justify-center">
 	<div class="card m-10 w-1/2 px-10 py-3 drop-shadow variant-filled-surface">
@@ -88,6 +91,7 @@
 				upvotes={profilePageInfo.fanInfo.upVotes}
 				downvotes={profilePageInfo.fanInfo.downVotes}
 				comments={profilePageInfo.fanInfo.commentsCount}
+				reviews={profilePageInfo.fanInfo.reviewsCount}
 			/>
 		</div>
 		<div class="w-full flex justify-between">
