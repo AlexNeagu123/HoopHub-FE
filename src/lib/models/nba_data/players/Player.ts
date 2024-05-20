@@ -18,6 +18,7 @@ interface Player {
     imageUrl: string;
     currentTeamId: string;
     seasonAverageStats: SeasonAverageStats[];
+    averageRating: number | null;
 }
 
 export type { Player }

@@ -7,6 +7,8 @@
 	import { tableMapperValues } from '@skeletonlabs/skeleton';
 
 	export let data: PageData;
+
+	let teamFollows = data.teamFollows;
 	data.team.teamBio.forEach((t) => {
 		t.seasonStr = t.season.seasonPeriod;
 		if (t.playoffs == null) {
@@ -55,7 +57,7 @@
 	};
 </script>
 
-<TeamExpanded team={data.team} pageType={TeamPageTypes.BIO}>
+<TeamExpanded team={data.team} pageType={TeamPageTypes.BIO} {teamFollows}>
 	<select bind:value={selectedGroup} class="mt-5 select variant-filled-surface border-none shadow">
 		{#each groups as g, index}
 			<option value={index} class="font-thin text-sm">{g.label}</option>

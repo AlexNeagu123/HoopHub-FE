@@ -142,7 +142,13 @@
 			/>
 		{/if}
 		<div class="flex flex-col w-full py-5">
-			<CommentsList firstCommentId={passCommentId} bind:isLoading bind:comments bind:commentsBatch {fetchComments} />
+			<CommentsList
+				firstCommentId={passCommentId}
+				bind:isLoading
+				bind:comments
+				bind:commentsBatch
+				{fetchComments}
+			/>
 		</div>
 	</div>
 </div>

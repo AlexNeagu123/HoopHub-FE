@@ -10,6 +10,7 @@
 
 	export let data: PageData;
 
+	let teamFollows = data.teamFollows;
 	let isLoading: boolean = true;
 	let id = $page.params.id;
 
@@ -32,6 +33,6 @@
 	});
 </script>
 
-<TeamExpanded team={data.team} pageType={TeamPageTypes.THREADS}>
+<TeamExpanded team={data.team} pageType={TeamPageTypes.THREADS} {teamFollows}>
 	<TeamThreadList bind:threadsBatch bind:isLoading bind:threads {fetchData} />
 </TeamExpanded>

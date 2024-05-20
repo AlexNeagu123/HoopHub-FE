@@ -5,12 +5,12 @@
 	import { AppRoute, GamePageTypes, ToastMessages } from '$lib/constants';
 	import getGameThreadsByDate from '$lib/services/user_features/game-threads/getGameThreadsByDate';
 	import type { GameThread } from '$lib/models/user_features/threads/GameThread';
-	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
-
+	import type { GameReviewAverage } from '$lib/models/user_features/reviews/GameReviewAverage';
+	
 	export let gameDetails: GameWithBoxScore;
 	export let hiddenScores: boolean = false;
 	export let pageType: GamePageTypes;
-	export let ownGameReview: GameReview;
+	export let gameReviewAverages: GameReviewAverage[];
 
 	const url = new URL(window.location.href);
 	const toastStore = getToastStore();
@@ -23,7 +23,8 @@
 	const chartsUrl = `${AppRoute.GAME}/charts/?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const threadUrl = `${AppRoute.GAME_THREAD}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const reviewsUrl = `${AppRoute.GAME_REVIEWS}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
-
+	const performancesUrl = `${AppRoute.GAME_PERFORMANCES}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
+	
 	async function checkThreadExists(event: Event) {
 		event.preventDefault();
 		var gameThreads: GameThread[] = await getGameThreadsByDate(date!);
@@ -40,6 +41,18 @@
 		} else {
 			window.location.href = threadUrl;
 		}
+	}
+
+	function getGameAverage(): number | null {
+		const reviews = gameReviewAverages.filter(
+			(review) =>
+				review.homeTeamId === gameDetails.homeTeam.apiId &&
+				review.visitorTeamId === gameDetails.visitorTeam.apiId &&
+				review.date === gameDetails.date
+		);
+
+		if (reviews.length === 0) return null;
+		return reviews[0].averageRating;
 	}
 
 	async function checkGameStarted(event: Event) {
@@ -61,7 +74,7 @@
 			{hiddenScores}
 			game={gameDetails}
 			imageWidth="w-1/3"
-			average={ownGameReview.averageRating}
+			average={getGameAverage()}
 		/>
 		<div class="flex justify-center my-10 mx-4">
 			<TabGroup
@@ -85,6 +98,9 @@
 				>
 				<TabAnchor href={reviewsUrl} selected={pageType === GamePageTypes.REVIEWS}>
 					Reviews
+				</TabAnchor>
+				<TabAnchor href={performancesUrl} selected={pageType === GamePageTypes.PERFORMANCES}>
+					Performances
 				</TabAnchor>
 			</TabGroup>
 		</div>

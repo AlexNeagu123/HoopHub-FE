@@ -25,7 +25,7 @@
 	};
 </script>
 
-<div class="w-full mx-[8%] variant-filled-surface py-5">
+<div class="w-full px-[8%] variant-filled-surface py-5">
 	<div>
 		<header class="flex justify-between px-2 items-center">
 			<div class="flex">

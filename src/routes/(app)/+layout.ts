@@ -8,6 +8,10 @@ import { get } from "svelte/store";
 import getNotifications from "$lib/services/user_features/notifications/getNotifications";
 import { DynamicPaginationThresholds } from "$lib/constants";
 import type NotificationModel from "$lib/models/user_features/notifications/NotificationModel";
+import type { PlayerFollowEntry } from "$lib/models/user_features/followings/PlayerFollowEntry";
+import getPlayersFollowed from "$lib/services/user_features/followings/getPlayersFollowed";
+import type { TeamFollowEntry } from "$lib/models/user_features/followings/TeamFollowEntry";
+import getTeamsFollowed from "$lib/services/user_features/followings/getTeamsFollowed";
 
 
 export const load: PageLoad = async () => {
@@ -15,6 +19,8 @@ export const load: PageLoad = async () => {
     let unreadNotificationsCount = 0;
     let unreadNotifications: NotificationModel[] = [];
     let allNotifications: NotificationModel[] = [];
+    let playerFollows: PlayerFollowEntry[] = [];
+    let teamFollows: TeamFollowEntry[] = [];
 
     if (get(authToken)) {
         fanInfo = await getFanInfo();
@@ -23,7 +29,9 @@ export const load: PageLoad = async () => {
         unreadNotifications = unreadNotificationsResponse.data;
         const allNotificationsResponse = await getNotifications(1, DynamicPaginationThresholds.NotificationsThreshold, false);
         allNotifications = allNotificationsResponse.data;
+        playerFollows = await getPlayersFollowed();
+        teamFollows = await getTeamsFollowed();
     }
 
-    return { fanInfo, unreadNotificationsCount, unreadNotifications, allNotifications }
+    return { fanInfo, unreadNotificationsCount, unreadNotifications, allNotifications, playerFollows, teamFollows }
 };

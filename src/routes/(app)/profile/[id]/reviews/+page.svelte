@@ -5,17 +5,17 @@
 	export let data: PageData;
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { DynamicPaginationThresholds, ProfilePageTypes, ThreadWidthTypes } from '$lib/constants';
-	import TeamThreadList from '$lib/components/threads/TeamThreadList.svelte';
+	import { DynamicPaginationThresholds, ProfilePageTypes } from '$lib/constants';
 	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
 	import getOwnGameReviewsPaged from '$lib/services/user_features/game-reviews/getOwnGameReviewsPaged';
-	import AllGameReviewsContainer from '$lib/components/reviews/AllGameReviewsContainer.svelte';
 	import FanGameReviewsContainer from '$lib/components/reviews/FanGameReviewsContainer.svelte';
+	import type { Team } from '$lib/models/nba_data/teams/Team';
+	import getAllTeams from '$lib/services/nba_data/teams/getAllTeams';
 
 	let currentPage = 1;
 	let currentSize = DynamicPaginationThresholds.TeamThreadsThreshold;
 	let allReviewsLoading: boolean = true;
-	let id = $page.params.id;
+	let teams: Team[] = [];
 
 	let reviewsBatch: GameReview[] = [];
 	let reviews: GameReview[] = [];
@@ -29,6 +29,7 @@
 	onMount(async () => {
 		allReviewsLoading = true;
 		await fetchReviews();
+		teams = await getAllTeams();
 		allReviewsLoading = false;
 	});
 </script>
@@ -38,5 +39,5 @@
 	ownInfo={data.fanInfo}
 	profilePageType={ProfilePageTypes.REVIEWS}
 >
-	<FanGameReviewsContainer bind:allReviewsLoading bind:reviews bind:reviewsBatch {fetchReviews} />
+	<FanGameReviewsContainer bind:allReviewsLoading bind:reviews bind:reviewsBatch {fetchReviews} {teams} />
 </FanProfile>

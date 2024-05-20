@@ -1,4 +1,4 @@
-import type {Response} from "$lib/models/common/Response"
+import type { Response } from "$lib/models/common/Response"
 
 import axios from 'axios'
 import LoginModel from "$lib/models/user_access/LoginModel";

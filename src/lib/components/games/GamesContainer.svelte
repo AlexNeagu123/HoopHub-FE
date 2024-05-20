@@ -3,16 +3,16 @@
 	import Card from '$lib/components/shared/Card.svelte';
 	import GamePreview from '$lib/components/games/GamePreview.svelte';
 	import LoadingIcon from '$lib/components/shared/LoadingIcon.svelte';
-	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
+	import type { GameReviewAverage } from '$lib/models/user_features/reviews/GameReviewAverage';
 
 	export let isLoading: boolean = true;
 	export let hiddenScores: boolean = false;
 
 	export let games: Game[] = [];
-	export let gameReviews: GameReview[] = [];
+	export let gameReviewAverages: GameReviewAverage[] = [];
 
 	function getGameAverage(game: Game): number | null {
-		const reviews = gameReviews.filter(
+		const reviews = gameReviewAverages.filter(
 			(review) =>
 				review.homeTeamId === game.homeTeam.apiId &&
 				review.visitorTeamId === game.visitorTeam.apiId &&

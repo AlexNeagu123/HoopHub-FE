@@ -14,7 +14,7 @@
 	export let data: PageData;
 
 	let gameDetails = data.gameWithBoxScore;
-	let ownGameReview = data.ownGameReview;
+	let gameReviewAverages = data.gameReviewAverages;
 
 	$: homeTeamPlayerStats = gameDetails.homeTeam.players;
 	$: visitorTeamPlayerStats = gameDetails.visitorTeam.players;
@@ -118,7 +118,7 @@
 	});
 </script>
 
-<GameWithBoxScore {gameDetails} pageType={GamePageTypes.CHARTS} {ownGameReview}>
+<GameWithBoxScore {gameDetails} pageType={GamePageTypes.CHARTS} {gameReviewAverages}>
 	<div id="chart-container" class="w-full h-[475px]"></div>
 	<Leaders game={gameDetails} />
 </GameWithBoxScore>

@@ -15,7 +15,11 @@
 	const operationId: string = $modalStore[0].meta.operationId ?? '';
 
 	async function onFormSubmit() {
-		const response = await $modalStore[0].meta.submitFormHandler(operationId, formData.title, formData.content);
+		const response = await $modalStore[0].meta.submitFormHandler(
+			operationId,
+			formData.title,
+			formData.content
+		);
 		if (response.success === false) {
 			validationErrors = response.validationErrors;
 		} else {

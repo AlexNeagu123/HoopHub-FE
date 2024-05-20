@@ -43,7 +43,7 @@
 				content={t.content}
 				upvotes={t.upVotes}
 				downvotes={t.downVotes}
-                threadVoteStatus={t.voteStatus}
+				threadVoteStatus={t.voteStatus}
 				{threadWidthType}
 				comments={t.commentsCount}
 			/>

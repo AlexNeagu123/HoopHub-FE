@@ -25,6 +25,7 @@ export enum AppRoute {
     TEAM_THREAD = "/team-thread",
     GAME_THREAD = "/game-thread",
     GAME_REVIEWS = "/game-reviews",
+    GAME_PERFORMANCES = "/game-performances",
 }
 
 export enum TeamConstants {
@@ -133,7 +134,8 @@ export enum GamePageTypes {
     BOX_SCORE = "box-score",
     CHARTS = "charts",
     THREAD = "thread",
-    REVIEWS = "reviews"
+    REVIEWS = "reviews",
+    PERFORMANCES = "performances"
 }
 
 export enum NotificationComponentTypes {
@@ -218,7 +220,7 @@ const lowStarColor = '#bf176a';
 const midStarColor = '#d3a107';
 const highStarColor = '#77b814';
 
-export function getDynamicStarConfig(score: number | null) {
+export function getDynamicStarConfig(score: number | null, starSize: number = 20) {
     if (score === null) {
         score = 0;
     }
@@ -226,10 +228,16 @@ export function getDynamicStarConfig(score: number | null) {
     let fillColor = score < 2.5 ? lowStarColor : score < 4 ? midStarColor : highStarColor;
 
     return {
-        size: 20,
+        size: starSize,
         fillColor: fillColor,
         strokeColor: '#BB8511',
         unfilledColor: '#FFF',
         strokeUnfilledColor: '#000'
     }
+}
+
+export const starRange = {    
+        min: 0,
+        max: 5,
+        step: 0.1
 }

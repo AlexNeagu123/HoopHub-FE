@@ -12,8 +12,9 @@
 
 	let gameDetails = data.gameWithBoxScore;
 	let ownGameReview = data.ownGameReview;
-	let allReviewsLoading = false;
+	let gameReviewAverages = data.gameReviewAverages;
 
+	let allReviewsLoading = false;
 	let currentPage = 1;
 	let currentSize = DynamicPaginationThresholds.GameReviewsThreshold;
 
@@ -40,7 +41,7 @@
 	});
 </script>
 
-<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.REVIEWS} {ownGameReview}>
+<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.REVIEWS} {gameReviewAverages}>
 	<ReviewOwnSection {ownGameReview} {gameDetails} />
 </GameWithBoxScoreC>
 <AllGameReviewsContainer bind:allReviewsLoading bind:reviews bind:reviewsBatch {fetchReviews} />

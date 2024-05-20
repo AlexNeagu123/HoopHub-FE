@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Time from "svelte-time/Time.svelte";
-    export let time: Date;
+	import Time from 'svelte-time/Time.svelte';
+	export let time: Date;
 </script>
 
 <div>

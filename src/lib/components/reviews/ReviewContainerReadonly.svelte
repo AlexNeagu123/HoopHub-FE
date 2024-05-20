@@ -27,9 +27,9 @@
 	<div class="shadow p-5 mt-4 w-2/3">
 		<StarRating config={readonlyConfig} />
 		<ScoreContainer bind:selectedScore={ownGameReview.rating} maxScore={5} />
-		<div class="flex justify-center">
-			<div class="flex flex-col w-1/2 mt-2 items-center">
-				<p class="text-center font-semibold">{ownGameReview.content}</p>
+		<div class="flex justify-start">
+			<div class="flex flex-col w-full mt-2 px-10">
+				<p class="text-center text-gray-700 font-semibold">{ownGameReview.content}</p>
 			</div>
 		</div>
 	</div>

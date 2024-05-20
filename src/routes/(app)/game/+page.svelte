@@ -14,7 +14,7 @@
 	export let data: PageData;
 
 	let gameDetails = data.gameWithBoxScore;
-	let ownGameReview = data.ownGameReview;
+	let gameReviewAverages = data.gameReviewAverages;
 
 	const headFieldsForSorting: string[] = [
 		'MIN',
@@ -147,7 +147,7 @@
 	}
 </script>
 
-<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.BOX_SCORE} {ownGameReview}>
+<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.BOX_SCORE} {gameReviewAverages}>
 	<div class="flex justify-between mx-10">
 		<SlideToggle
 			active="bg-primary-800"

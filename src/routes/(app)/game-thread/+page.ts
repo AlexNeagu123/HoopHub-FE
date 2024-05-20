@@ -2,7 +2,7 @@ import type { PageLoad } from './$types';
 import loadBoxScores from "../../../lib/utils/box-score-loader";
 import getGameThreadsByDate from '$lib/services/user_features/game-threads/getGameThreadsByDate';
 import type { GameThread } from '$lib/models/user_features/threads/GameThread';
-import getOwnGameReview from '$lib/services/user_features/game-reviews/getOwnGameReview';
+import getAllGameReviewsByDateAndFan from '$lib/services/user_features/game-reviews/getAllGameReviewsByDateAndFan';
 
 export const load: PageLoad = async ({ url }) => {
     let game = await loadBoxScores(url);
@@ -14,7 +14,7 @@ export const load: PageLoad = async ({ url }) => {
         && gameWithBoxScore.visitorTeam.apiId === gameThread.visitorTeamId);
 
     let gameThread = gameThreads[0];
-    let ownGameReview = await getOwnGameReview(gameWithBoxScore.homeTeam.apiId, gameWithBoxScore.visitorTeam.apiId, gameWithBoxScore.date);
 
-    return { gameWithBoxScore, gameThread, ownGameReview };
+    let gameReviewAverages = await getAllGameReviewsByDateAndFan(gameWithBoxScore.date);
+    return { gameWithBoxScore, gameThread, gameReviewAverages };
 };

@@ -6,7 +6,7 @@
     export let playerStats: SeasonAverageStats;
 </script>
 
-<div class="mt-10">
+<div class="mt-5 ml-7">
     <p class="text-gray-600 font-semibold">
         <span class="pr-4">{playerStats.team.fullName}</span>
         <span class="pr-4">#{player.jerseyNumber}</span>

@@ -5,6 +5,6 @@
 
 <div class="flex w-full my-3 justify-center">
 	<h3 class="h3 font-semibold">
-		{selectedScore} / {maxScore}
+		{selectedScore ?? 0} / {maxScore}
     </h3>
 </div>

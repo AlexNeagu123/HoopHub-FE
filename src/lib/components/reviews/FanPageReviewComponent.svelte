@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { AppRoute, getDynamicStarConfig } from '$lib/constants';
+	import type { Team } from '$lib/models/nba_data/teams/Team';
 	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
+	import VersusLink from '../comments/VersusLink.svelte';
 	import ProfileLink from '../threads/ProfileLink.svelte';
 	import TimeAgo from '../threads/TimeAgo.svelte';
 
@@ -9,6 +11,8 @@
 	import StarRating from '@ernane/svelte-star-rating';
 
 	export let review: GameReview;
+	export let homeTeam: Team | null;
+	export let visitorTeam: Team | null;
 
 	const reviewStarConfig = {
 		readOnly: true,
@@ -39,6 +43,11 @@
 						<StarRating config={reviewStarConfig} />
 						<p class="text-sm font-semibold pl-2">{review.rating} / 5</p>
 					</span>
+					<span class="px-2">&bull;</span>
+                    <VersusLink
+						{homeTeam}
+						{visitorTeam}
+					/>
 					<span class="px-2">&bull;</span>
 					<TimeAgo time={review.createdDate} />
 				</div>

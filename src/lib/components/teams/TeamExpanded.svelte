@@ -14,6 +14,8 @@
 	import { currentUser } from '$lib/stores/auth.store';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import addTeamThread from '$lib/services/user_features/threads/addTeamThread';
+	import FollowTeamBox from './FollowTeamBox.svelte';
+	import type { TeamFollowEntry } from '$lib/models/user_features/followings/TeamFollowEntry';
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
@@ -28,7 +30,7 @@
 		type: 'component',
 		component: 'formModal',
 		title: 'Create a new thread',
-	body: 'Fill up the fields and create a new thread..',
+		body: 'Fill up the fields and create a new thread..',
 		meta: {
 			operationId: id,
 			submitFormHandler: addTeamThread
@@ -37,6 +39,7 @@
 
 	export let team: Team;
 	export let pageType: string;
+	export let teamFollows: TeamFollowEntry[] = [];
 
 	function triggerCreateThreadModal() {
 		modalStore.trigger(modal);
@@ -55,15 +58,19 @@
 
 <div class="flex justify-center">
 	<div class="card variant-filled-surface m-10 w-3/4 p-5 px-10 drop-shadow">
-		<div class="flex items-center">
+		<div class="flex items-center justify-between">
 			<TeamHeader {team} />
 
-			<div class="flex ml-auto text-center">
+			<div class="flex text-center w-1/2">
 				<StatCard title="SRS" border={true} content={team.teamBio[0].srs} />
 				<StatCard title="ORTG" border={true} content={team.teamBio[0].oRtg} />
 				<StatCard title="DRTG" border={true} content={team.teamBio[0].dRtg} />
 				<StatCard title="PACE" border={true} content={team.teamBio[0].pace} />
 				<StatCard title="W-L %" border={false} content={team.teamBio[0].winLossRatio} />
+			</div>
+
+			<div class="w-1/5 flex justify-end">
+				<FollowTeamBox teamId={team.id} {teamFollows}/>
 			</div>
 		</div>
 
