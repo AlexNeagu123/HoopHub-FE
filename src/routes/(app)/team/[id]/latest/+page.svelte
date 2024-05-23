@@ -6,15 +6,16 @@
 	import { tableMapperValues } from '@skeletonlabs/skeleton';
 	import type { LatestTeamBoxScore } from '$lib/models/nba_data/box-scores/LatestTeamBoxScore';
 	import getLatestBoxScoresByTeam from '$lib/services/nba_data/games/getLatestBoxScoresByTeam';
-	import type { GameWithBoxScore } from '$lib/models/nba_data/box-scores/GameWithBoxScore';
 	import TeamLatestGamesTable from '$lib/components/shared/TeamLatestGamesTable.svelte';
 	import { TeamPageTypes } from '$lib/constants';
+	import type { LocalStoredGame } from '$lib/models/nba_data/games/LocalStoredGame';
+	import { formatDate } from 'svelty-picker';
+	import { dateToString } from '$lib/utils/date-parser';
 
 	export let data: PageData;
 	let teamFollows = data.teamFollows;
 	let isLoading: boolean = true;
 
-	let latestBoxScores: GameWithBoxScore[] = [];
 	let latestTeamBoxScores: LatestTeamBoxScore[] = [];
 
 	const hasWon: boolean[] = [];
@@ -44,40 +45,38 @@
 
 	onMount(async () => {
 		isLoading = true;
+		let latestGames: LocalStoredGame[] = [];
 		let teamBoxScores: LatestTeamBoxScore[] = [];
 
-		latestBoxScores = await getLatestBoxScoresByTeam(data.team.id);
-		console.log(data.team.id);
-		console.log(latestBoxScores);
-
-		latestBoxScores.forEach((bs) => {
-			if (bs.homeTeam.id === data.team.id) {
+		latestGames = await getLatestBoxScoresByTeam(data.team.id);
+		latestGames.forEach((g) => {
+			if (g.homeTeam?.id === data.team.id) {
 				const result =
-					(bs.homeTeamScore! < bs.visitorTeamScore! ? 'Lost ' : 'Won ') +
-					`${bs.homeTeamScore}-${bs.visitorTeamScore}`;
+					(g.homeTeamScore! < g.visitorTeamScore! ? 'Lost ' : 'Won ') +
+					`${g.homeTeamScore}-${g.visitorTeamScore}`;
 				hasWon.push(result.indexOf('Won') !== -1);
 				teamBoxScores.push({
-					date: bs.date,
-					oppTeamAbbr: bs.visitorTeam.abbreviation!,
+					date: dateToString(g.date),
+					oppTeamAbbr: g.visitorTeam?.abbreviation!,
 					result: result,
-					oppTeamPhoto: bs.visitorTeam.imageUrl!,
-					oppTeamId: bs.visitorTeam.id,
-					homeTeamId: bs.homeTeam.apiId,
-					visitorTeamId: bs.visitorTeam.apiId
+					oppTeamPhoto: g.visitorTeam?.imageUrl!,
+					oppTeamId: g.visitorTeam?.id,
+					homeTeamId: g.homeTeam.apiId,
+					visitorTeamId: g.visitorTeam?.apiId
 				});
 			} else {
 				const result =
-					(bs.homeTeamScore! < bs.visitorTeamScore! ? 'Won ' : 'Lost ') +
-					`${bs.visitorTeamScore}-${bs.homeTeamScore}`;
+					(g.homeTeamScore! < g.visitorTeamScore! ? 'Won ' : 'Lost ') +
+					`${g.visitorTeamScore}-${g.homeTeamScore}`;
 				hasWon.push(result.indexOf('Won') !== -1);
 				teamBoxScores.push({
-					date: bs.date,
-					oppTeamAbbr: bs.homeTeam.abbreviation!,
+					date: dateToString(g.date),
+					oppTeamAbbr: g.homeTeam.abbreviation!,
 					result: result,
-					oppTeamPhoto: bs.homeTeam.imageUrl!,
-					oppTeamId: bs.homeTeam.id,
-					homeTeamId: bs.homeTeam.apiId,
-					visitorTeamId: bs.visitorTeam.apiId
+					oppTeamPhoto: g.homeTeam.imageUrl!,
+					oppTeamId: g.homeTeam.id,
+					homeTeamId: g.homeTeam.apiId,
+					visitorTeamId: g.visitorTeam.apiId
 				});
 			}
 		});

@@ -9,6 +9,8 @@
 	let gameDetails = data.gameWithBoxScore;
 	let gameReviewAverages = data.gameReviewAverages;
     let averagePerformanceRatings = data.averagePerformanceRatings;
+
+	console.log(averagePerformanceRatings);
 </script>
 
 <GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.PERFORMANCES} {gameReviewAverages}>

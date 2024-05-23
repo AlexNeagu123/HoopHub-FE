@@ -1,7 +1,7 @@
 import type { PageLoad } from './$types';
-import loadBoxScores from "../../../lib/utils/box-score-loader";
 import getAllGameReviewsByDateAndFan from '$lib/services/user_features/game-reviews/getAllGameReviewsByDateAndFan';
 import getPlayerPerformanceAveragesByGame from '$lib/services/user_features/performance/getPlayerPerformanceAveragesByGame';
+import loadBoxScores from '$lib/utils/box-score-loader';
 
 export const load: PageLoad = async ({ url }) => {
     let game = await loadBoxScores(url);

@@ -22,6 +22,8 @@
 	export let gameDetails: GameWithBoxScore;
 	export let ownRating: number | null;
 
+	console.log(ownRating);
+	
 	const modalStore = getModalStore();
 
 	const modalRegistry: Record<string, ModalComponent> = {

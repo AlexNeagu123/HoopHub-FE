@@ -13,7 +13,7 @@
 
 	export let player: Player;
 	export let pageType: string;
-    export let playerFollows: PlayerFollowEntry[] = [];
+	export let playerFollows: PlayerFollowEntry[] = [];
 
 	$: isLatest = pageType == 'latest';
 	let playerStats: SeasonAverageStats = player.seasonAverageStats[0];
@@ -40,8 +40,14 @@
 				<PlayerHeader {player} {playerStats} />
 			</div>
 			<div class="flex flex-col items-start justify-start w-1/5">
-				<FollowPlayerBox {playerFollows} playerId={player.id}/>
-				<AverageRatingBox average={player.averageRating}/>
+				<FollowPlayerBox
+					{playerFollows}
+					playerName={`${player.firstName} ${player.lastName}`}
+					playerId={player.id}
+				/>
+				<AverageRatingBox
+					average={player.averageRating ? Number(player.averageRating?.toFixed(1)) : null}
+				/>
 			</div>
 		</div>
 		<div class="container flex flex-wrap justify-start w-full">

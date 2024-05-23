@@ -182,7 +182,15 @@ axios.interceptors.response.use(
 export enum ToastMessages {
     actionRequiresLogIn = "You should be logged in to perform this action",
     noGameThread = "No thread exists for this game",
-    gameNotStarted = "The game has not started yet"
+    gameNotStarted = "The game has not started yet",
+}
+
+export const FollowMessage = (teamName: string) => {
+    return `You are now following ${teamName}`;
+}
+
+export const UnfollowedMessage = (teamName: string) => {
+    return `You are no longer following ${teamName}`;
 }
 
 export enum ThreadWidthTypes {
@@ -236,8 +244,8 @@ export function getDynamicStarConfig(score: number | null, starSize: number = 20
     }
 }
 
-export const starRange = {    
-        min: 0,
-        max: 5,
-        step: 0.1
+export const starRange = {
+    min: 0,
+    max: 5,
+    step: 0.1
 }

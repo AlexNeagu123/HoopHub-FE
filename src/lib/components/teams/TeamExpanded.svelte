@@ -70,7 +70,7 @@
 			</div>
 
 			<div class="w-1/5 flex justify-end">
-				<FollowTeamBox teamId={team.id} {teamFollows}/>
+				<FollowTeamBox teamId={team.id} teamName={team.fullName} {teamFollows}/>
 			</div>
 		</div>
 

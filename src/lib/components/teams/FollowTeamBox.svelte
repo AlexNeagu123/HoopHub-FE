@@ -1,12 +1,17 @@
 <script lang="ts">
+	import { FollowMessage, ToastMessages, UnfollowedMessage } from '$lib/constants';
 	import type { TeamFollowEntry } from '$lib/models/user_features/followings/TeamFollowEntry';
 	import addTeamFollowEntry from '$lib/services/user_features/followings/addTeamFollowEntry';
 	import deleteTeamFollowEntry from '$lib/services/user_features/followings/deleteTeamFollowEntry';
 	import EmptyStar from '../shared/EmptyStar.svelte';
 	import FullStar from '../shared/FullStar.svelte';
 
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	const toastStore = getToastStore();
+
 	export let teamFollows: TeamFollowEntry[] = [];
 	export let teamId: string;
+	export let teamName: string;
 
 	let isTeamFollowed = teamFollows.some((teamFollow) => teamFollow.teamId === teamId);
 
@@ -15,8 +20,16 @@
 		isTeamFollowed = !isTeamFollowed;
 		if (oldStatusFollowed) {
 			await deleteTeamFollowEntry(teamId);
+			toastStore.trigger({
+				message: UnfollowedMessage(teamName),
+				background: 'variant-filled-warning'
+			});
 		} else {
 			await addTeamFollowEntry(teamId);
+			toastStore.trigger({
+				message: FollowMessage(teamName),
+				background: 'variant-filled-success'
+			});
 		}
 	}
 </script>

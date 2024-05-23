@@ -3,7 +3,15 @@
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import TimeAgo from '../threads/TimeAgo.svelte';
 	import markNotificationAsRead from '$lib/services/user_features/notifications/markNotificationAsRead';
+
 	export let notification: NotificationModel;
+
+	let attachedPhoto: string | null = notification.sender
+		? notification.sender.avatarPhotoUrl
+		: notification.attachedImageUrl;
+	if (attachedPhoto === null) {
+		attachedPhoto = '';
+	}
 
 	async function markAsRead() {
 		await markNotificationAsRead(notification.id);
@@ -18,7 +26,9 @@
 	on:click={markAsRead}
 >
 	<div class="flex items-center">
-		<Avatar src={notification.sender?.avatarPhotoUrl} width="w-7" background="bg-transparent" />
+		<div class="w-1/5">
+			<Avatar src={attachedPhoto} width="w-full" background="bg-transparent" />
+		</div>
 		<div class="flex flex-col ml-2">
 			<span class="font-semibold w-full">{notification.title}</span>
 			<TimeAgo time={notification.createdDate} />
