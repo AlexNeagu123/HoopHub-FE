@@ -85,17 +85,17 @@
 </div>
 
 <div
-	class="card variant-filled-surface px-2 pt-4 pb-28 w-1/5 max-h-full overflow-y-auto flex-grow"
+	class="card variant-filled-surface px-2 pt-4 pb-28 w-1/5 max-h-full overflow-y-auto flex-grow border-l-primary-300 border-l-8 shadow"
 	data-popup="notificationsPopUp"
 >
-	<div class="flex items-center py-2">
+	<div class="flex items-center justify-center py-2">
 		<h3 class="h3 font-bold">Notifications</h3>
 	</div>
-	<div class="flex w-3/4 justify-between py-3">
+	<div class="flex w-full justify-center py-3">
 		<RadioGroup
 			background="variant-filled-surface"
 			active="variant-filled-primary"
-			hover="hover:variant-filled-primary"
+			hover="hover:variant-filled-surface"
 		>
 			<RadioItem
 				bind:group={notificationType}
@@ -113,7 +113,7 @@
 			</RadioItem>
 		</RadioGroup>
 	</div>
-	<div class="flex flex-col w-full">
+	<div class="flex flex-col w-full variant-filled-surface">
 		{#if notificationType === NotificationComponentTypes.UNREAD}
 			{#each unreadNotifications as notification}
 				<NotificationComponent {notification} />

@@ -91,8 +91,8 @@
 				active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
 				hover="hover:bg-secondary-500"
 			>
-				<TabAnchor href="{AppRoute.PLAYER}/{id}" selected={!isLatest}>History</TabAnchor>
-				<TabAnchor href="{AppRoute.PLAYER}/{id}/bio" selected={isLatest}>Latest</TabAnchor>
+				<TabAnchor href="{AppRoute.PLAYER}/{id}" selected={isLatest}>Latest</TabAnchor>
+				<TabAnchor href="{AppRoute.PLAYER}/{id}/bio" selected={!isLatest}>History</TabAnchor>
 			</TabGroup>
 		</div>
 		<div class="mt-3">

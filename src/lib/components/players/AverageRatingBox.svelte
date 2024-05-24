@@ -4,7 +4,7 @@
 	// @ts-expect-error
 	import StarRating from '@ernane/svelte-star-rating';
 
-    export let average: number | null = null;
+	export let average: number | null = null;
 	function getReviewStarConfig(score: number | null) {
 		return {
 			readOnly: true,

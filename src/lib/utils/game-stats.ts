@@ -1,7 +1,7 @@
 import type {BoxScorePlayer} from "$lib/models/nba_data/box-scores/BoxScorePlayer";
 import type { LatestPlayerBoxScore } from "$lib/models/nba_data/box-scores/LatestPlayerBoxScore";
 
-export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBoxScore[]) {
+export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBoxScore[], forLatest: boolean = false) {
     playerGameStats.forEach(stat => {
         stat.playerFullName = stat.player?.firstName + " " + stat.player?.lastName;
         stat.playerImageUrl = stat.player?.imageUrl;
@@ -31,7 +31,8 @@ export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBo
         stat.ftPct = convertToPercent(stat.ftPct);
     });
 
-    playerGameStats.sort((a, b) => b.min.localeCompare(a.min));
+    if(!forLatest)
+        playerGameStats.sort((a, b) => b.min.localeCompare(a.min));
 }
 
 /**

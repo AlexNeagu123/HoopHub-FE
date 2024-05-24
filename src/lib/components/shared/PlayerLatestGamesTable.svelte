@@ -42,7 +42,7 @@
                             </Link>
                         {:else if indexCol === 0}
                             <Link href="{AppRoute.GAME}?homeTeam={table.body[indexRow][numCols - 4]}&visitorTeam={table.body[indexRow][numCols - 3]}&date={rowVal}"
-                                  styles="text-xs">
+                                  styles="text-xs whitespace-nowrap flex justify-start">
                                 {rowVal}
                             </Link>
                         {:else}

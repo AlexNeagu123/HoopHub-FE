@@ -1,162 +1,102 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import PlayerExpanded from '$lib/components/players/PlayerExpanded.svelte';
-	import { onMount } from 'svelte';
-	import { tableMapperValues } from '@skeletonlabs/skeleton';
-	import { page } from '$app/stores';
-	import type { LatestPlayerBoxScore } from '$lib/models/nba_data/box-scores/LatestPlayerBoxScore';
-	import LoadingIcon from '$lib/components/shared/LoadingIcon.svelte';
-	import PlayerLatestGamesTable from '$lib/components/shared/PlayerLatestGamesTable.svelte';
-	import type { PlayerFollowEntry } from '$lib/models/user_features/followings/PlayerFollowEntry';
-	import type { LocalStoredBoxScoresDto } from '$lib/models/nba_data/box-scores/LocalStoredBoxScores';
-	import getLatestBoxScoresByPlayer from '$lib/services/nba_data/games/getLatestBoxScoresByPlayer';
-	import { dateToString } from '$lib/utils/date-parser';
-	import { completeStats } from '$lib/utils/game-stats';
+    import PlayerExpanded from "$lib/components/players/PlayerExpanded.svelte";
+    import {tableMapperValues} from "@skeletonlabs/skeleton";
+    import {PlayerConstants, SeasonConstants, TableTypes} from "$lib/constants";
+    import Table from "$lib/components/shared/Table.svelte";
+    import {page} from "$app/stores";
+    import getPlayerBio from "$lib/services/nba_data/players/getPlayerBio";
+    import type {SeasonAverageStats} from "$lib/models/nba_data/players/SeasonAverageStats";
+    import type {Player} from "$lib/models/nba_data/players/Player";
+    import {onMount} from "svelte";
+    import type {PageData} from './$types';
+    import LoadingIcon from "$lib/components/shared/LoadingIcon.svelte";
 
-	export let data: PageData;
-	let id = $page.params.id;
+    export let data: PageData;
 
-	let playerStatsFromBoxScore: LatestPlayerBoxScore[] = [];
-	let playerFollows: PlayerFollowEntry[] = data.playerFollows;
+    let playerFollows = data.playerFollows;
+    let player: Player = data.player;
+    let playerStats: SeasonAverageStats[] = player.seasonAverageStats;
 
-	const hasWon: boolean[] = [];
+    completeStats(playerStats);
+    $: teamIds = playerStats.map(e => e.teamId);
 
-	const headFields: string[] = [
-		'Date',
-		'Team',
-		'Opp',
-		'Result',
-		'MIN',
-		'PTS',
-		'REB',
-		'AST',
-		'STL',
-		'BLK',
-		'FGM',
-		'FGA',
-		'FG%',
-		'3PM',
-		'3PA',
-		'3P%',
-		'FTM',
-		'FTA',
-		'FT%',
-		'TOV',
-		'homeTeamId',
-		'visitorTeamId',
-		'ownTeamId',
-		'oppTeamId'
-	];
+    let id = $page.params.id;
+    let isLoading: boolean = true;
 
-	const bodyFields: string[] = [
-		'date',
-		'ownTeamAbbr',
-		'oppTeamAbbr',
-		'result',
-		'min',
-		'pts',
-		'reb',
-		'ast',
-		'stl',
-		'blk',
-		'fgm',
-		'fga',
-		'fgPct',
-		'fg3m',
-		'fg3a',
-		'fg3Pct',
-		'ftm',
-		'fta',
-		'ftPct',
-		'turnover',
-		'homeTeamId',
-		'visitorTeamId',
-		'ownTeamId',
-		'oppTeamId'
-	];
+    const groups: string[][] = [];
+    for (let season = SeasonConstants.currentSeason; season >= player.draftYear; season -= PlayerConstants.seasonGroupSize) {
+        const endSeason = (season + 1).toString();
+        const startSeason = Math.max((season - PlayerConstants.seasonGroupSize + 1), player.draftYear).toString()
+        if (endSeason == (SeasonConstants.currentSeason + 1).toString()) {
+            updatePlayerStats(startSeason, endSeason);
+        }
+        groups.push([startSeason, endSeason, `${startSeason}-${endSeason.substring(2)}`]);
+    }
 
-	$: table = {
-		head: headFields,
-		body: tableMapperValues(playerStatsFromBoxScore, bodyFields)
-	};
+    $: table = {
+        head: ['Season', 'Team', 'GP', 'PTS', 'REB', 'AST', 'BLK', 'STL', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%',
+        'FTM', 'FTA', 'FT%', 'TOV'],
+        body: tableMapperValues(playerStats, ['seasonStr', 'teamStr', 'gamesPlayed', 'pts', 'reb', 'ast', 'blk', 'stl',
+            'fgm', 'fga', 'fgp', 'fg3m', 'fg3a', 'fg3p', 'ftm', 'fta', 'ftp', 'turnover']),
+    };
 
-	let isLoading: boolean = true;
-	onMount(async () => {
-		let playerBoxScore: LatestPlayerBoxScore[] = [];
-		let latestBoxScores: LocalStoredBoxScoresDto[] = [];
 
-		isLoading = true;
-		latestBoxScores = await getLatestBoxScoresByPlayer(id);
-        console.log(latestBoxScores);
+    let selectedGroup = 0;
 
-		latestBoxScores.forEach((bs) => {
-			let oppTeamAbbr = '';
-			let ownTeamId = '';
-			let result = '';
-			let oppTeamId = '';
+    function completeStats(playerStats: SeasonAverageStats[]) {
+        playerStats.forEach(stat => {
+            const season = stat.season;
+            stat.teamStr = stat.team.abbreviation;
+            stat.teamId = stat.team.id;
+            stat.seasonStr = `${season}-${(season + 1).toString().substring(2)}`;
+            const roundToOneDecimal = (value: number) => parseFloat(value.toFixed(1));
 
-			if (bs.team.id === bs.game.homeTeam.id) {
-				result =
-					(bs.game.homeTeamScore! < bs.game.visitorTeamScore! ? 'Lost ' : 'Won ') +
-					`${bs.game.homeTeamScore}-${bs.game.visitorTeamScore}`;
-				oppTeamAbbr = bs.game.visitorTeam.abbreviation!;
-				ownTeamId = bs.game.homeTeam.id;
-				oppTeamId = bs.game.visitorTeam.id;
-				hasWon.push(result.indexOf('Won') !== -1);
-			} else {
-				result =
-					(bs.game.homeTeamScore! < bs.game.visitorTeamScore! ? 'Won ' : 'Lost ') +
-					`${bs.game.visitorTeamScore}-${bs.game.homeTeamScore}`;
-				oppTeamAbbr = bs.game.homeTeam.abbreviation!;
-				ownTeamId = bs.game.visitorTeam.id;
-				oppTeamId = bs.game.homeTeam.id;
-				hasWon.push(result.indexOf('Won') !== -1);
-			}
+            const propertiesToRound: (keyof SeasonAverageStats)[]
+                = ['pts', 'reb', 'blk', 'stl', 'ast', 'fg3m', 'fg3a', 'fga', 'fgm', 'fta', 'ftm', 'turnover'];
 
-			playerBoxScore.push({
-				date: dateToString(bs.game.date),
-				ownTeamAbbr: bs.team.abbreviation!,
-				oppTeamAbbr: oppTeamAbbr,
-				result: result,
-				ownTeamId: ownTeamId,
-				oppTeamId: oppTeamId,
-				homeTeamId: bs.game.homeTeam.apiId,
-				visitorTeamId: bs.game.visitorTeam.apiId,
-				min: bs.min === undefined ? '0' : bs.min,
-				pts: bs.pts,
-				reb: bs.reb,
-				oreb: bs.oreb,
-				dreb: bs.dreb,
-				ast: bs.ast,
-				stl: bs.stl,
-				blk: bs.blk,
-				fgm: bs.fgm,
-				fga: bs.fga,
-				fgPct: bs.fgPct,
-				fg3m: bs.fg3m,
-				fg3a: bs.fg3a,
-				fg3Pct: bs.fg3Pct,
-				ftm: bs.ftm,
-				fta: bs.fta,
-				ftPct: bs.ftPct,
-				turnover: bs.turnover,
-				pf: bs.pf,
-				player: bs.player,
-				playerFullName: `${bs.player.firstName} ${bs.player.lastName}`,
-				playerImageUrl: bs.player.imageUrl
-			});
-		});
-        
-        completeStats(playerBoxScore);
-		playerStatsFromBoxScore = playerBoxScore;
-		isLoading = false;
-	});
+            propertiesToRound.forEach((property: keyof SeasonAverageStats) => {
+                stat[property] = roundToOneDecimal(stat[property]);
+            });
+
+            stat.fg3p = roundToOneDecimal((stat.fg3m / stat.fg3a) * 100);
+            stat.fgp = roundToOneDecimal((stat.fgm / stat.fga) * 100);
+            stat.ftp = roundToOneDecimal((stat.ftm / stat.fta) * 100);
+        });
+
+        // Sort by seasonStr in descending order
+        playerStats.sort((a, b) => b.seasonStr.localeCompare(a.seasonStr));
+    }
+
+    async function updatePlayerStats(startSeason: string, endSeason: string) {
+        isLoading = true;
+        player = await getPlayerBio(id, parseInt(startSeason), parseInt(endSeason));
+        playerStats = player.seasonAverageStats;
+        completeStats(playerStats);
+        isLoading = false;
+    }
+
+    onMount(() => {
+        updatePlayerStats((SeasonConstants.currentSeason - PlayerConstants.seasonGroupSize + 1).toString(),
+            (SeasonConstants.currentSeason + 1).toString());
+    });
 </script>
 
-<PlayerExpanded player={data.player} {playerFollows} pageType="latest">
-	{#if isLoading}
-		<LoadingIcon />
-	{:else}
-		<PlayerLatestGamesTable {table} {hasWon} />
-	{/if}
+<style>
+    select option {
+        background-color: #f2f2f2;
+    }
+</style>
+<PlayerExpanded player={player} {playerFollows} pageType="bio">
+    <select bind:value={selectedGroup}
+            on:change={() => updatePlayerStats(groups[selectedGroup][0], groups[selectedGroup][1])}
+            class="mt-5 select variant-filled-surface border-none shadow">
+        {#each groups as g, index}
+            <option value={index} class="font-thin text-sm">{g[2]}</option>
+        {/each}
+    </select>
+    {#if isLoading}
+        <LoadingIcon/>
+    {:else}
+        <Table table={table} tableType={TableTypes.playerTable} teamIds={teamIds}/>
+    {/if}
 </PlayerExpanded>

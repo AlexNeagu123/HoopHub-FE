@@ -2,7 +2,12 @@
 	import type { PageData } from './$types';
 	import GameWithBoxScoreC from '$lib/components/games/GameWithBoxScoreC.svelte';
 
-	import { GamePageTypes, TableTypes } from '$lib/constants';
+	import {
+		GamePageTypes,
+		TableTypes,
+		headBoxScoreFieldsForSorting,
+		updatableBoxScoreDtoProps
+	} from '$lib/constants';
 	import Table from '$lib/components/shared/Table.svelte';
 	import { SlideToggle, tableMapperValues } from '@skeletonlabs/skeleton';
 	import type { BoxScorePlayer } from '$lib/models/nba_data/box-scores/BoxScorePlayer';
@@ -10,51 +15,14 @@
 	import { liveBoxScoreStore } from '$lib/stores/live-games.store';
 	import { onDestroy } from 'svelte';
 	import type { GameWithBoxScore } from '$lib/models/nba_data/box-scores/GameWithBoxScore';
+	import GameSelectContainer from '$lib/components/games/GameSelectContainer.svelte';
 
 	export let data: PageData;
 
 	let gameDetails = data.gameWithBoxScore;
 	let gameReviewAverages = data.gameReviewAverages;
 
-	const headFieldsForSorting: string[] = [
-		'MIN',
-		'PTS',
-		'REB',
-		'AST',
-		'STL',
-		'BLK',
-		'FGM',
-		'FGA',
-		'FG%',
-		'3PM',
-		'3PA',
-		'3P%',
-		'FTM',
-		'FTA',
-		'FT%',
-		'TOV'
-	];
-
-	const updatableDtoProps: string[] = [
-		'min',
-		'pts',
-		'reb',
-		'ast',
-		'stl',
-		'blk',
-		'fgm',
-		'fga',
-		'fgPct',
-		'fg3m',
-		'fg3a',
-		'fg3Pct',
-		'ftm',
-		'fta',
-		'ftPct',
-		'turnover'
-	];
-
-	let selectedValue: number;
+	let sortingSelectedValue: number = 0;
 	let isHomeTeamBoxScore: boolean = true;
 	let isVisitorTeamBoxScore: boolean = false;
 
@@ -74,16 +42,20 @@
 				gameDetails = boxScore;
 				completeStats(gameDetails.homeTeam.players);
 				completeStats(gameDetails.visitorTeam.players);
-				sortBothBoxScores(updatableDtoProps[selectedValue]);
+				sortBothBoxScores();
 			}
 		});
 	});
 
 	onDestroy(unsubscribe);
 
+	let headFieldsForSorting = headBoxScoreFieldsForSorting;
+	let updatableDtoProps = updatableBoxScoreDtoProps;
+
 	$: teamBoxScore = isHomeTeamBoxScore
 		? gameDetails.homeTeam.players
 		: gameDetails.visitorTeam.players;
+
 	$: table = {
 		head: ['Player', ...headFieldsForSorting],
 		body: tableMapperValues(teamBoxScore, ['playerFullName', ...updatableDtoProps])
@@ -96,7 +68,7 @@
 	);
 
 	let playerStatUpdated: boolean[][] = Array.from({ length: maxPlayerCount }, () =>
-		Array(updatableDtoProps.length).fill(false)
+		Array(updatableBoxScoreDtoProps.length).fill(false)
 	);
 
 	$: {
@@ -108,7 +80,8 @@
 			: previousGameDetails?.visitorTeam.players;
 
 		currentPlayersState.forEach((player, playerIndex) => {
-			updatableDtoProps.forEach((prop, propIndex) => {
+			updatableBoxScoreDtoProps.forEach((prop, propIndex) => {
+				// @ts-ignore
 				if (player[prop] !== prevPlayersState[playerIndex][prop]) {
 					playerStatUpdated[playerIndex][propIndex] = true;
 					setTimeout(() => {
@@ -125,15 +98,19 @@
 		const isValidProp = playerGameStats.every((player) => prop in player);
 		if (isValidProp) {
 			playerGameStats.sort((a, b) => {
+				// @ts-ignore
 				if (typeof a[prop] === 'string' && typeof b[prop] === 'string') {
+					// @ts-ignore
 					return b[prop].localeCompare(a[prop]);
 				}
+				// @ts-ignore
 				return b[prop] - a[prop];
 			});
 		}
 	}
 
-	function sortBothBoxScores(prop: string) {
+	function sortBothBoxScores() {
+		const prop = updatableBoxScoreDtoProps[sortingSelectedValue];
 		sortBoxScoreStats(gameDetails.homeTeam.players, prop);
 		sortBoxScoreStats(gameDetails.visitorTeam.players, prop);
 		teamBoxScore = isHomeTeamBoxScore
@@ -156,15 +133,22 @@
 			bind:checked={isVisitorTeamBoxScore}
 			on:click={toggleBoxScore}
 		/>
-		<select
-			bind:value={selectedValue}
-			on:change={() => sortBothBoxScores(updatableDtoProps[selectedValue])}
-			class="w-1/6 select variant-filled-surface border-none shadow"
-		>
-			{#each headFieldsForSorting as g, index}
-				<option value={index} class="font-thin text-sm">{g}</option>
-			{/each}
-		</select>
+
+		<div class="flex w-full justify-center">
+			<GameSelectContainer
+				bind:selectedValue={sortingSelectedValue}
+				labelTitle={'Sort By'}
+				changeFunction={sortBothBoxScores}
+				optionsArray={headBoxScoreFieldsForSorting}
+			/>
+			<GameSelectContainer
+				bind:selectedValue={sortingSelectedValue}
+				labelTitle={'Sort By'}
+				changeFunction={sortBothBoxScores}
+				optionsArray={headBoxScoreFieldsForSorting}
+			/>
+		</div>
+
 		<SlideToggle
 			active="bg-primary-800"
 			background="bg-surface-700"

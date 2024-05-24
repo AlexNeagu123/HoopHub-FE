@@ -249,3 +249,41 @@ export const starRange = {
     max: 5,
     step: 0.1
 }
+
+export const headBoxScoreFieldsForSorting: string[] = [
+    'MIN',
+    'PTS',
+    'REB',
+    'AST',
+    'STL',
+    'BLK',
+    'FGM',
+    'FGA',
+    'FG%',
+    '3PM',
+    '3PA',
+    '3P%',
+    'FTM',
+    'FTA',
+    'FT%',
+    'TOV'
+];
+
+export const updatableBoxScoreDtoProps: string[] = [
+    'min',
+    'pts',
+    'reb',
+    'ast',
+    'stl',
+    'blk',
+    'fgm',
+    'fga',
+    'fgPct',
+    'fg3m',
+    'fg3a',
+    'fg3Pct',
+    'ftm',
+    'fta',
+    'ftPct',
+    'turnover'
+];

@@ -21,7 +21,7 @@
 </script>
 
 <a
-	class="p-3 card variant-filled-surface hover:variant-filled-primary cursor-pointer relative"
+	class="p-4 px-6 card variant-filled-surface hover:variant-filled-primary cursor-pointer relative"
 	href={notification.attachedNavigationData}
 	on:click={markAsRead}
 >
@@ -34,7 +34,7 @@
 			<TimeAgo time={notification.createdDate} />
 		</div>
 	</div>
-	<div class="m-2 flex justify-center {!notification.isRead ? 'font-semibold' : 'text-gray-700'}">
+	<div class="m-2 flex justify-center {!notification.isRead ? 'font-semibold' : 'text-normal'}">
 		<p class="whitespace-normal">{notification.content}</p>
 	</div>
 	{#if !notification.isRead}

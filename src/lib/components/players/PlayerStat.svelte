@@ -1,16 +1,19 @@
 <script lang="ts">
-    import InformativePopUps from "$lib/components/shared/InformativePopUps.svelte";
-    export let title: string;
-    export let content: number | string;
-    export let isLast: boolean;
+	import InformativePopUps from '$lib/components/shared/InformativePopUps.svelte';
+	export let title: string;
+	export let content: number | string;
+	export let isLast: boolean;
 </script>
 
 <InformativePopUps />
 
-<div class:border-r-secondary-600={isLast} class:border-r-2={isLast}
-     class="flex flex-col text-center justify-center w-full hover:bg-primary-600
+<div
+	class:border-r-secondary-600={isLast}
+	class:border-r-2={isLast}
+	class="flex flex-col text-center justify-center w-full hover:bg-primary-600
      border-l-2 border-l-primary-600
-     border-b-2 border-b-primary-600 border-t-2 border-t-primary-600 shadow cursor-default">
-    <dt class="text-gray-500}">{title}</dt>
-    <dd class="font-semibold">{content}</dd>
+     border-b-2 border-b-primary-600 border-t-2 border-t-primary-600 shadow cursor-default"
+>
+	<dt class="text-gray-500}">{title}</dt>
+	<dd class="font-semibold">{content}</dd>
 </div>
