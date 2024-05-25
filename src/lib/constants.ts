@@ -114,6 +114,20 @@ export const informativePopUps: InformativePopUps = {
     "Downvotes": "Number of downvotes",
     "Comments": "Number of comments",
     "Reviews": "Number of reviews",
+    "OFFRTG": "An estimate of points produced or scored per 100 possessions",
+    "DEFRTG": "An estimate of points allowed per 100 possessions",
+    "NETRTG": "Difference between offensive rating and defensive rating",
+    "AST%": "Percentage of teammate field goals a player assisted while on the floor",
+    "AST/TO": "Ratio of assists to turnovers",
+    "AST RATIO": "Number of assists per 100 possessions",
+    "OREB%": "Percentage of available offensive rebounds a player grabbed while on the floor",
+    "DREB%": "Percentage of available defensive rebounds a player grabbed while on the floor",
+    "REB%": "Percentage of available rebounds a player grabbed while on the floor",
+    "TO RATIO": "Turnovers per 100 possessions",
+    "EFG%": "Field goal percentage adjusted for the value of 3-point field goals",
+    "TS%": "A measure of shooting efficiency that takes into account field goals, 3-point field goals, and free throws",
+    "USG%": "An estimate of the percentage of team plays used by a player while on the floor",
+    "PIE": "Player Impact Estimate, a measure of a player's overall statistical contribution against the total statistics in games they play in"
 }
 
 export enum TeamPageTypes {
@@ -287,3 +301,46 @@ export const updatableBoxScoreDtoProps: string[] = [
     'ftPct',
     'turnover'
 ];
+
+export const displayFieldsForAdvancedStatsEntry: string[] = [
+    'MIN',
+    'OFFRTG',
+    'DEFRTG',
+    'NETRTG',
+    'AST%',
+    'AST/TO',
+    'AST RATIO',
+    'OREB%',
+    'DREB%',
+    'REB%',
+    'TO RATIO',
+    'EFG%',
+    'TS%',
+    'USG%',
+    'PACE',
+    'PIE'
+];
+
+export const updatableFieldsForAdvancedStatsEntry: string[] = [
+    'min',
+    'offensiveRating',
+    'defensiveRating',
+    'netRating',
+    'assistPercentage',
+    'assistToTurnover',
+    'assistRatio',
+    'offensiveReboundPercentage',
+    'defensiveReboundPercentage',
+    'reboundPercentage',
+    'turnoverRatio',
+    'effectiveFieldGoalPercentage',
+    'trueShootingPercentage',
+    'usagePercentage',
+    'pace',
+    'pie'
+];
+
+export const gameStatsTypes = [
+    "Traditional",
+    "Advanced"
+]

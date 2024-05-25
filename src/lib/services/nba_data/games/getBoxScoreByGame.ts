@@ -1,6 +1,6 @@
-import type {Response} from "$lib/models/common/Response"
-import type {GameWithBoxScore} from "$lib/models/nba_data/box-scores/GameWithBoxScore";
-import {axiosInstance} from "$lib/constants";
+import type { Response } from "$lib/models/common/Response"
+import type { GameWithBoxScore } from "$lib/models/nba_data/box-scores/GameWithBoxScore";
+import { axiosInstance } from "$lib/constants";
 
 export default async function getBoxScoreByGame(date: string, homeTeamId: number, visitorTeamId: number): Promise<GameWithBoxScore> {
     const axiosRes =

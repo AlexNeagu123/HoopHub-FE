@@ -5,7 +5,7 @@
     export let labelTitle: string;
 </script>
 
-<div class="flex w-1/5 items-center mx-10">
+<div class="flex w-1/4 items-center mx-10">
     <label for="sortSelect" class="w-[30%] mr-2 text-gray-600">{labelTitle}</label>
     <select
         id="sortSelect"
@@ -18,3 +18,9 @@
         {/each}
     </select>
 </div>
+
+<style>
+	select option {
+		background-color: #f2f2f2;
+	}
+</style>

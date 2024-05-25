@@ -6,6 +6,5 @@ export default async function getLatestBoxScoresByPlayer(playerId: string): Prom
     const axiosRes =
         await axiosInstance.get<Response<LocalStoredBoxScoresDto[]>>(`nba-data/games/box-scores/${playerId}`);
     const response = axiosRes.data;
-    console.log(response.data);
     return response.data;
 }

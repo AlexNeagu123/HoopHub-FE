@@ -5,17 +5,21 @@
 	import {
 		GamePageTypes,
 		TableTypes,
+		displayFieldsForAdvancedStatsEntry,
+		gameStatsTypes,
 		headBoxScoreFieldsForSorting,
-		updatableBoxScoreDtoProps
+		updatableBoxScoreDtoProps,
+		updatableFieldsForAdvancedStatsEntry
 	} from '$lib/constants';
 	import Table from '$lib/components/shared/Table.svelte';
 	import { SlideToggle, tableMapperValues } from '@skeletonlabs/skeleton';
 	import type { BoxScorePlayer } from '$lib/models/nba_data/box-scores/BoxScorePlayer';
-	import { completeStats } from '$lib/utils/game-stats';
+	import { completeAdvancedStats, completeStats } from '$lib/utils/game-stats';
 	import { liveBoxScoreStore } from '$lib/stores/live-games.store';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import type { GameWithBoxScore } from '$lib/models/nba_data/box-scores/GameWithBoxScore';
 	import GameSelectContainer from '$lib/components/games/GameSelectContainer.svelte';
+	import type { AdvancedStatsEntry } from '$lib/models/nba_data/box-scores/AdvancedStatsEntry';
 
 	export let data: PageData;
 
@@ -23,12 +27,13 @@
 	let gameReviewAverages = data.gameReviewAverages;
 
 	let sortingSelectedValue: number = 0;
-	let isHomeTeamBoxScore: boolean = true;
-	let isVisitorTeamBoxScore: boolean = false;
+	let statsTypeSelectedValue: number = 0;
+	let advancedStatsEntries: AdvancedStatsEntry[] = data.advancedStatsEntries;
+	let isHometeamStats: boolean = true;
+	let isVisitorteamStats: boolean = false;
 
-	completeStats(gameDetails.homeTeam.players);
-	completeStats(gameDetails.visitorTeam.players);
-
+	console.log(advancedStatsEntries);
+	
 	const unsubscribe = liveBoxScoreStore.subscribe((boxScoreList) => {
 		boxScoreList.forEach((boxScore) => {
 			if (
@@ -42,7 +47,9 @@
 				gameDetails = boxScore;
 				completeStats(gameDetails.homeTeam.players);
 				completeStats(gameDetails.visitorTeam.players);
-				sortBothBoxScores();
+				const prop = updatableDtoProps[sortingSelectedValue];
+				gameDetails.homeTeam.players = sortBoxScoreStats(gameDetails.homeTeam.players, prop);
+				gameDetails.visitorTeam.players = sortBoxScoreStats(gameDetails.visitorTeam.players, prop);
 			}
 		});
 	});
@@ -52,13 +59,17 @@
 	let headFieldsForSorting = headBoxScoreFieldsForSorting;
 	let updatableDtoProps = updatableBoxScoreDtoProps;
 
-	$: teamBoxScore = isHomeTeamBoxScore
-		? gameDetails.homeTeam.players
-		: gameDetails.visitorTeam.players;
+	$: teamStats = isHometeamStats
+		? statsTypeSelectedValue === 0
+			? gameDetails.homeTeam.players
+			: advancedStatsEntries.filter((entry) => entry.team.id === gameDetails.homeTeam.id)
+		: statsTypeSelectedValue === 0
+			? gameDetails.visitorTeam.players
+			: advancedStatsEntries.filter((entry) => entry.team.id === gameDetails.visitorTeam.id);
 
 	$: table = {
 		head: ['Player', ...headFieldsForSorting],
-		body: tableMapperValues(teamBoxScore, ['playerFullName', ...updatableDtoProps])
+		body: tableMapperValues(teamStats, ['playerFullName', ...updatableDtoProps])
 	};
 
 	let previousGameDetails: GameWithBoxScore = gameDetails;
@@ -72,10 +83,10 @@
 	);
 
 	$: {
-		let currentPlayersState = isHomeTeamBoxScore
+		let currentPlayersState = isHometeamStats
 			? gameDetails?.homeTeam.players
 			: gameDetails?.visitorTeam.players;
-		let prevPlayersState = isHomeTeamBoxScore
+		let prevPlayersState = isHometeamStats
 			? previousGameDetails?.homeTeam.players
 			: previousGameDetails?.visitorTeam.players;
 
@@ -97,7 +108,7 @@
 	function sortBoxScoreStats(playerGameStats: BoxScorePlayer[], prop: string) {
 		const isValidProp = playerGameStats.every((player) => prop in player);
 		if (isValidProp) {
-			playerGameStats.sort((a, b) => {
+			playerGameStats = playerGameStats.slice().sort((a, b) => {
 				// @ts-ignore
 				if (typeof a[prop] === 'string' && typeof b[prop] === 'string') {
 					// @ts-ignore
@@ -107,21 +118,61 @@
 				return b[prop] - a[prop];
 			});
 		}
+		return playerGameStats;
 	}
 
-	function sortBothBoxScores() {
-		const prop = updatableBoxScoreDtoProps[sortingSelectedValue];
-		sortBoxScoreStats(gameDetails.homeTeam.players, prop);
-		sortBoxScoreStats(gameDetails.visitorTeam.players, prop);
-		teamBoxScore = isHomeTeamBoxScore
-			? gameDetails.homeTeam.players
-			: gameDetails.visitorTeam.players;
+	function sortAdvancedStats(advancedStats: AdvancedStatsEntry[], prop: string) {
+		const isValidProp = advancedStats.every((entry) => prop in entry);
+		if (isValidProp) {
+			advancedStats = advancedStats.slice().sort((a, b) => {
+				// @ts-ignore
+				if (typeof a[prop] === 'string' && typeof b[prop] === 'string') {
+					// @ts-ignore
+					return b[prop].localeCompare(a[prop]);
+				}
+				// @ts-ignore
+				return b[prop] - a[prop];
+			});
+		}
+		return advancedStats;
+	}
+
+	function sortStats() {
+		if (statsTypeSelectedValue === 0) {
+			const prop = updatableDtoProps[sortingSelectedValue];
+			gameDetails.homeTeam.players = sortBoxScoreStats(gameDetails.homeTeam.players, prop);
+			gameDetails.visitorTeam.players = sortBoxScoreStats(gameDetails.visitorTeam.players, prop);
+		} else {
+			const prop = updatableDtoProps[sortingSelectedValue];
+			advancedStatsEntries = sortAdvancedStats(advancedStatsEntries, prop);
+		}
+	}
+
+	function statsTypeChangedHandler() {
+		headFieldsForSorting =
+			statsTypeSelectedValue === 0
+				? headBoxScoreFieldsForSorting
+				: displayFieldsForAdvancedStatsEntry;
+		updatableDtoProps =
+			statsTypeSelectedValue === 0
+				? updatableBoxScoreDtoProps
+				: updatableFieldsForAdvancedStatsEntry;
 	}
 
 	function toggleBoxScore() {
-		isHomeTeamBoxScore = !isHomeTeamBoxScore;
-		isVisitorTeamBoxScore = !isVisitorTeamBoxScore;
+		isHometeamStats = !isHometeamStats;
+		isVisitorteamStats = !isVisitorteamStats;
 	}
+
+	onMount(() => {
+		gameDetails.homeTeam.players = completeStats(gameDetails.homeTeam.players);
+		gameDetails.visitorTeam.players = completeStats(gameDetails.visitorTeam.players);
+		advancedStatsEntries = completeAdvancedStats(
+			advancedStatsEntries,
+			gameDetails.homeTeam.players,
+			gameDetails.visitorTeam.players
+		);
+	});
 </script>
 
 <GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.BOX_SCORE} {gameReviewAverages}>
@@ -130,22 +181,22 @@
 			active="bg-primary-800"
 			background="bg-surface-700"
 			name="slider-label"
-			bind:checked={isVisitorTeamBoxScore}
+			bind:checked={isVisitorteamStats}
 			on:click={toggleBoxScore}
 		/>
 
 		<div class="flex w-full justify-center">
 			<GameSelectContainer
-				bind:selectedValue={sortingSelectedValue}
-				labelTitle={'Sort By'}
-				changeFunction={sortBothBoxScores}
-				optionsArray={headBoxScoreFieldsForSorting}
+				bind:selectedValue={statsTypeSelectedValue}
+				labelTitle={'Stats Type'}
+				changeFunction={statsTypeChangedHandler}
+				optionsArray={gameStatsTypes}
 			/>
 			<GameSelectContainer
 				bind:selectedValue={sortingSelectedValue}
 				labelTitle={'Sort By'}
-				changeFunction={sortBothBoxScores}
-				optionsArray={headBoxScoreFieldsForSorting}
+				changeFunction={sortStats}
+				optionsArray={headFieldsForSorting}
 			/>
 		</div>
 
@@ -153,20 +204,14 @@
 			active="bg-primary-800"
 			background="bg-surface-700"
 			name="slider-label"
-			bind:checked={isHomeTeamBoxScore}
+			bind:checked={isHometeamStats}
 			on:click={toggleBoxScore}
 		/>
 	</div>
 	<Table
 		{table}
 		tableType={TableTypes.boxScoreType}
-		playersInfo={teamBoxScore}
+		playersInfo={teamStats}
 		playersUpdates={playerStatUpdated}
 	/>
 </GameWithBoxScoreC>
-
-<style>
-	select option {
-		background-color: #f2f2f2;
-	}
-</style>

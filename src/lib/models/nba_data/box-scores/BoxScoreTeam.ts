@@ -12,4 +12,4 @@ interface BoxScoreTeam {
     players: BoxScorePlayer[];
 }
 
-export type {BoxScoreTeam}
+export type {BoxScoreTeam};
