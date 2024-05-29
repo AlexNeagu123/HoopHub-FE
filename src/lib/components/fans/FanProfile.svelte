@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppRoute, ProfilePageTypes, refreshPage } from '$lib/constants.js';
+	import { AppRoute, ProfilePageTypes } from '$lib/constants.js';
 	import FanRank from '$lib/components/fans/FanRank.svelte';
 	import FanStatsContainer from '$lib/components/fans/FanStatsContainer.svelte';
 	import { Avatar, TabAnchor, TabGroup } from '@skeletonlabs/skeleton';
@@ -38,11 +38,11 @@
 
 	async function changesSubmited() {
 		await updateFanInfo(uploadedImage, profilePageInfo.favouriteTeam);
-		refreshPage();
+		window.location.reload();
 	}
 </script>
 
-<InformativePopUps/>
+<InformativePopUps />
 
 <div class="flex justify-center">
 	<div class="card m-10 w-1/2 px-10 py-3 drop-shadow variant-filled-surface">
@@ -113,6 +113,10 @@
 					<TabAnchor
 						href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/reviews"
 						selected={profilePageType === ProfilePageTypes.REVIEWS}>Reviews</TabAnchor
+					>
+					<TabAnchor
+						href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/following"
+						selected={profilePageType === ProfilePageTypes.FOLLOWING}>Following</TabAnchor
 					>
 				</TabGroup>
 			</div>

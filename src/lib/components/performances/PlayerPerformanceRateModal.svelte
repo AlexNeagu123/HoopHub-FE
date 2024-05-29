@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { GameStarRatingConfig, starConfig, starRange } from '$lib/constants';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment

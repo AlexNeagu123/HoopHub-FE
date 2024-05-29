@@ -1,3 +1,5 @@
+import { jwtDecode } from "jwt-decode";
+
 export default class JwtParser {
     public token: string;
 
@@ -11,5 +13,14 @@ export default class JwtParser {
             throw new Error('Invalid JWT token format');
         }
         return JSON.parse(atob(tokenParts[1]));
+    }
+
+    public isJwtExpired() {
+        const decodedToken: { exp: number } = jwtDecode(this.token);
+        const currentTime = Date.now() / 1000;
+        if (decodedToken.exp < currentTime) {
+            return true;
+        }
+        return false;
     }
 }

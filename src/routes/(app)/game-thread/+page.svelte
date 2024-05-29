@@ -2,7 +2,12 @@
 	import type { PageData } from './$types';
 	import GameWithBoxScoreC from '$lib/components/games/GameWithBoxScoreC.svelte';
 
-	import { DynamicPaginationThresholds, GamePageTypes } from '$lib/constants';
+	import {
+		DynamicPaginationThresholds,
+		GamePageTypes,
+		commentListTypes,
+		commentsListQueryParams
+	} from '$lib/constants';
 	import type { Comment } from '$lib/models/user_features/comments/Comment';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -25,6 +30,8 @@
 
 	let validationErrors: { [key: string]: string } = {};
 	let isLoading = false;
+	let selectedType: string =
+		$page.url.searchParams.get(commentsListQueryParams.SORTING_TYPE) ?? commentListTypes.NEWEST;
 
 	$: comments = [...comments, ...commentsBatch];
 
@@ -36,11 +43,11 @@
 		rootCommentAdded = !rootCommentAdded;
 	}
 
-	async function fetchComments() {
+	async function fetchComments(isPopular: boolean) {
 		commentsBatch = await getCommentsByThread(
 			currentPage,
 			currentSize,
-			false,
+			isPopular,
 			firstCommentId,
 			null,
 			gameThread.id
@@ -61,7 +68,7 @@
 
 	onMount(async () => {
 		isLoading = true;
-		await fetchComments();
+		await fetchComments(selectedType === commentListTypes.POPULAR);
 		isLoading = false;
 	});
 </script>
@@ -90,6 +97,7 @@
 					bind:isLoading
 					bind:comments
 					bind:commentsBatch
+					{selectedType}
 					{fetchComments}
 				/>
 			</div>

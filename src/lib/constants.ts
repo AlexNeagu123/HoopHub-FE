@@ -1,8 +1,39 @@
 import { seasonFromIntToStr } from "$lib/utils/standings-utils";
 import { authToken } from "$lib/stores/auth.store";
-import { goto } from "$app/navigation";
 import { get } from "svelte/store";
 import axios from "axios";
+import { removeToken } from "./utils/auth-utils";
+import JwtParser from "./utils/jwt-parser";
+
+
+export const axiosInstance = axios.create({
+    baseURL: 'https://localhost:5001/api/v1/',
+    timeout: 5000,
+    headers: {
+        'Content-Type': 'application/json'
+    }
+});
+
+axiosInstance.interceptors.request.use(
+    function (config) {
+        const token = get(authToken);
+        if (!token) {
+            return config;
+        }
+
+        const jwtParser = new JwtParser(token);
+        if (jwtParser.isJwtExpired()) {
+            removeToken();
+            window.location.href = AppRoute.TEAMS;
+        }
+        config.headers['Authorization'] = `Bearer ${token}`;
+        return config;
+    },
+    function (error) {
+        console.error('Request error:', error);
+        return Promise.reject(error);
+    }
+);
 
 export enum WebSockets {
     BOX_SCORE_SOCKET_URL = 'wss://localhost:5001/box-scores-live',
@@ -142,7 +173,8 @@ export enum TeamPageTypes {
 export enum ProfilePageTypes {
     THREADS = "threads",
     COMMENTS = "comments",
-    REVIEWS = "reviews"
+    REVIEWS = "reviews",
+    FOLLOWING = "following",
 }
 
 
@@ -167,33 +199,6 @@ export enum DynamicPaginationThresholds {
 }
 
 export const noFavouriteTeamImageUrl: string = "https://hoophub.blob.core.windows.net/userphotos/question.png";
-export const axiosInstance = axios.create();
-
-export function refreshPage() {
-    window.location.reload();
-}
-
-axiosInstance.interceptors.request.use(
-    function (config) {
-        const token = get(authToken);
-        if (token) {
-            config.headers['Authorization'] = `Bearer ${token}`;
-        }
-        return config;
-    }
-);
-
-axios.interceptors.response.use(
-    function (response) {
-        return response;
-    },
-    function (error) {
-        if (error.response && error.response.status === 401) {
-            goto('/login');
-        }
-        return Promise.reject(error);
-    }
-);
 
 export enum ToastMessages {
     actionRequiresLogIn = "You should be logged in to perform this action",
@@ -354,10 +359,15 @@ export const latestGameOptions = [5, 10, 15, 30];
 export enum commentListTypes {
     NEWEST = "Newest",
     POPULAR = "Popular"
-} 
+}
 
 
 export enum commentsListQueryParams {
     SORTING_TYPE = "sortingType",
     FIRST_COMMENT = "firstComment"
+}
+
+export enum FollowingPageTypes {
+    TEAMS = "teams",
+    PLAYERS = "players"
 }

@@ -1,6 +1,6 @@
-import type {Team} from "$lib/models/nba_data/teams/Team";
-import type {Response} from "$lib/models/common/Response"
-import {axiosInstance} from "$lib/constants";
+import type { Team } from "$lib/models/nba_data/teams/Team";
+import type { Response } from "$lib/models/common/Response"
+import { axiosInstance } from "$lib/constants";
 import type FanInfo from "$lib/models/user_features/fans/FanInfo";
 
 export default async function updateFanInfo(avatarImageFile: File | null, favouriteTeam: Team | null) {
@@ -11,5 +11,9 @@ export default async function updateFanInfo(avatarImageFile: File | null, favour
     if (favouriteTeam)
         formData.append("FavouriteTeamId", favouriteTeam.id)
 
-    return await axiosInstance.put<Response<FanInfo>>(`user-features/fans`, formData);
+    return await axiosInstance.put<Response<FanInfo>>(`user-features/fans`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    });
 }

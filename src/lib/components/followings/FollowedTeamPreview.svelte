@@ -5,7 +5,7 @@
     export let team: Team;
 </script>
 
-<div class="shrink-0 sm:w-1/2 md:w-1/3 snap-start mx-2 text-center p-1 card-hover variant-filled-surface shadow">
+<div class="shrink-0 w-1/2 snap-start mx-2 text-center p-1 card-hover variant-filled-surface rounded-md shadow">
     <a href="{AppRoute.TEAM}/{team.id}">
         <header class="card-header sm:text-sm md:text-3xl p-5">{team.fullName}</header>
         <section>

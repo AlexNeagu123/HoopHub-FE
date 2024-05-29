@@ -14,7 +14,7 @@
 	let link: string =
 		comment.teamThread !== null
 			? `${AppRoute.TEAM_THREAD}/${comment.teamThread?.id}?${commentsListQueryParams.FIRST_COMMENT}=${redirectId}&${commentsListQueryParams.SORTING_TYPE}=${commentListTypes.NEWEST}`
-			: `${AppRoute.GAME_THREAD}?homeTeam=${comment.gameThread?.homeTeamId}&visitorTeam=${comment.gameThread?.visitorTeamId}&date=${comment.gameThread?.date}&firstComment=${redirectId}`;
+			: `${AppRoute.GAME_THREAD}?homeTeam=${comment.gameThread?.homeTeamId}&visitorTeam=${comment.gameThread?.visitorTeamId}&date=${comment.gameThread?.date}&firstComment=${redirectId}&${commentsListQueryParams.SORTING_TYPE}=${commentListTypes.NEWEST}`;
 </script>
 
 <a class="w-full variant-filled-surface p-2 my-1 card card-hover cursor-pointer" href={link}>

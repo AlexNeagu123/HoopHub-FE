@@ -2,7 +2,13 @@
 	import type { GameWithBoxScore } from '$lib/models/nba_data/box-scores/GameWithBoxScore';
 	import GamePresentation from '$lib/components/games/GamePresentation.svelte';
 	import { TabAnchor, TabGroup, getToastStore } from '@skeletonlabs/skeleton';
-	import { AppRoute, GamePageTypes, ToastMessages } from '$lib/constants';
+	import {
+		AppRoute,
+		GamePageTypes,
+		ToastMessages,
+		commentListTypes,
+		commentsListQueryParams
+	} from '$lib/constants';
 	import getGameThreadsByDate from '$lib/services/user_features/game-threads/getGameThreadsByDate';
 	import type { GameThread } from '$lib/models/user_features/threads/GameThread';
 	import type { GameReviewAverage } from '$lib/models/user_features/reviews/GameReviewAverage';
@@ -22,7 +28,7 @@
 
 	const boxScoresUrl = `${AppRoute.GAME}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const chartsUrl = `${AppRoute.GAME}/charts/?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
-	const threadUrl = `${AppRoute.GAME_THREAD}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
+	const threadUrl = `${AppRoute.GAME_THREAD}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}&${commentsListQueryParams.SORTING_TYPE}=${commentListTypes.NEWEST}`;
 	const reviewsUrl = `${AppRoute.GAME_REVIEWS}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const performancesUrl = `${AppRoute.GAME_PERFORMANCES}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 
