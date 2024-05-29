@@ -38,7 +38,6 @@ export function completeAdvancedStats(advancedStatsEntries: AdvancedStatsEntry[]
             'netRating', 
             'offensiveRating', 
             'turnoverRatio', 
-            'usagePercentage'
         ];
 
         propertiesToRound.forEach((property: keyof AdvancedStatsEntry) => {
@@ -87,6 +86,7 @@ export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBo
         stat.ftPct = convertToPercent(stat.ftPct);
     });
 
+    
     if(!forLatest)
         playerGameStats.sort((a, b) => Number(b.min) - Number(a.min));
     

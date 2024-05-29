@@ -6,7 +6,8 @@
 	import getGameThreadsByDate from '$lib/services/user_features/game-threads/getGameThreadsByDate';
 	import type { GameThread } from '$lib/models/user_features/threads/GameThread';
 	import type { GameReviewAverage } from '$lib/models/user_features/reviews/GameReviewAverage';
-	
+	import { currentUser } from '$lib/stores/auth.store';
+
 	export let gameDetails: GameWithBoxScore;
 	export let hiddenScores: boolean = false;
 	export let pageType: GamePageTypes;
@@ -24,7 +25,7 @@
 	const threadUrl = `${AppRoute.GAME_THREAD}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const reviewsUrl = `${AppRoute.GAME_REVIEWS}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const performancesUrl = `${AppRoute.GAME_PERFORMANCES}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
-	
+
 	async function checkThreadExists(event: Event) {
 		event.preventDefault();
 		var gameThreads: GameThread[] = await getGameThreadsByDate(date!);
@@ -53,6 +54,16 @@
 
 		if (reviews.length === 0) return null;
 		return reviews[0].averageRating;
+	}
+
+	function checkLoggedIn(event: Event) {
+		if (!$currentUser.isLoggedIn) {
+			event.preventDefault();
+			toastStore.trigger({
+				message: ToastMessages.actionRequiresLogIn,
+				background: 'variant-filled-error'
+			});
+		}
 	}
 
 	async function checkGameStarted(event: Event) {
@@ -92,14 +103,23 @@
 					on:click={checkGameStarted}>Game Charts</TabAnchor
 				>
 				<TabAnchor
+					on:click={checkLoggedIn}
 					href={threadUrl}
 					selected={pageType === GamePageTypes.THREAD}
 					on:click={checkThreadExists}>Thread</TabAnchor
 				>
-				<TabAnchor href={reviewsUrl} selected={pageType === GamePageTypes.REVIEWS}>
+				<TabAnchor
+					on:click={checkLoggedIn}
+					href={reviewsUrl}
+					selected={pageType === GamePageTypes.REVIEWS}
+				>
 					Reviews
 				</TabAnchor>
-				<TabAnchor href={performancesUrl} selected={pageType === GamePageTypes.PERFORMANCES}>
+				<TabAnchor
+					on:click={checkLoggedIn}
+					href={performancesUrl}
+					selected={pageType === GamePageTypes.PERFORMANCES}
+				>
 					Performances
 				</TabAnchor>
 			</TabGroup>

@@ -32,8 +32,6 @@
 	let isHometeamStats: boolean = true;
 	let isVisitorteamStats: boolean = false;
 
-	console.log(advancedStatsEntries);
-	
 	const unsubscribe = liveBoxScoreStore.subscribe((boxScoreList) => {
 		boxScoreList.forEach((boxScore) => {
 			if (
@@ -111,8 +109,10 @@
 			playerGameStats = playerGameStats.slice().sort((a, b) => {
 				// @ts-ignore
 				if (typeof a[prop] === 'string' && typeof b[prop] === 'string') {
-					// @ts-ignore
-					return b[prop].localeCompare(a[prop]);
+					if (prop !== 'min')
+						// @ts-ignore
+						return b[prop].localeCompare(a[prop]);
+					return Number(b[prop]) - Number(a[prop]);
 				}
 				// @ts-ignore
 				return b[prop] - a[prop];
@@ -127,8 +127,10 @@
 			advancedStats = advancedStats.slice().sort((a, b) => {
 				// @ts-ignore
 				if (typeof a[prop] === 'string' && typeof b[prop] === 'string') {
-					// @ts-ignore
-					return b[prop].localeCompare(a[prop]);
+					if (prop !== 'min')
+						// @ts-ignore
+						return b[prop].localeCompare(a[prop]);
+					return Number(b[prop]) - Number(a[prop]);
 				}
 				// @ts-ignore
 				return b[prop] - a[prop];

@@ -4,5 +4,5 @@
 </script>
 
 {#if errorKey in validationErrors}
-    <p class="text-red-500 text-center mt-2">{validationErrors[errorKey]}</p>
+    <p class="text-red-500 text-center my-2">{validationErrors[errorKey]}</p>
 {/if}

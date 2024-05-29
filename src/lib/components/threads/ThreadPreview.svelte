@@ -7,7 +7,9 @@
 		AppRoute,
 		ThreadWidthTypes,
 		ThreadWidthTypesConverter,
-		TruncateLengths
+		TruncateLengths,
+		commentListTypes,
+		commentsListQueryParams
 	} from '$lib/constants';
 	import { VoteStatus } from '$lib/models/user_features/threads/VoteStatus';
 	import ProfileLink from './ProfileLink.svelte';
@@ -27,7 +29,7 @@
 </script>
 
 <a
-	href="{AppRoute.TEAM_THREAD}/{id}"
+	href="{AppRoute.TEAM_THREAD}/{id}?{commentsListQueryParams.SORTING_TYPE}={commentListTypes.NEWEST}"
 	class="{ThreadWidthTypesConverter[
 		threadWidthType
 	]} card card-hover variant-filled-surface shadow px-5 py-3 my-2 cursor-pointer"

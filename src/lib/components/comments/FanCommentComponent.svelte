@@ -2,7 +2,7 @@
 	import type { Comment } from '$lib/models/user_features/comments/Comment';
 	import TimeAgo from '../threads/TimeAgo.svelte';
 	import ProfileLink from '../threads/ProfileLink.svelte';
-	import { AppRoute } from '$lib/constants';
+	import { AppRoute, commentListTypes, commentsListQueryParams } from '$lib/constants';
 	import VersusLink from './VersusLink.svelte';
 	import type { Team } from '$lib/models/nba_data/teams/Team';
 
@@ -13,7 +13,7 @@
 	let redirectId = comment.parentId ? comment.parentId : comment.id;
 	let link: string =
 		comment.teamThread !== null
-			? `${AppRoute.TEAM_THREAD}/${comment.teamThread?.id}?firstComment=${redirectId}`
+			? `${AppRoute.TEAM_THREAD}/${comment.teamThread?.id}?${commentsListQueryParams.FIRST_COMMENT}=${redirectId}&${commentsListQueryParams.SORTING_TYPE}=${commentListTypes.NEWEST}`
 			: `${AppRoute.GAME_THREAD}?homeTeam=${comment.gameThread?.homeTeamId}&visitorTeam=${comment.gameThread?.visitorTeamId}&date=${comment.gameThread?.date}&firstComment=${redirectId}`;
 </script>
 
@@ -35,10 +35,7 @@
 					<span class="px-2">&bull;</span>
 				{/if}
 				{#if comment.gameThread !== null}
-					<VersusLink
-						{homeTeam}
-						{visitorTeam}
-					/>
+					<VersusLink {homeTeam} {visitorTeam} />
 					<span class="px-2">&bull;</span>
 				{/if}
 				<TimeAgo time={comment.createdDate} />

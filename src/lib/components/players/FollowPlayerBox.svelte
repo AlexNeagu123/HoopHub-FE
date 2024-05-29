@@ -5,7 +5,8 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import EmptyStar from '../shared/EmptyStar.svelte';
 	import FullStar from '../shared/FullStar.svelte';
-	import { FollowMessage, UnfollowedMessage } from '$lib/constants';
+	import { FollowMessage, ToastMessages, UnfollowedMessage } from '$lib/constants';
+	import { currentUser } from '$lib/stores/auth.store';
 
 	export let playerFollows: PlayerFollowEntry[] = [];
 	export let playerId: string;
@@ -15,6 +16,14 @@
 	let isPlayerFollowed = playerFollows.some((playerFollow) => playerFollow.playerId === playerId);
 
 	async function followClickHandle() {
+		if (!$currentUser.isLoggedIn) {
+			toastStore.trigger({
+				message: ToastMessages.actionRequiresLogIn,
+				background: 'variant-filled-error'
+			});
+			return;
+		}
+
 		let oldStatusFollowed = isPlayerFollowed;
 		isPlayerFollowed = !isPlayerFollowed;
 		if (oldStatusFollowed) {
@@ -34,7 +43,7 @@
 </script>
 
 <div class="flex">
-	<p class="h4 font-semibold">
+	<p class="h4 font-semibold {!$currentUser.isLoggedIn ? 'text-gray-500' : ''}">
 		Follow Player
 		<button type="button" class="h3 btn-icon variant-filled-surface" on:click={followClickHandle}>
 			{#if isPlayerFollowed}

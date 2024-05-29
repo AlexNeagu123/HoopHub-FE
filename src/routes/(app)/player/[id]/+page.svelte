@@ -12,6 +12,8 @@
 	import getLatestBoxScoresByPlayer from '$lib/services/nba_data/games/getLatestBoxScoresByPlayer';
 	import { dateToString } from '$lib/utils/date-parser';
 	import { completeStats } from '$lib/utils/game-stats';
+	import GameCountSelect from '$lib/components/games/GameCountSelect.svelte';
+	import { latestGameOptions } from '$lib/constants';
 
 	export let data: PageData;
 	let id = $page.params.id;
@@ -81,14 +83,14 @@
 	};
 
 	let isLoading: boolean = true;
-	onMount(async () => {
+
+	async function loadGames(gameCount: number) {
+		isLoading = true;
+
 		let playerBoxScore: LatestPlayerBoxScore[] = [];
 		let latestBoxScores: LocalStoredBoxScoresDto[] = [];
 
-		isLoading = true;
-		latestBoxScores = await getLatestBoxScoresByPlayer(id);
-        console.log(latestBoxScores);
-
+		latestBoxScores = await getLatestBoxScoresByPlayer(id, gameCount);
 		latestBoxScores.forEach((bs) => {
 			let oppTeamAbbr = '';
 			let ownTeamId = '';
@@ -146,17 +148,34 @@
 				playerImageUrl: bs.player.imageUrl
 			});
 		});
-        
-        completeStats(playerBoxScore, true);
+
+		completeStats(playerBoxScore, true);
 		playerStatsFromBoxScore = playerBoxScore;
 		isLoading = false;
+	}
+
+	onMount(async () => {
+		await loadGames(selectedGameCount);
 	});
+
+	let selectedGameCount: number = 5;
+	async function handleGameCountChange() {
+		await loadGames(selectedGameCount);
+	}
 </script>
 
 <PlayerExpanded player={data.player} {playerFollows} pageType="latest">
 	{#if isLoading}
 		<LoadingIcon />
 	{:else}
+		<div class="w-1/2">
+			<GameCountSelect
+				bind:selectedValue={selectedGameCount}
+				changeFunction={handleGameCountChange}
+				optionsArray={latestGameOptions}
+				labelTitle="Games Count"
+			/>
+		</div>
 		<PlayerLatestGamesTable {table} {hasWon} />
 	{/if}
 </PlayerExpanded>

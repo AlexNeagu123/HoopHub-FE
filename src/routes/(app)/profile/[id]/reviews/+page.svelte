@@ -4,25 +4,26 @@
 
 	export let data: PageData;
 	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 	import { DynamicPaginationThresholds, ProfilePageTypes } from '$lib/constants';
 	import type { GameReview } from '$lib/models/user_features/reviews/GameReview';
-	import getOwnGameReviewsPaged from '$lib/services/user_features/game-reviews/getOwnGameReviewsPaged';
 	import FanGameReviewsContainer from '$lib/components/reviews/FanGameReviewsContainer.svelte';
 	import type { Team } from '$lib/models/nba_data/teams/Team';
 	import getAllTeams from '$lib/services/nba_data/teams/getAllTeams';
+	import getFanGameReviewsPaged from '$lib/services/user_features/game-reviews/getFanGameReviewsPaged';
+	import { page } from '$app/stores';
 
 	let currentPage = 1;
 	let currentSize = DynamicPaginationThresholds.TeamThreadsThreshold;
 	let allReviewsLoading: boolean = true;
 	let teams: Team[] = [];
+	let id = $page.params.id;
 
 	let reviewsBatch: GameReview[] = [];
 	let reviews: GameReview[] = [];
 	$: reviews = [...reviews, ...reviewsBatch];
 
 	async function fetchReviews() {
-		reviewsBatch = await getOwnGameReviewsPaged(currentPage, currentSize);
+		reviewsBatch = await getFanGameReviewsPaged(id, currentPage, currentSize);
 		currentPage++;
 	}
 

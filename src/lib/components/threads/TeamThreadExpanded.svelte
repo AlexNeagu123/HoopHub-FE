@@ -18,17 +18,23 @@
 	import addComment from '$lib/services/user_features/comments/addComment';
 	import { onMount } from 'svelte';
 	import getCommentsByThread from '$lib/services/user_features/comments/getCommentsByThread';
-	import { DynamicPaginationThresholds } from '$lib/constants';
+	import {
+		DynamicPaginationThresholds,
+		commentListTypes,
+		commentsListQueryParams
+	} from '$lib/constants';
 	import type { Comment } from '$lib/models/user_features/comments/Comment';
 
 	export let teamThread: TeamThread;
 	export let team: Team;
 
 	let firstCommentId: string | null = $page.url.searchParams.get('firstComment');
-	let passCommentId = firstCommentId;
 
+	let passCommentId = firstCommentId;
 	let validationErrors: { [key: string]: string } = {};
 	let isLoading = false;
+	let selectedType: string =
+		$page.url.searchParams.get(commentsListQueryParams.SORTING_TYPE) ?? commentListTypes.NEWEST;
 
 	let commentsBatch: Comment[] = [];
 	let comments: Comment[] = [];
@@ -90,11 +96,11 @@
 	let currentPage = 1;
 	let currentSize = DynamicPaginationThresholds.CommentsThreshold;
 
-	async function fetchComments() {
+	async function fetchComments(isPopular: boolean) {
 		commentsBatch = await getCommentsByThread(
 			currentPage,
 			currentSize,
-			false,
+			isPopular,
 			firstCommentId,
 			teamThread.id,
 			null
@@ -106,7 +112,7 @@
 
 	onMount(async () => {
 		isLoading = true;
-		await fetchComments();
+		await fetchComments(selectedType === commentListTypes.POPULAR);
 		isLoading = false;
 	});
 </script>
@@ -147,6 +153,7 @@
 				bind:isLoading
 				bind:comments
 				bind:commentsBatch
+				{selectedType}
 				{fetchComments}
 			/>
 		</div>

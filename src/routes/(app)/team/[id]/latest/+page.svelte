@@ -7,10 +7,10 @@
 	import type { LatestTeamBoxScore } from '$lib/models/nba_data/box-scores/LatestTeamBoxScore';
 	import getLatestBoxScoresByTeam from '$lib/services/nba_data/games/getLatestBoxScoresByTeam';
 	import TeamLatestGamesTable from '$lib/components/shared/TeamLatestGamesTable.svelte';
-	import { TeamPageTypes } from '$lib/constants';
+	import { TeamPageTypes, latestGameOptions } from '$lib/constants';
 	import type { LocalStoredGame } from '$lib/models/nba_data/games/LocalStoredGame';
-	import { formatDate } from 'svelty-picker';
 	import { dateToString } from '$lib/utils/date-parser';
+	import GameCountSelect from '$lib/components/games/GameCountSelect.svelte';
 
 	export let data: PageData;
 	let teamFollows = data.teamFollows;
@@ -43,12 +43,12 @@
 		body: tableMapperValues(latestTeamBoxScores, bodyFields)
 	};
 
-	onMount(async () => {
+	async function loadGames(gameCount: number) {
 		isLoading = true;
 		let latestGames: LocalStoredGame[] = [];
 		let teamBoxScores: LatestTeamBoxScore[] = [];
 
-		latestGames = await getLatestBoxScoresByTeam(data.team.id);
+		latestGames = await getLatestBoxScoresByTeam(data.team.id, gameCount);
 		latestGames.forEach((g) => {
 			if (g.homeTeam?.id === data.team.id) {
 				const result =
@@ -83,13 +83,30 @@
 
 		latestTeamBoxScores = teamBoxScores;
 		isLoading = false;
+	}
+
+	onMount(async () => {
+		await loadGames(selectedGameCount);
 	});
+
+	let selectedGameCount: number = 5;
+	async function handleGameCountChange() {
+		await loadGames(selectedGameCount);
+	}
 </script>
 
 <TeamExpanded team={data.team} pageType={TeamPageTypes.LATEST} {teamFollows}>
 	{#if isLoading}
 		<LoadingIcon />
 	{:else}
+		<div class="w-1/2">
+			<GameCountSelect
+				bind:selectedValue={selectedGameCount}
+				changeFunction={handleGameCountChange}
+				optionsArray={latestGameOptions}
+				labelTitle="Games Count"
+			/>
+		</div>
 		<div class="w-3/4">
 			<TeamLatestGamesTable {table} {hasWon} />
 		</div>

@@ -11,4 +11,5 @@ export default class FanInfo {
     public upVotes: number = 0;
     public commentsCount: number = 0;
     public reviewsCount: number = 0;
+    public isLicensed: boolean = false; 
 }

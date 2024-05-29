@@ -73,7 +73,7 @@
 					<Profile />
 				</UserIconLink>
 
-				<UserIconLink link="aaa" linkText="Settings">
+				<UserIconLink link="{AppRoute.SETTINGS}" linkText="Settings">
 					<Settings />
 				</UserIconLink>
 

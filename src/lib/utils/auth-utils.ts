@@ -7,6 +7,11 @@ export function storeToken(token: string): void {
     authToken.set(token);
 }
 
+export function removeToken(): void {
+    localStorage.removeItem('authToken');
+    authToken.set("");
+}
+
 export function extractLoggedUserInfo(claims: { [key: string]: string }): CurrentUser {
     return {
         isLoggedIn: true,

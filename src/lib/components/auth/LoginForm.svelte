@@ -66,13 +66,22 @@
 		<button type="submit" class="btn border border-primary-300 mt-3 bg-primary-300 shadow w-full"
 			>Login</button
 		>
-		<p class="mt-4 text-gray-600">
-			Don't have an account? Register
-			<a
-				href={AppRoute.REGISTER}
-				class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold"
-				>here</a
-			>
-		</p>
+
+		<div class="flex justify-evenly">
+			<p class="mt-4 text-gray-600">
+				<a
+					href={AppRoute.REGISTER}
+					class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold"
+					>Register here</a
+				>
+			</p>
+
+			<p class="mt-4 text-gray-600">
+				<a
+					class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600 font-bold"
+					href={AppRoute.IDENTIFY}>Forgot Password?</a
+				>
+			</p>
+		</div>
 	</form>
 </div>

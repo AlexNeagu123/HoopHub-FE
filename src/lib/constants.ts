@@ -26,6 +26,8 @@ export enum AppRoute {
     GAME_THREAD = "/game-thread",
     GAME_REVIEWS = "/game-reviews",
     GAME_PERFORMANCES = "/game-performances",
+    IDENTIFY = "/login/identify",
+    SETTINGS = "/profile/settings",
 }
 
 export enum TeamConstants {
@@ -344,3 +346,18 @@ export const gameStatsTypes = [
     "Traditional",
     "Advanced"
 ]
+
+export const rankTexts = ["Rookie", "Regular", "Expert", "Goat"]
+export const rankColors = ["text-gray-500", "text-green-600", "text-orange-600", "text-red-800"]
+export const latestGameOptions = [5, 10, 15, 30];
+
+export enum commentListTypes {
+    NEWEST = "Newest",
+    POPULAR = "Popular"
+} 
+
+
+export enum commentsListQueryParams {
+    SORTING_TYPE = "sortingType",
+    FIRST_COMMENT = "firstComment"
+}

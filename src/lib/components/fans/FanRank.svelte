@@ -2,7 +2,7 @@
     import {FanBadge} from "$lib/models/user_features/fans/FanBadge";
     import {Avatar, ListBox, ListBoxItem} from "@skeletonlabs/skeleton";
     import type {Team} from "$lib/models/nba_data/teams/Team";
-    import {noFavouriteTeamImageUrl} from "$lib/constants";
+    import {noFavouriteTeamImageUrl, rankColors, rankTexts} from "$lib/constants";
     import {popup} from '@skeletonlabs/skeleton';
     import type {PopupSettings} from '@skeletonlabs/skeleton';
 
@@ -25,9 +25,6 @@
         favouriteTeam = comboboxSelectedValue === -1 ? null : availableTeams[comboboxSelectedValue];
         changesMade = true;
     }
-
-    const rankTexts = ["Rookie", "Regular", "Expert", "Goat"]
-    const rankColors = ["text-gray-500", "text-green-600", "text-orange-600", "text-red-800"]
 </script>
 
 <div>
