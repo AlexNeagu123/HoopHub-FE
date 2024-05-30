@@ -12,7 +12,7 @@
 	async function updateAuthStoreAndRedirect(token: string) {
 		storeToken(token);
 		storeUserDetails(token);
-		await goto(AppRoute.TEAMS);
+		await goto(AppRoute.HOME);
 	}
 
 	async function handleLogin(e: Event) {

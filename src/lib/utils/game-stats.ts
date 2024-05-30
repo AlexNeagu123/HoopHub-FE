@@ -1,6 +1,7 @@
 import type { AdvancedStatsEntry } from "$lib/models/nba_data/box-scores/AdvancedStatsEntry";
-import type {BoxScorePlayer} from "$lib/models/nba_data/box-scores/BoxScorePlayer";
+import type { BoxScorePlayer } from "$lib/models/nba_data/box-scores/BoxScorePlayer";
 import type { LatestPlayerBoxScore } from "$lib/models/nba_data/box-scores/LatestPlayerBoxScore";
+import type { LocalStoredBoxScoresDto } from "$lib/models/nba_data/box-scores/LocalStoredBoxScores";
 
 const roundToOneDecimal = (value: number) => parseFloat(value.toFixed(1));
 
@@ -8,7 +9,7 @@ const convertToPercent = (value: number | undefined) => {
     if (!value) {
         return 0;
     }
-    if(value * 100 > 100) {
+    if (value * 100 > 100) {
         return value;
     }
     return roundToOneDecimal(value * 100);
@@ -27,17 +28,17 @@ export function completeAdvancedStats(advancedStatsEntries: AdvancedStatsEntry[]
         if (playerStats) {
             stat.min = playerStats.min;
         } else {
-            stat.min = "00"; 
-        }        
+            stat.min = "00";
+        }
 
         const propertiesToRound: (keyof AdvancedStatsEntry)[] = [
-            'pace', 
-            'assistRatio', 
-            'assistToTurnover', 
-            'defensiveRating', 
-            'netRating', 
-            'offensiveRating', 
-            'turnoverRatio', 
+            'pace',
+            'assistRatio',
+            'assistToTurnover',
+            'defensiveRating',
+            'netRating',
+            'offensiveRating',
+            'turnoverRatio',
         ];
 
         propertiesToRound.forEach((property: keyof AdvancedStatsEntry) => {
@@ -77,7 +78,7 @@ export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBo
             stat[property] = roundToOneDecimal(stat[property]);
         });
 
-        if(stat.min[0] === "0") {
+        if (stat.min[0] === "0") {
             stat.min = stat.min.substring(1);
         }
 
@@ -86,10 +87,10 @@ export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBo
         stat.ftPct = convertToPercent(stat.ftPct);
     });
 
-    
-    if(!forLatest)
+
+    if (!forLatest)
         playerGameStats.sort((a, b) => Number(b.min) - Number(a.min));
-    
+
     playerGameStats = playerGameStats.filter(stat => stat.min !== "0" && stat.min !== "00" && stat.min !== "");
     return playerGameStats;
 }
@@ -136,9 +137,37 @@ export function findMaxByProperty(playerGameStats: BoxScorePlayer[], prop: strin
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             maxVal = p[prop];
-                maxIndex = index;
-            }
+            maxIndex = index;
         }
+    }
     );
     return maxIndex;
+}
+
+
+export function isGoodGame(boxScore: LocalStoredBoxScoresDto): boolean {
+    let doubleDigitsCount = 0;
+
+    if (boxScore.pts >= 10) doubleDigitsCount++;
+    if (boxScore.reb >= 10) doubleDigitsCount++;
+    if (boxScore.ast >= 10) doubleDigitsCount++;
+    if (boxScore.stl >= 10) doubleDigitsCount++;
+    if (boxScore.blk >= 10) doubleDigitsCount++;
+
+    if (doubleDigitsCount >= 3)
+        return true;
+
+    if (boxScore.reb > 10 || boxScore.blk > 3 || boxScore.stl > 3)
+        return true;
+
+    if (doubleDigitsCount >= 2)
+        return true;
+
+    if (boxScore.pts > 20 && boxScore.fgPct > 0.5)
+        return true;
+
+    if (boxScore.fg3a > 10 && boxScore.fg3Pct > 0.5)
+        return true;
+
+    return false;
 }

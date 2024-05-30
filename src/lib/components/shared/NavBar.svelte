@@ -26,24 +26,34 @@
 	export let allNotifications: NotificationModel[];
 </script>
 
-<AppBar background="bg-surface-500" border="border border-solid border-surface-600 border-t-0">
+<AppBar background="bg-surface-400" border="border border-solid bg-surface-400 border-t-0">
 	<svelte:fragment slot="lead">
-		<div></div>
+		<a type="button" href={AppRoute.HOME} class="btn bg-surface-400">
+			<span
+				><Avatar
+					src="/images/logo/HoopHub.png"
+					width="w-12"
+					rounded="rounded-full"
+					background="bg-transparent"
+				/></span
+			>
+			<span class="text-xl"> Home </span>
+		</a>
 	</svelte:fragment>
 	<svelte:fragment>
 		<div class="flex justify-evenly">
-			<a type="button" class="btn variant-filled-surface text-xl" href={AppRoute.TEAMS}>Teams</a>
-			<a type="button" class="btn variant-filled-surface text-xl" href={AppRoute.GAMES}>Games</a>
+			<a type="button" class="btn bg-surface-400 text-xl" href={AppRoute.TEAMS}>Teams</a>
+			<a type="button" class="btn bg-surface-400 text-xl" href={AppRoute.GAMES}>Games</a>
 			<a
 				type="button"
-				class="btn variant-filled-surface text-xl"
+				class="btn bg-surface-400 text-xl"
 				href="{AppRoute.STANDINGS}?season={seasonFromIntToStr(SeasonConstants.currentSeason)}"
 			>
 				Standings
 			</a>
 			<a
 				type="button"
-				class="btn variant-filled-surface text-xl"
+				class="btn bg-surface-400 text-xl"
 				href="{AppRoute.PLAYOFFS}?season={seasonFromIntToStr(SeasonConstants.currentSeason - 1)}"
 			>
 				Playoffs
@@ -54,7 +64,7 @@
 		{#if $currentUser.isLoggedIn}
 			<InboxComponent {unreadNotifications} {unreadNotificationsCount} {allNotifications} />
 			<div
-				class="w-14 h-14 rounded-full bg-primary-200 flex items-center justify-center cursor-pointer avatar"
+				class="w-14 h-14 rounded-full bg-surface-400 flex items-center justify-center cursor-pointer avatar"
 				use:popup={fanPopUp}
 			>
 				<Avatar
@@ -73,7 +83,7 @@
 					<Profile />
 				</UserIconLink>
 
-				<UserIconLink link="{AppRoute.SETTINGS}" linkText="Settings">
+				<UserIconLink link={AppRoute.SETTINGS} linkText="Settings">
 					<Settings />
 				</UserIconLink>
 
@@ -82,7 +92,7 @@
 				</UserIconLink>
 			</div>
 		{:else}
-			<a type="button" class="btn variant-filled-surface text-xl" href={AppRoute.LOGIN}>Login</a>
+			<a type="button" class="btn bg-surface-400 text-xl" href={AppRoute.LOGIN}>Login</a>
 		{/if}
 	</svelte:fragment>
 </AppBar>

@@ -8,7 +8,7 @@
 <InformativePopUps />
 
 <div
-	class:border-r-secondary-600={isLast}
+	class:border-r-primary-600={isLast}
 	class:border-r-2={isLast}
 	class="flex flex-col text-center justify-center w-full hover:bg-primary-600
      border-l-2 border-l-primary-600

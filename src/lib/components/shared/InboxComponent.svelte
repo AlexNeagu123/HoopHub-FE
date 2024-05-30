@@ -69,7 +69,7 @@
 </script>
 
 <div
-	class="w-14 h-14 rounded-full bg-primary-200 flex items-center justify-center cursor-pointer avatar relative"
+	class="w-14 h-14 rounded-full bg-surface-400 flex items-center justify-center cursor-pointer avatar relative"
 	use:popup={notificationsPopUp}
 >
 	<div class="w-1/2">

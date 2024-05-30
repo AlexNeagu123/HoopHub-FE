@@ -34,7 +34,7 @@
 						/>
 					</a>
 					<div class="w-52">
-						<img class="drop-shadows w-full bg-transparent" alt="AB" src={player.imageUrl} />
+						<img class="drop-shadow w-full bg-transparent" alt="AB" src={player.imageUrl} />
 					</div>
 				</div>
 				<PlayerHeader {player} {playerStats} />

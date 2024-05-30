@@ -40,5 +40,11 @@
 	ownInfo={data.fanInfo}
 	profilePageType={ProfilePageTypes.REVIEWS}
 >
-	<FanGameReviewsContainer bind:allReviewsLoading bind:reviews bind:reviewsBatch {fetchReviews} {teams} />
+	<FanGameReviewsContainer
+		bind:allReviewsLoading
+		bind:reviews
+		bind:reviewsBatch
+		{fetchReviews}
+		{teams}
+	/>
 </FanProfile>
