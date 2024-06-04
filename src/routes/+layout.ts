@@ -1,4 +1,4 @@
 export const ssr = false;
 
 import axios from "axios";
-axios.defaults.baseURL = "https://hoophub.azurewebsites.net/api/v1/";
+axios.defaults.baseURL = "http://localhost/api/v1/";

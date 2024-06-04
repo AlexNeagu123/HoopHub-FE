@@ -7,7 +7,7 @@ import JwtParser from "./utils/jwt-parser";
 
 
 export const axiosInstance = axios.create({
-    baseURL: 'https://hoophub.azurewebsites.net/api/v1/',
+    baseURL: 'http://localhost/api/v1/',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ axiosInstance.interceptors.request.use(
 );
 
 export enum WebSockets {
-    BOX_SCORE_SOCKET_URL = 'wss://localhost:5001/box-scores-live',
+    BOX_SCORE_SOCKET_URL = 'wss://localhost/box-scores-live',
     BOX_SCORES_CHANNEL = 'ReceiveLiveBoxScores'
 }
 

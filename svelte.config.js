@@ -8,7 +8,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [vitePreprocess()],
 	define: {
-		API_PATH: 'https://hoophub.azurewebsites.net/api/v1/'
+		API_PATH: 'http://localhost/api/v1/'
 	},
 	kit: {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
