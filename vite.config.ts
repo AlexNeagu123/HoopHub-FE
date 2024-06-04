@@ -5,6 +5,6 @@ import { defineConfig } from 'vite';
 export default defineConfig({
 	plugins: [sveltekit(), purgeCss()],
 	define: {
-		API_PATH: JSON.stringify('https://localhost:5001/api/v1/')
+		API_PATH: JSON.stringify('https://hoophub.azurewebsites.net/api/v1/')
 	}
 });

@@ -7,7 +7,7 @@ import JwtParser from "./utils/jwt-parser";
 
 
 export const axiosInstance = axios.create({
-    baseURL: 'https://localhost:5001/api/v1/',
+    baseURL: 'https://hoophub.azurewebsites.net/api/v1/',
     timeout: 5000,
     headers: {
         'Content-Type': 'application/json'

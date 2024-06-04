@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  hoophub-fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" 

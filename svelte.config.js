@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -8,7 +8,7 @@ const config = {
 	// for more information about preprocessors
 	preprocess: [vitePreprocess()],
 	define: {
-		API_PATH: 'https://localhost:5001/api/v1/'
+		API_PATH: 'https://hoophub.azurewebsites.net/api/v1/'
 	},
 	kit: {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
