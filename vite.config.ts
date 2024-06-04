@@ -4,7 +4,5 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
 	plugins: [sveltekit(), purgeCss()],
-	define: {
-		API_PATH: JSON.stringify('http://localhost/api/v1/')
-	}
+	define: {}
 });
