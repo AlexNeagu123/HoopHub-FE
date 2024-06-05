@@ -4,7 +4,7 @@ import { get } from "svelte/store";
 import axios from "axios";
 import { removeToken } from "./utils/auth-utils";
 import JwtParser from "./utils/jwt-parser";
-
+import { env } from "$env/dynamic/public";
 
 export const axiosInstance = axios.create({
     timeout: 5000,
@@ -34,9 +34,9 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-export enum WebSockets {
-    BOX_SCORE_SOCKET_URL = 'wss://localhost/box-scores-live',
-    BOX_SCORES_CHANNEL = 'ReceiveLiveBoxScores'
+export class WebSockets {
+    static BOX_SCORE_SOCKET_URL = `${env.PUBLIC_WSS_URL}/box-scores-live`;
+    static BOX_SCORES_CHANNEL = 'ReceiveLiveBoxScores';
 }
 
 export enum AppRoute {
