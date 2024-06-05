@@ -34,9 +34,9 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-export class WebSockets {
-    static BOX_SCORE_SOCKET_URL = `${env.PUBLIC_WSS_URL}/box-scores-live`;
-    static BOX_SCORES_CHANNEL = 'ReceiveLiveBoxScores';
+export enum WebSockets {
+    BOX_SCORE_SOCKET_URL = 'box-scores-live',
+    BOX_SCORES_CHANNEL = 'ReceiveLiveBoxScores'
 }
 
 export enum AppRoute {
