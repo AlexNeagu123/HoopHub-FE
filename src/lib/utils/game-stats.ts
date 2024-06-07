@@ -2,6 +2,7 @@ import type { AdvancedStatsEntry } from "$lib/models/nba_data/box-scores/Advance
 import type { BoxScorePlayer } from "$lib/models/nba_data/box-scores/BoxScorePlayer";
 import type { LatestPlayerBoxScore } from "$lib/models/nba_data/box-scores/LatestPlayerBoxScore";
 import type { LocalStoredBoxScoresDto } from "$lib/models/nba_data/box-scores/LocalStoredBoxScores";
+import type { Player } from "$lib/models/nba_data/players/Player";
 
 const roundToOneDecimal = (value: number) => parseFloat(value.toFixed(1));
 
@@ -17,7 +18,7 @@ const convertToPercent = (value: number | undefined) => {
 
 export function completeAdvancedStats(advancedStatsEntries: AdvancedStatsEntry[], homePlayers: BoxScorePlayer[], visitorPlayers: BoxScorePlayer[]) {
     const findPlayer = (playerId: string, players: BoxScorePlayer[]): BoxScorePlayer | undefined => {
-        return players.find(player => player.player.id === playerId);
+        return players.find(player => player.player!.id === playerId);
     };
 
     advancedStatsEntries.forEach(stat => {
@@ -64,8 +65,11 @@ export function completeAdvancedStats(advancedStatsEntries: AdvancedStatsEntry[]
     return advancedStatsEntries;
 }
 
-export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBoxScore[], forLatest: boolean = false) {
+export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBoxScore[], allPlayers: Player[], forLatest: boolean = false) {
     playerGameStats.forEach(stat => {
+        let player = allPlayers.find(player => player.apiId === stat.playerApiId);
+        stat.player = player;   
+
         stat.playerFullName = stat.player?.firstName + " " + stat.player?.lastName;
         stat.playerImageUrl = stat.player?.imageUrl;
 

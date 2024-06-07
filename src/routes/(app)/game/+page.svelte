@@ -20,39 +20,19 @@
 	import type { GameWithBoxScore } from '$lib/models/nba_data/box-scores/GameWithBoxScore';
 	import GameSelectContainer from '$lib/components/games/GameSelectContainer.svelte';
 	import type { AdvancedStatsEntry } from '$lib/models/nba_data/box-scores/AdvancedStatsEntry';
+	import LoadingIcon from '$lib/components/shared/LoadingIcon.svelte';
+	import type { Unsubscriber } from 'svelte/motion';
 
 	export let data: PageData;
-
 	let gameDetails = data.gameWithBoxScore;
 	let gameReviewAverages = data.gameReviewAverages;
+	let allPlayers = data.allPlayers;
 
 	let sortingSelectedValue: number = 0;
 	let statsTypeSelectedValue: number = 0;
 	let advancedStatsEntries: AdvancedStatsEntry[] = data.advancedStatsEntries;
 	let isHometeamStats: boolean = true;
 	let isVisitorteamStats: boolean = false;
-
-	const unsubscribe = liveBoxScoreStore.subscribe((boxScoreList) => {
-		boxScoreList.forEach((boxScore) => {
-			if (
-				boxScore.homeTeam.apiId !== gameDetails.homeTeam.apiId ||
-				boxScore.visitorTeam.apiId !== gameDetails.visitorTeam.apiId ||
-				boxScore.date !== gameDetails.date
-			) {
-				return;
-			}
-			if (boxScore.status.includes('Qtr') || boxScore.status.includes('Halftime')) {
-				gameDetails = boxScore;
-				completeStats(gameDetails.homeTeam.players);
-				completeStats(gameDetails.visitorTeam.players);
-				const prop = updatableDtoProps[sortingSelectedValue];
-				gameDetails.homeTeam.players = sortBoxScoreStats(gameDetails.homeTeam.players, prop);
-				gameDetails.visitorTeam.players = sortBoxScoreStats(gameDetails.visitorTeam.players, prop);
-			}
-		});
-	});
-
-	onDestroy(unsubscribe);
 
 	let headFieldsForSorting = headBoxScoreFieldsForSorting;
 	let updatableDtoProps = updatableBoxScoreDtoProps;
@@ -166,54 +146,91 @@
 		isVisitorteamStats = !isVisitorteamStats;
 	}
 
+	let isLoading = true;
+	let unsubscribe: Unsubscriber | null = null;
+	
 	onMount(() => {
-		gameDetails.homeTeam.players = completeStats(gameDetails.homeTeam.players);
-		gameDetails.visitorTeam.players = completeStats(gameDetails.visitorTeam.players);
+		gameDetails.homeTeam.players = completeStats(gameDetails.homeTeam.players, allPlayers);
+		gameDetails.visitorTeam.players = completeStats(gameDetails.visitorTeam.players, allPlayers);
+		unsubscribe = liveBoxScoreStore.subscribe((boxScoreList) => {
+			boxScoreList.forEach((boxScore) => {
+				if (
+					boxScore.homeTeam.apiId !== gameDetails.homeTeam.apiId ||
+					boxScore.visitorTeam.apiId !== gameDetails.visitorTeam.apiId ||
+					boxScore.date !== gameDetails.date
+				) {
+					return;
+				}
+				if (boxScore.status.includes('Qtr') || boxScore.status.includes('Halftime')) {
+					gameDetails = boxScore;
+					completeStats(gameDetails.homeTeam.players, allPlayers);
+					completeStats(gameDetails.visitorTeam.players, allPlayers);
+					const prop = updatableDtoProps[sortingSelectedValue];
+					gameDetails.homeTeam.players = sortBoxScoreStats(gameDetails.homeTeam.players, prop);
+					gameDetails.visitorTeam.players = sortBoxScoreStats(
+						gameDetails.visitorTeam.players,
+						prop
+					);
+				}
+			});
+		});
+		
 		advancedStatsEntries = completeAdvancedStats(
 			advancedStatsEntries,
 			gameDetails.homeTeam.players,
 			gameDetails.visitorTeam.players
 		);
+		isLoading = false;
+	});
+
+	onDestroy(() => {
+		if (unsubscribe) {
+			unsubscribe();
+		}
 	});
 </script>
 
-<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.BOX_SCORE} {gameReviewAverages}>
-	<div class="flex justify-between mx-10">
-		<SlideToggle
-			active="bg-primary-800"
-			background="bg-surface-700"
-			name="slider-label"
-			bind:checked={isVisitorteamStats}
-			on:click={toggleBoxScore}
-		/>
-
-		<div class="flex w-full justify-center">
-			<GameSelectContainer
-				bind:selectedValue={statsTypeSelectedValue}
-				labelTitle={'Stats Type'}
-				changeFunction={statsTypeChangedHandler}
-				optionsArray={gameStatsTypes}
+{#if isLoading}
+	<LoadingIcon />
+{:else}
+	<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.BOX_SCORE} {gameReviewAverages}>
+		<div class="flex justify-between mx-10">
+			<SlideToggle
+				active="bg-primary-800"
+				background="bg-surface-700"
+				name="slider-label"
+				bind:checked={isVisitorteamStats}
+				on:click={toggleBoxScore}
 			/>
-			<GameSelectContainer
-				bind:selectedValue={sortingSelectedValue}
-				labelTitle={'Sort By'}
-				changeFunction={sortStats}
-				optionsArray={headFieldsForSorting}
+
+			<div class="flex w-full justify-center">
+				<GameSelectContainer
+					bind:selectedValue={statsTypeSelectedValue}
+					labelTitle={'Stats Type'}
+					changeFunction={statsTypeChangedHandler}
+					optionsArray={gameStatsTypes}
+				/>
+				<GameSelectContainer
+					bind:selectedValue={sortingSelectedValue}
+					labelTitle={'Sort By'}
+					changeFunction={sortStats}
+					optionsArray={headFieldsForSorting}
+				/>
+			</div>
+
+			<SlideToggle
+				active="bg-primary-800"
+				background="bg-surface-700"
+				name="slider-label"
+				bind:checked={isHometeamStats}
+				on:click={toggleBoxScore}
 			/>
 		</div>
-
-		<SlideToggle
-			active="bg-primary-800"
-			background="bg-surface-700"
-			name="slider-label"
-			bind:checked={isHometeamStats}
-			on:click={toggleBoxScore}
+		<Table
+			{table}
+			tableType={TableTypes.boxScoreType}
+			playersInfo={teamStats}
+			playersUpdates={playerStatUpdated}
 		/>
-	</div>
-	<Table
-		{table}
-		tableType={TableTypes.boxScoreType}
-		playersInfo={teamStats}
-		playersUpdates={playerStatUpdated}
-	/>
-</GameWithBoxScoreC>
+	</GameWithBoxScoreC>
+{/if}

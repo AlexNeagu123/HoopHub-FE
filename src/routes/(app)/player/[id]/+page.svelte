@@ -20,7 +20,8 @@
 
 	let playerStatsFromBoxScore: LatestPlayerBoxScore[] = [];
 	let playerFollows: PlayerFollowEntry[] = data.playerFollows;
-
+	let allPlayers = data.allPlayers;
+	
 	const hasWon: boolean[] = [];
 
 	const headFields: string[] = [
@@ -143,13 +144,13 @@
 				ftPct: bs.ftPct,
 				turnover: bs.turnover,
 				pf: bs.pf,
-				player: bs.player,
+				playerApiId: bs.player.apiId,
 				playerFullName: `${bs.player.firstName} ${bs.player.lastName}`,
 				playerImageUrl: bs.player.imageUrl
 			});
 		});
 
-		completeStats(playerBoxScore, true);
+		completeStats(playerBoxScore, allPlayers, true);
 		playerStatsFromBoxScore = playerBoxScore;
 		isLoading = false;
 	}

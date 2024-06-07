@@ -13,6 +13,8 @@
 	import type { GameThread } from '$lib/models/user_features/threads/GameThread';
 	import type { GameReviewAverage } from '$lib/models/user_features/reviews/GameReviewAverage';
 	import { currentUser } from '$lib/stores/auth.store';
+	import getGamePredictions from '$lib/services/nba_data/game-predictions/getGamePredictions';
+	import { Wave } from 'svelte-loading-spinners';
 
 	export let gameDetails: GameWithBoxScore;
 	export let hiddenScores: boolean = false;
@@ -22,8 +24,8 @@
 	const url = new URL(window.location.href);
 	const toastStore = getToastStore();
 
-	const homeTeamId = url.searchParams.get('homeTeam');
-	const visitorTeamId = url.searchParams.get('visitorTeam');
+	const homeTeamId = Number(url.searchParams.get('homeTeam'));
+	const visitorTeamId = Number(url.searchParams.get('visitorTeam'));
 	const date = url.searchParams.get('date');
 
 	const boxScoresUrl = `${AppRoute.GAME}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
@@ -31,6 +33,9 @@
 	const threadUrl = `${AppRoute.GAME_THREAD}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}&${commentsListQueryParams.SORTING_TYPE}=${commentListTypes.NEWEST}`;
 	const reviewsUrl = `${AppRoute.GAME_REVIEWS}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const performancesUrl = `${AppRoute.GAME_PERFORMANCES}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
+
+	let homeTeamWinProbability: number | null = null;
+	let visitorTeamWinProbability: number | null = null;
 
 	async function checkThreadExists(event: Event) {
 		event.preventDefault();
@@ -83,10 +88,63 @@
 			window.location.href = chartsUrl;
 		}
 	}
+
+	let isLoadingPredictions = false;
+	async function handlePredictionsClick(event: Event) {
+		event.preventDefault();
+		try {
+			isLoadingPredictions = true;
+			const gamePrediction = await getGamePredictions(date!, homeTeamId, visitorTeamId);
+			if (!gamePrediction.success) {
+				toastStore.trigger({
+					message: gamePrediction.message,
+					background: 'variant-filled-error'
+				});
+			} else {
+				homeTeamWinProbability = gamePrediction.data.homeTeamWinProbability;
+				visitorTeamWinProbability = gamePrediction.data.visitorTeamWinProbability;
+			}
+		} catch (error) {
+			toastStore.trigger({
+				message: 'Failed to load predictions',
+				background: 'variant-filled-error'
+			});
+		} finally {
+			isLoadingPredictions = false;
+		}
+	}
 </script>
 
 <div class="flex justify-center">
 	<div class="w-5/6 shadow p-5 my-5 rounded-2xl">
+		<div class="w-full flex justify-between">
+			<div class="w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
+				{#if isLoadingPredictions}
+					<Wave color="#c1c4bc" size="60" />
+				{:else}
+					<h3 class="h3">
+						{visitorTeamWinProbability !== null ? `${visitorTeamWinProbability.toFixed(2)}%` : ''}
+					</h3>
+				{/if}
+			</div>
+			<div class="w-1/3 flex justify-center my-2">
+				<button
+					class="btn bg-primary-400 shadow text-sm !rounded-md font-semibold text-gray-600"
+					on:click={handlePredictionsClick}
+				>
+					Toggle Pre-Game Predictions
+				</button>
+			</div>
+			<div class="w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
+				{#if isLoadingPredictions}
+					<Wave color="#c1c4bc" size="60" />
+				{:else}
+					<h3 class="h3">
+						{homeTeamWinProbability !== null ? `${homeTeamWinProbability.toFixed(2)}%` : ''}
+					</h3>
+				{/if}
+			</div>
+		</div>
 		<GamePresentation
 			{hiddenScores}
 			game={gameDetails}
@@ -130,6 +188,7 @@
 				</TabAnchor>
 			</TabGroup>
 		</div>
+
 		<div class="mt-3">
 			<slot />
 		</div>

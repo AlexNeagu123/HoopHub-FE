@@ -15,7 +15,7 @@
 	let playerFollows: PlayerFollowEntry[] = data.pagePlayerFollows;
 	let teamFollows: TeamFollowEntry[] = data.pageTeamFollows;
 	let availableTeams: Team[] = data.availableTeams;
-	let activePlayers: Player[] = data.allActivePlayers;
+	let activePlayers: Player[] = data.allPlayers;
 
 	let selectedType = FollowingPageTypes.TEAMS;
 

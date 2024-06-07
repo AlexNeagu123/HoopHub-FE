@@ -55,7 +55,7 @@
 	<div class="flex flex-col">
 		<div class="flex justify-center w-full">
 			<div class="flex flex-col">
-				<h6 class="h6 flex justify-center text-gray-400 py-1">Average Rating</h6>
+				<h5 class="h5 flex justify-center text-gray-400 py-1 font-semibold">Average Rating</h5>
 				<div class="flex items-center justify-center">
 					<StarRating config={reviewStarConfig} />
 					<p class="px-3 font-semibold text-gray-500">{average ?? '-'} / 5</p>

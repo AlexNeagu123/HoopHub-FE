@@ -7,7 +7,7 @@
 	import type { PageData } from './$types';
 	import { initializeStores, Modal, Toast } from '@skeletonlabs/skeleton';
 	import type NotificationModel from '$lib/models/user_features/notifications/NotificationModel';
-
+			
 	initializeStores();
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 

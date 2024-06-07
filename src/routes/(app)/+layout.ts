@@ -12,6 +12,7 @@ import type { PlayerFollowEntry } from "$lib/models/user_features/followings/Pla
 import getPlayersFollowed from "$lib/services/user_features/followings/getPlayersFollowed";
 import type { TeamFollowEntry } from "$lib/models/user_features/followings/TeamFollowEntry";
 import getTeamsFollowed from "$lib/services/user_features/followings/getTeamsFollowed";
+import getAllPlayers from "$lib/services/nba_data/players/getAllPlayers";
 
 
 export const load: PageLoad = async () => {
@@ -24,14 +25,26 @@ export const load: PageLoad = async () => {
 
     if (get(authToken)) {
         fanInfo = await getFanInfo();
-        const unreadNotificationsResponse = await getNotifications(1, DynamicPaginationThresholds.NotificationsThreshold, true);
+
+        const [
+            unreadNotificationsResponse,
+            allNotificationsResponse,
+            retPlayerFollows,
+            retTeamFollows,
+        ] = await Promise.all([
+            getNotifications(1, DynamicPaginationThresholds.NotificationsThreshold, true),
+            getNotifications(1, DynamicPaginationThresholds.NotificationsThreshold, false),
+            getPlayersFollowed(),
+            getTeamsFollowed(),
+        ]);
+
+        playerFollows = retPlayerFollows;
+        teamFollows = retTeamFollows;
         unreadNotificationsCount = unreadNotificationsResponse.totalRecords;
         unreadNotifications = unreadNotificationsResponse.data;
-        const allNotificationsResponse = await getNotifications(1, DynamicPaginationThresholds.NotificationsThreshold, false);
         allNotifications = allNotificationsResponse.data;
-        playerFollows = await getPlayersFollowed();
-        teamFollows = await getTeamsFollowed();
     }
 
-    return { fanInfo, unreadNotificationsCount, unreadNotifications, allNotifications, playerFollows, teamFollows }
+    const allPlayers = await getAllPlayers();
+    return { fanInfo,  allPlayers, unreadNotificationsCount, unreadNotifications, allNotifications, playerFollows, teamFollows }
 };

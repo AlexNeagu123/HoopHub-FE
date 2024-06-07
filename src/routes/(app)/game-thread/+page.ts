@@ -5,16 +5,23 @@ import type { GameThread } from '$lib/models/user_features/threads/GameThread';
 import getAllGameReviewsByDateAndFan from '$lib/services/user_features/game-reviews/getAllGameReviewsByDateAndFan';
 
 export const load: PageLoad = async ({ url }) => {
-    let game = await loadBoxScores(url);
-    let gameWithBoxScore = game.gameWithBoxScore;
     const date: string = url.searchParams.get('date')!;
+    
+    const gamePromise = loadBoxScores(url);
+    const gameThreadsPromise = getGameThreadsByDate(date);
 
-    let gameThreads: GameThread[] = await getGameThreadsByDate(date);
-    gameThreads = gameThreads.filter((gameThread) => gameWithBoxScore.homeTeam.apiId === gameThread.homeTeamId
-        && gameWithBoxScore.visitorTeam.apiId === gameThread.visitorTeamId);
+    const [game, gameThreads] = await Promise.all([gamePromise, gameThreadsPromise]);
+    
+    const gameWithBoxScore = game.gameWithBoxScore;
+    const filteredGameThreads = gameThreads.filter((gameThread) => 
+        gameWithBoxScore.homeTeam.apiId === gameThread.homeTeamId && 
+        gameWithBoxScore.visitorTeam.apiId === gameThread.visitorTeamId
+    );
+    
+    const gameThread = filteredGameThreads[0];
+    const gameReviewAveragesPromise = getAllGameReviewsByDateAndFan(gameWithBoxScore.date);
+    
+    const gameReviewAverages = await gameReviewAveragesPromise;
 
-    let gameThread = gameThreads[0];
-
-    let gameReviewAverages = await getAllGameReviewsByDateAndFan(gameWithBoxScore.date);
     return { gameWithBoxScore, gameThread, gameReviewAverages };
 };

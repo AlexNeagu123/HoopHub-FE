@@ -8,6 +8,7 @@
 	import { liveBoxScoreStore } from '$lib/stores/live-games.store';
 	import type { Unsubscriber } from 'svelte/store';
 	import { GamePageTypes } from '$lib/constants';
+	import LoadingIcon from '$lib/components/shared/LoadingIcon.svelte';
 
 	type EChartsOption = echarts.EChartsOption;
 
@@ -15,12 +16,10 @@
 
 	let gameDetails = data.gameWithBoxScore;
 	let gameReviewAverages = data.gameReviewAverages;
+	let allPlayers = data.allPlayers;
 
 	$: homeTeamPlayerStats = gameDetails.homeTeam.players;
 	$: visitorTeamPlayerStats = gameDetails.visitorTeam.players;
-
-	completeStats(gameDetails.homeTeam.players);
-	completeStats(gameDetails.visitorTeam.players);
 
 	function updateChart() {
 		const chartDom = document.getElementById('chart-container')!;
@@ -90,6 +89,9 @@
 
 	let unsubscribe: Unsubscriber | null = null;
 
+	completeStats(gameDetails.homeTeam.players, allPlayers);
+	completeStats(gameDetails.visitorTeam.players, allPlayers);
+
 	onMount(() => {
 		updateChart();
 		unsubscribe = liveBoxScoreStore.subscribe((boxScoreList) => {
@@ -103,8 +105,8 @@
 				}
 				if (boxScore.status.includes('Qtr') || boxScore.status.includes('Halftime')) {
 					gameDetails = boxScore;
-					completeStats(gameDetails.homeTeam.players);
-					completeStats(gameDetails.visitorTeam.players);
+					completeStats(gameDetails.homeTeam.players, allPlayers);
+					completeStats(gameDetails.visitorTeam.players, allPlayers);
 					updateChart();
 				}
 			});

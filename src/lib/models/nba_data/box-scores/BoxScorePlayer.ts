@@ -20,8 +20,8 @@ interface BoxScorePlayer {
     turnover?: number;
     pf?: number;
     pts: number;
-    player: Player;
-
+    playerApiId: number;
+    player?: Player;
     playerFullName?: string;
     playerImageUrl?: string;
 }

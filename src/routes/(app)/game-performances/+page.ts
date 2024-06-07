@@ -4,9 +4,13 @@ import getPlayerPerformanceAveragesByGame from '$lib/services/user_features/perf
 import loadBoxScores from '$lib/utils/box-score-loader';
 
 export const load: PageLoad = async ({ url }) => {
-    let game = await loadBoxScores(url);
-    let gameWithBoxScore = game.gameWithBoxScore;
-    let gameReviewAverages = await getAllGameReviewsByDateAndFan(gameWithBoxScore.date);
-    let averagePerformanceRatings = await getPlayerPerformanceAveragesByGame(gameWithBoxScore.homeTeam.apiId, gameWithBoxScore.visitorTeam.apiId, gameWithBoxScore.date);
-    return { gameWithBoxScore, gameReviewAverages, averagePerformanceRatings };
+    const game = await loadBoxScores(url);
+    const { date, homeTeam, visitorTeam } = game.gameWithBoxScore;
+
+    const [gameReviewAverages, averagePerformanceRatings] = await Promise.all([
+        getAllGameReviewsByDateAndFan(date),
+        getPlayerPerformanceAveragesByGame(homeTeam.apiId, visitorTeam.apiId, date)
+    ]);
+
+    return { gameWithBoxScore: game.gameWithBoxScore, gameReviewAverages, averagePerformanceRatings };
 };
