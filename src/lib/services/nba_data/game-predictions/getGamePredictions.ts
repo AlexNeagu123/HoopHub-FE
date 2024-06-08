@@ -5,7 +5,7 @@ import type { GamePrediction } from "$lib/models/nba_data/game-predictions/GameP
 export default async function getGamePredictions(date: string, homeTeamId: number, visitorTeamId: number): Promise<Response<GamePrediction>> {
     const axiosRes =
         await axiosInstance.get<Response<GamePrediction>>(`nba-data/game-prediction?Date=${date}&HomeTeamId=${homeTeamId}&VisitorTeamId=${visitorTeamId}`,
-            { timeout: 30000, validateStatus: (status) => (status >= 200 && status < 300) || status === 400 }
+            { timeout: 100000, validateStatus: (status) => (status >= 200 && status < 300) || status === 400 }
         );
 
     const response = axiosRes.data;

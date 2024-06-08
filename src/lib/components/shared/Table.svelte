@@ -51,9 +51,9 @@
 									width="w-10"
 									rounded="rounded-full"
 									background="bg-transparent"
-									src={playersInfo[indexRow].player.imageUrl}
+									src={playersInfo[indexRow].player?.imageUrl}
 								/>
-								<a class="ml-3" href="/player/{playersInfo[indexRow].player.id}">{rowVal}</a>
+								<a class="ml-3" href="/player/{playersInfo[indexRow].player?.id}">{rowVal}</a>
 							</div>
 						</td>
 					{:else if tableType === TableTypes.boxScoreType}

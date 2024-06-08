@@ -148,7 +148,7 @@
 
 	let isLoading = true;
 	let unsubscribe: Unsubscriber | null = null;
-	
+
 	onMount(() => {
 		gameDetails.homeTeam.players = completeStats(gameDetails.homeTeam.players, allPlayers);
 		gameDetails.visitorTeam.players = completeStats(gameDetails.visitorTeam.players, allPlayers);
@@ -174,7 +174,7 @@
 				}
 			});
 		});
-		
+
 		advancedStatsEntries = completeAdvancedStats(
 			advancedStatsEntries,
 			gameDetails.homeTeam.players,

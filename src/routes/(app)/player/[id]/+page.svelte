@@ -21,8 +21,8 @@
 	let playerStatsFromBoxScore: LatestPlayerBoxScore[] = [];
 	let playerFollows: PlayerFollowEntry[] = data.playerFollows;
 	let allPlayers = data.allPlayers;
-	
-	const hasWon: boolean[] = [];
+
+	let hasWon: boolean[] = [];
 
 	const headFields: string[] = [
 		'Date',
@@ -90,6 +90,7 @@
 
 		let playerBoxScore: LatestPlayerBoxScore[] = [];
 		let latestBoxScores: LocalStoredBoxScoresDto[] = [];
+		let newHasWon: boolean[] = [];
 
 		latestBoxScores = await getLatestBoxScoresByPlayer(id, gameCount);
 		latestBoxScores.forEach((bs) => {
@@ -105,7 +106,7 @@
 				oppTeamAbbr = bs.game.visitorTeam.abbreviation!;
 				ownTeamId = bs.game.homeTeam.id;
 				oppTeamId = bs.game.visitorTeam.id;
-				hasWon.push(result.indexOf('Won') !== -1);
+				newHasWon.push(result.indexOf('Won') !== -1);
 			} else {
 				result =
 					(bs.game.homeTeamScore! < bs.game.visitorTeamScore! ? 'Won ' : 'Lost ') +
@@ -113,7 +114,7 @@
 				oppTeamAbbr = bs.game.homeTeam.abbreviation!;
 				ownTeamId = bs.game.visitorTeam.id;
 				oppTeamId = bs.game.homeTeam.id;
-				hasWon.push(result.indexOf('Won') !== -1);
+				newHasWon.push(result.indexOf('Won') !== -1);
 			}
 
 			playerBoxScore.push({
@@ -152,6 +153,7 @@
 
 		completeStats(playerBoxScore, allPlayers, true);
 		playerStatsFromBoxScore = playerBoxScore;
+		hasWon = newHasWon;
 		isLoading = false;
 	}
 

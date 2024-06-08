@@ -18,7 +18,7 @@ const convertToPercent = (value: number | undefined) => {
 
 export function completeAdvancedStats(advancedStatsEntries: AdvancedStatsEntry[], homePlayers: BoxScorePlayer[], visitorPlayers: BoxScorePlayer[]) {
     const findPlayer = (playerId: string, players: BoxScorePlayer[]): BoxScorePlayer | undefined => {
-        return players.find(player => player.player!.id === playerId);
+        return players.find(player => player.player?.id === playerId);
     };
 
     advancedStatsEntries.forEach(stat => {
@@ -66,15 +66,20 @@ export function completeAdvancedStats(advancedStatsEntries: AdvancedStatsEntry[]
 }
 
 export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBoxScore[], allPlayers: Player[], forLatest: boolean = false) {
-    playerGameStats.forEach(stat => {
+    const propertiesToRound: (keyof BoxScorePlayer)[]
+        = ['pts', 'reb', 'blk', 'stl', 'ast', 'fg3m', 'fg3a', 'fga', 'fgm', 'fta', 'ftm', 'turnover'];
+
+    let filteredStats = playerGameStats.filter(stat => {
         let player = allPlayers.find(player => player.apiId === stat.playerApiId);
-        stat.player = player;   
+        return player !== undefined;
+    });
+
+    filteredStats.forEach(stat => {
+        let player = allPlayers.find(player => player.apiId === stat.playerApiId);
+        stat.player = player;
 
         stat.playerFullName = stat.player?.firstName + " " + stat.player?.lastName;
         stat.playerImageUrl = stat.player?.imageUrl;
-
-        const propertiesToRound: (keyof BoxScorePlayer)[]
-            = ['pts', 'reb', 'blk', 'stl', 'ast', 'fg3m', 'fg3a', 'fga', 'fgm', 'fta', 'ftm', 'turnover'];
 
         propertiesToRound.forEach((property: keyof BoxScorePlayer) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -93,10 +98,10 @@ export function completeStats(playerGameStats: BoxScorePlayer[] | LatestPlayerBo
 
 
     if (!forLatest)
-        playerGameStats.sort((a, b) => Number(b.min) - Number(a.min));
+        filteredStats.sort((a, b) => Number(b.min) - Number(a.min));
 
-    playerGameStats = playerGameStats.filter(stat => stat.min !== "0" && stat.min !== "00" && stat.min !== "");
-    return playerGameStats;
+    filteredStats = filteredStats.filter(stat => stat.min !== "0" && stat.min !== "00" && stat.min !== "");
+    return filteredStats;
 }
 
 /**

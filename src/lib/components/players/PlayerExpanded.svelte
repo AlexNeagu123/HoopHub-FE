@@ -23,7 +23,7 @@
 <div class="flex justify-center">
 	<div class="card variant-filled-surface m-10 w-2/3 p-t-5 px-10 drop-shadow">
 		<div class="mt-4 flex justify-between">
-			<div class="flex justify-start">
+			<div class="flex justify-start w-2/3">
 				<div class="w-1/3 drop-shadow">
 					<a href="/team/{playerStats.team.id}" class="w-1/3 block">
 						<Avatar

@@ -1,27 +1,33 @@
 import type { PageLoad } from './$types';
-import loadBoxScores from "../../../lib/utils/box-score-loader";
-import getGameThreadsByDate from '$lib/services/user_features/game-threads/getGameThreadsByDate';
-import type { GameThread } from '$lib/models/user_features/threads/GameThread';
+import getOwnGameReview from '$lib/services/user_features/game-reviews/getOwnGameReview';
 import getAllGameReviewsByDateAndFan from '$lib/services/user_features/game-reviews/getAllGameReviewsByDateAndFan';
+import loadBoxScores from '$lib/utils/box-score-loader';
+import getGameThreadsByDate from '$lib/services/user_features/game-threads/getGameThreadsByDate';
 
 export const load: PageLoad = async ({ url }) => {
+    const homeTeamId: number = Number(url.searchParams.get('homeTeam'));
+    const visitorTeamId: number = Number(url.searchParams.get('visitorTeam'));
     const date: string = url.searchParams.get('date')!;
-    
-    const gamePromise = loadBoxScores(url);
-    const gameThreadsPromise = getGameThreadsByDate(date);
 
-    const [game, gameThreads] = await Promise.all([gamePromise, gameThreadsPromise]);
-    
+    const [game, gameThreads, gameReviewAverages, ownGameReview] = await Promise.all([
+        loadBoxScores(url),
+        getGameThreadsByDate(date),
+        getAllGameReviewsByDateAndFan(date),
+        getOwnGameReview(homeTeamId, visitorTeamId, date)
+    ]);
+
     const gameWithBoxScore = game.gameWithBoxScore;
-    const filteredGameThreads = gameThreads.filter((gameThread) => 
-        gameWithBoxScore.homeTeam.apiId === gameThread.homeTeamId && 
+    const filteredGameThreads = gameThreads.filter((gameThread) =>
+        gameWithBoxScore.homeTeam.apiId === gameThread.homeTeamId &&
         gameWithBoxScore.visitorTeam.apiId === gameThread.visitorTeamId
     );
-    
-    const gameThread = filteredGameThreads[0];
-    const gameReviewAveragesPromise = getAllGameReviewsByDateAndFan(gameWithBoxScore.date);
-    
-    const gameReviewAverages = await gameReviewAveragesPromise;
 
-    return { gameWithBoxScore, gameThread, gameReviewAverages };
+    const gameThread = filteredGameThreads[0];
+
+    return {
+        gameWithBoxScore,
+        gameThread,
+        gameReviewAverages,
+        ownGameReview,
+    };
 };

@@ -4,10 +4,9 @@ import { get } from "svelte/store";
 import axios from "axios";
 import { removeToken } from "./utils/auth-utils";
 import JwtParser from "./utils/jwt-parser";
-import { env } from "$env/dynamic/public";
 
 export const axiosInstance = axios.create({
-    timeout: 5000,
+    timeout: 30000,
     headers: {
         'Content-Type': 'application/json'
     }

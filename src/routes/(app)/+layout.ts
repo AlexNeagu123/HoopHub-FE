@@ -45,6 +45,5 @@ export const load: PageLoad = async () => {
         allNotifications = allNotificationsResponse.data;
     }
 
-    const allPlayers = await getAllPlayers();
-    return { fanInfo,  allPlayers, unreadNotificationsCount, unreadNotifications, allNotifications, playerFollows, teamFollows }
+    return { fanInfo, unreadNotificationsCount, unreadNotifications, allNotifications, playerFollows, teamFollows }
 };

@@ -7,19 +7,43 @@ import getAllTeams from "$lib/services/nba_data/teams/getAllTeams";
 import ProfilePageInfo from "$lib/models/user_features/fans/ProfilePageInfo";
 import getPlayersFollowed from '$lib/services/user_features/followings/getPlayersFollowed';
 import getTeamsFollowed from '$lib/services/user_features/followings/getTeamsFollowed';
+import getAllPlayers from '$lib/services/nba_data/players/getAllPlayers';
 
 export const load: PageLoad = async ({ params }) => {
-    const pageFanInfo: FanInfo = await getFanInfoById(params.id);
-    let favouriteTeam: Team | null = null;
+    const pageFanInfoPromise = getFanInfoById(params.id);
+    const availableTeamsPromise = getAllTeams();
+    const pagePlayerFollowsPromise = getPlayersFollowed(params.id);
+    const pageTeamFollowsPromise = getTeamsFollowed(params.id);
+    const allPlayersPromise = getAllPlayers();
+
+    const pageFanInfo: FanInfo = await pageFanInfoPromise;
+
+    let favouriteTeamPromise: Promise<Team | null> = Promise.resolve(null);
     if (pageFanInfo.favouriteTeamId !== null) {
-        favouriteTeam = await getTeamById(pageFanInfo.favouriteTeamId);
+        favouriteTeamPromise = getTeamById(pageFanInfo.favouriteTeamId);
     }
 
-    const availableTeams = await getAllTeams();
+    const [
+        favouriteTeam,
+        availableTeams,
+        pagePlayerFollows,
+        pageTeamFollows,
+        allPlayers
+    ] = await Promise.all([
+        favouriteTeamPromise,
+        availableTeamsPromise,
+        pagePlayerFollowsPromise,
+        pageTeamFollowsPromise,
+        allPlayersPromise
+    ]);
+
     const profilePageInfo = new ProfilePageInfo(pageFanInfo, favouriteTeam, availableTeams);
 
-    const pagePlayerFollows = await getPlayersFollowed(params.id);
-    const pageTeamFollows = await getTeamsFollowed(params.id);
-
-    return { profilePageInfo, availableTeams, pagePlayerFollows, pageTeamFollows }
+    return {
+        profilePageInfo,
+        availableTeams,
+        pagePlayerFollows,
+        pageTeamFollows,
+        allPlayers
+    };
 };

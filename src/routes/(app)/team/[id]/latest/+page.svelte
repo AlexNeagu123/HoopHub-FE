@@ -18,7 +18,7 @@
 
 	let latestTeamBoxScores: LatestTeamBoxScore[] = [];
 
-	const hasWon: boolean[] = [];
+	let hasWon: boolean[] = [];
 	const headFields: string[] = [
 		'Date',
 		'Against',
@@ -47,6 +47,7 @@
 		isLoading = true;
 		let latestGames: LocalStoredGame[] = [];
 		let teamBoxScores: LatestTeamBoxScore[] = [];
+		let newHasWon: boolean[] = [];
 
 		latestGames = await getLatestBoxScoresByTeam(data.team.id, gameCount);
 		latestGames.forEach((g) => {
@@ -54,7 +55,7 @@
 				const result =
 					(g.homeTeamScore! < g.visitorTeamScore! ? 'Lost ' : 'Won ') +
 					`${g.homeTeamScore}-${g.visitorTeamScore}`;
-				hasWon.push(result.indexOf('Won') !== -1);
+				newHasWon.push(result.indexOf('Won') !== -1);
 				teamBoxScores.push({
 					date: dateToString(g.date),
 					oppTeamAbbr: g.visitorTeam?.abbreviation!,
@@ -68,7 +69,7 @@
 				const result =
 					(g.homeTeamScore! < g.visitorTeamScore! ? 'Won ' : 'Lost ') +
 					`${g.visitorTeamScore}-${g.homeTeamScore}`;
-				hasWon.push(result.indexOf('Won') !== -1);
+				newHasWon.push(result.indexOf('Won') !== -1);
 				teamBoxScores.push({
 					date: dateToString(g.date),
 					oppTeamAbbr: g.homeTeam.abbreviation!,
@@ -81,6 +82,7 @@
 			}
 		});
 
+		hasWon = newHasWon;
 		latestTeamBoxScores = teamBoxScores;
 		isLoading = false;
 	}

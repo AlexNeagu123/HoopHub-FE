@@ -1,22 +1,23 @@
 import type { PageLoad } from './$types';
-import loadBoxScores from "../../../lib/utils/box-score-loader";
 import getOwnGameReview from '$lib/services/user_features/game-reviews/getOwnGameReview';
 import getAllGameReviewsByDateAndFan from '$lib/services/user_features/game-reviews/getAllGameReviewsByDateAndFan';
+import loadBoxScores from '$lib/utils/box-score-loader';
 
 export const load: PageLoad = async ({ url }) => {
-    const gamePromise = loadBoxScores(url);
+    const homeTeamId: number = Number(url.searchParams.get('homeTeam'));
+    const visitorTeamId: number = Number(url.searchParams.get('visitorTeam'));
+    const date: string = url.searchParams.get('date')!;
 
-    const game = await gamePromise;
-    const { date, homeTeam, visitorTeam } = game.gameWithBoxScore;
 
-    const [gameReviewAverages, ownGameReview] = await Promise.all([
+    const [game, gameReviewAverages, ownGameReview] = await Promise.all([
+        loadBoxScores(url),
         getAllGameReviewsByDateAndFan(date),
-        getOwnGameReview(homeTeam.apiId, visitorTeam.apiId, date)
+        getOwnGameReview(homeTeamId, visitorTeamId, date)
     ]);
 
     return {
         gameWithBoxScore: game.gameWithBoxScore,
         ownGameReview,
-        gameReviewAverages
+        gameReviewAverages,
     };
 };

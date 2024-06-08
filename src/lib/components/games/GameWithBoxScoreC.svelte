@@ -14,7 +14,7 @@
 	import type { GameReviewAverage } from '$lib/models/user_features/reviews/GameReviewAverage';
 	import { currentUser } from '$lib/stores/auth.store';
 	import getGamePredictions from '$lib/services/nba_data/game-predictions/getGamePredictions';
-	import { Wave } from 'svelte-loading-spinners';
+	import PredictionLoader from '../shared/PredictionLoader.svelte';
 
 	export let gameDetails: GameWithBoxScore;
 	export let hiddenScores: boolean = false;
@@ -34,8 +34,8 @@
 	const reviewsUrl = `${AppRoute.GAME_REVIEWS}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 	const performancesUrl = `${AppRoute.GAME_PERFORMANCES}?homeTeam=${homeTeamId}&visitorTeam=${visitorTeamId}&date=${date}`;
 
-	let homeTeamWinProbability: number | null = null;
-	let visitorTeamWinProbability: number | null = null;
+	let homeTeamWinProbability: number = 0;
+	let visitorTeamWinProbability: number = 0;
 
 	async function checkThreadExists(event: Event) {
 		event.preventDefault();
@@ -90,8 +90,15 @@
 	}
 
 	let isLoadingPredictions = false;
+	let predictionsLoaded = false;
+	let predictionsHidden = true;
+
 	async function handlePredictionsClick(event: Event) {
 		event.preventDefault();
+		if (predictionsLoaded) {
+			predictionsHidden = !predictionsHidden;
+			return;
+		}
 		try {
 			isLoadingPredictions = true;
 			const gamePrediction = await getGamePredictions(date!, homeTeamId, visitorTeamId);
@@ -103,6 +110,8 @@
 			} else {
 				homeTeamWinProbability = gamePrediction.data.homeTeamWinProbability;
 				visitorTeamWinProbability = gamePrediction.data.visitorTeamWinProbability;
+				predictionsHidden = false;
+				predictionsLoaded = true;
 			}
 		} catch (error) {
 			toastStore.trigger({
@@ -120,10 +129,10 @@
 		<div class="w-full flex justify-between">
 			<div class="w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
 				{#if isLoadingPredictions}
-					<Wave color="#c1c4bc" size="60" />
-				{:else}
-					<h3 class="h3">
-						{visitorTeamWinProbability !== null ? `${visitorTeamWinProbability.toFixed(2)}%` : ''}
+					<PredictionLoader />
+				{:else if !predictionsHidden}
+					<h3 class="h3 {visitorTeamWinProbability < 0.5 ? 'text-error-500' : 'text-success-500'}">
+						{`${Math.round(visitorTeamWinProbability * 100)}%`}
 					</h3>
 				{/if}
 			</div>
@@ -137,10 +146,10 @@
 			</div>
 			<div class="w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
 				{#if isLoadingPredictions}
-					<Wave color="#c1c4bc" size="60" />
-				{:else}
-					<h3 class="h3">
-						{homeTeamWinProbability !== null ? `${homeTeamWinProbability.toFixed(2)}%` : ''}
+					<PredictionLoader />
+				{:else if !predictionsHidden}
+					<h3 class="h3 {homeTeamWinProbability < 0.5 ? 'text-error-500' : 'text-success-500'}">
+						{`${Math.round(homeTeamWinProbability * 100)}%`}
 					</h3>
 				{/if}
 			</div>
