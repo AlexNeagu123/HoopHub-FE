@@ -5,5 +5,3 @@ export const ssr = false;
 import axios from "axios";
 
 axios.defaults.baseURL = `${env.PUBLIC_BACKEND_URL}/api/v1/`;
-
-console.log(axios.defaults.baseURL);

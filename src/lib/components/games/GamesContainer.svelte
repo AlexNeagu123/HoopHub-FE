@@ -29,8 +29,13 @@
 	{#if isLoading}
 		<LoadingIcon />
 	{:else}
-		{#each games as game}
-			<GamePreview {hiddenScores} {game} average={getGameAverage(game)} />
-		{/each}
+		<div class="flex w-full justify-center flex-wrap">
+			{#each games as game}
+				<GamePreview {hiddenScores} {game} average={getGameAverage(game)} />
+			{/each}
+		</div>
 	{/if}
 </Card>
+
+
+

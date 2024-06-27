@@ -15,9 +15,9 @@
 
 <div class="w-full flex justify-around mt-5">
     <div class="flex flex-col w-1/5 justify-center items-center">
-        <Avatar src="{visitorPlayer.player.imageUrl}" width="w-1/2" rounded="rounded-full"
+        <Avatar src="{visitorPlayer.player?.imageUrl}" width="w-1/2" rounded="rounded-full"
                 background="bg-transparent"/>
-        <h6 class="text-gray-600 font-semibold h6">{visitorPlayer.player.firstName[0]}. {visitorPlayer.player.lastName}</h6>
+        <h6 class="text-gray-600 font-semibold h6">{visitorPlayer.player?.firstName[0]}. {visitorPlayer.player?.lastName}</h6>
     </div>
     <div class="flex justify-center items-center w-1/6">
         <h2 class="h3">{visitorPlayer[field]}</h2>

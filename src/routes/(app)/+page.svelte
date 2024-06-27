@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { onMount } from 'svelte';
 	import getRecentBoxScores from '$lib/services/nba_data/games/getRecentBoxScores';
 	import LoadingIcon from '$lib/components/shared/LoadingIcon.svelte';

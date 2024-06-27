@@ -5,17 +5,23 @@
 
 	export let link: string;
 	export let linkText: string;
+	export let isUserOpen: boolean;
 
 	function logoutHandler() {
 		logout();
 		goto(AppRoute.HOME);
 	}
+
+	function navigateTo(url: string) {
+		isUserOpen = false;
+		goto(url);
+	}
 </script>
 
 {#if link === AppRoute.LOGOUT}
-	<div
+	<button
 		on:click={logoutHandler}
-		class="flex justify-around p-6 rounded-md mb-2 card-hover cursor-pointer"
+		class="flex justify-around p-6 rounded-md hover:variant-filled-primary mb-2 cursor-pointer"
 	>
 		<div class="w-5">
 			<slot />
@@ -23,14 +29,17 @@
 		<p class="mx-4">
 			{linkText}
 		</p>
-	</div>
+	</button>
 {:else}
-	<a href={link} class="flex justify-around p-6 rounded-md mb-2 card-hover cursor-pointer">
+	<button
+		on:click={() => navigateTo(link)}
+		class="flex justify-around p-6 hover:variant-filled-primary w-full rounded-md mb-2 cursor-pointer"
+	>
 		<div class="w-5">
 			<slot />
 		</div>
 		<p class="mx-4">
 			{linkText}
 		</p>
-	</a>
+	</button>
 {/if}

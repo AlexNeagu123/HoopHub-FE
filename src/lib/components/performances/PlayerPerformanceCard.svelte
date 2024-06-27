@@ -21,7 +21,7 @@
 	export let averageRating: number | null;
 	export let gameDetails: GameWithBoxScore;
 	export let ownRating: number | null;
-	
+
 	const modalStore = getModalStore();
 
 	const modalRegistry: Record<string, ModalComponent> = {
@@ -45,7 +45,7 @@
 		component: 'rateModal',
 		meta: {
 			ownRating: ownRating,
-			playerName: `${playerWithBoxScore.player.firstName} ${playerWithBoxScore.player.lastName}`,
+			playerName: `${playerWithBoxScore.player?.firstName} ${playerWithBoxScore.player?.lastName}`,
 			submitFormHandler: addPlayerPerformanceRating
 		}
 	};
@@ -57,7 +57,7 @@
 				gameDetails.homeTeam.apiId,
 				gameDetails.visitorTeam.apiId,
 				gameDetails.date,
-				playerWithBoxScore.player.id
+				playerWithBoxScore.player!.id
 			);
 		} else {
 			await updatePlayerPerformanceReview(
@@ -65,34 +65,37 @@
 				gameDetails.homeTeam.apiId,
 				gameDetails.visitorTeam.apiId,
 				gameDetails.date,
-				playerWithBoxScore.player.id
+				playerWithBoxScore.player!.id
 			);
 		}
-		
+
 		ownRating = rating;
 		modal.meta.ownRating = rating;
 	}
 
-	async function openModal() {
+	async function openModal(event: Event) {
+		event.preventDefault();
 		modalStore.trigger(modal);
 	}
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div
+<!-- svelte-ignore a11y-invalid-attribute -->
+<a
 	class="card mt-5 w-full drop-shadow variant-filled-surface flex justify-around card-hover
     hover:bg-primary-200 cursor-pointer"
 	on:click={openModal}
+	href="#"
 >
 	<div class="flex align-middle justify-center ml-8">
 		<div class="mr-3 mt-3">
-			<div class="font-s2emibold h3">{playerWithBoxScore.player.jerseyNumber}</div>
-			<div class="text-gray-500">{playerWithBoxScore.player.position}</div>
+			<div class="font-s2emibold h3">{playerWithBoxScore.player?.jerseyNumber}</div>
+			<div class="text-gray-500">{playerWithBoxScore.player?.position}</div>
 		</div>
 		<div>
 			<Avatar
-				src={playerWithBoxScore.player.imageUrl}
+				src={playerWithBoxScore.player?.imageUrl}
 				width="w-40"
 				rounded="rounded-lg"
 				background="bg-transparent"
@@ -101,8 +104,8 @@
 	</div>
 	<div class="mt-3 mr-9 flex flex-col justify-evenly">
 		<p class="mr-0 h5 font-semibold flex justify-center">
-			{playerWithBoxScore.player.firstName}
-			{playerWithBoxScore.player.lastName}
+			{playerWithBoxScore.player?.firstName}
+			{playerWithBoxScore.player?.lastName}
 		</p>
 		<div class="w-full flex flex-col items-center">
 			<h4 class="text-gray-500 h6">Average Rating</h4>
@@ -121,6 +124,6 @@
 			<span><i class="fa-solid fa-arrow-turn-down px-1"></i> </span>
 		</p>
 	</div>
-</div>
+</a>
 
 <Modal components={modalRegistry} />

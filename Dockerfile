@@ -17,3 +17,6 @@ EXPOSE 5176
 ENV PORT=5176 
 
 CMD [ "node", "build" ]
+
+
+

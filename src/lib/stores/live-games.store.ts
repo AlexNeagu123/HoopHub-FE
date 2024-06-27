@@ -8,7 +8,6 @@ import { env } from '$env/dynamic/public';
 
 export const liveBoxScoreStore: Writable<GameWithBoxScore[]> = writable([]);
 let wssUrl = env.PUBLIC_BACKEND_URL.replace('https', 'wss');
-console.log(wssUrl);
 
 const connection = new HubConnectionBuilder().withUrl(`${wssUrl}/${WebSockets.BOX_SCORE_SOCKET_URL}`, {
     skipNegotiation: true,

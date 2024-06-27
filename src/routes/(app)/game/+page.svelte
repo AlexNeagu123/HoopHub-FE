@@ -37,6 +37,21 @@
 	let headFieldsForSorting = headBoxScoreFieldsForSorting;
 	let updatableDtoProps = updatableBoxScoreDtoProps;
 
+	function hasDistinctValues(playerIndexMap: { [currentIndex: number]: number }): boolean {
+		let valueSet = new Set<number>();
+		for (let key in playerIndexMap) {
+			if (playerIndexMap.hasOwnProperty(key)) {
+				let value = playerIndexMap[key];
+				if (valueSet.has(value)) {
+					return false;
+				}
+				valueSet.add(value);
+			}
+		}
+
+		return true;
+	}
+
 	$: teamStats = isHometeamStats
 		? statsTypeSelectedValue === 0
 			? gameDetails.homeTeam.players
@@ -49,6 +64,8 @@
 		head: ['Player', ...headFieldsForSorting],
 		body: tableMapperValues(teamStats, ['playerFullName', ...updatableDtoProps])
 	};
+
+	$: statsNumber = teamStats.length;
 
 	let previousGameDetails: GameWithBoxScore = gameDetails;
 	let maxPlayerCount = Math.max(
@@ -68,18 +85,37 @@
 			? previousGameDetails?.homeTeam.players
 			: previousGameDetails?.visitorTeam.players;
 
-		currentPlayersState.forEach((player, playerIndex) => {
-			updatableBoxScoreDtoProps.forEach((prop, propIndex) => {
-				// @ts-ignore
-				if (player[prop] !== prevPlayersState[playerIndex][prop]) {
-					playerStatUpdated[playerIndex][propIndex] = true;
-					setTimeout(() => {
-						playerStatUpdated[playerIndex][propIndex] = false;
-					}, 2000);
-				}
-			});
-		});
+		currentPlayersState = currentPlayersState.filter(
+			(player) => player.min !== undefined && player.min !== '' && player.min !== '0'
+		);
 
+		prevPlayersState = prevPlayersState.filter(
+			(player) => player.min !== undefined && player.min !== '' && player.min !== '0'
+		);
+
+		let playerIndexMap: { [currentIndex: number]: number } = {};
+		currentPlayersState.forEach((currentPlayer, currentIndex) => {
+			const prevIndex = prevPlayersState.findIndex(
+				(prevPlayer) => prevPlayer.player?.id === currentPlayer.player?.id
+			);
+			if (prevIndex !== -1) {
+				playerIndexMap[currentIndex] = prevIndex;
+			}
+		});
+		if (hasDistinctValues(playerIndexMap)) {
+			currentPlayersState.forEach((player, playerIndex) => {
+				updatableBoxScoreDtoProps.forEach((prop, propIndex) => {
+					const prevIndex = playerIndexMap[playerIndex];
+					// @ts-ignore
+					if (player[prop] !== prevPlayersState[prevIndex][prop]) {
+						playerStatUpdated[playerIndex][propIndex] = true;
+						setTimeout(() => {
+							playerStatUpdated[playerIndex][propIndex] = false;
+						}, 2000);
+					}
+				});
+			});
+		}
 		previousGameDetails = gameDetails;
 	}
 
@@ -226,11 +262,15 @@
 				on:click={toggleBoxScore}
 			/>
 		</div>
-		<Table
-			{table}
-			tableType={TableTypes.boxScoreType}
-			playersInfo={teamStats}
-			playersUpdates={playerStatUpdated}
-		/>
+		{#if statsNumber === 0}
+			<p class="text-center text-gray-500 mt-7">Statistics of these type are not yet available</p>
+		{:else}
+			<Table
+				{table}
+				tableType={TableTypes.boxScoreType}
+				playersInfo={teamStats}
+				playersUpdates={playerStatUpdated}
+			/>
+		{/if}
 	</GameWithBoxScoreC>
 {/if}

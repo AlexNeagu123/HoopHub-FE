@@ -29,7 +29,7 @@
 
     async function onSeasonChange() {
         isLoading = true;
-        playoffBracket = await getPlayoffsBySeason(seasonFromStrToInt(season));
+        playoffBracket = await getPlayoffsBySeason(seasonFromStrToInt(season!));
         completePlayoffBracket();
         isLoading = false;
     }

@@ -13,14 +13,14 @@
 
 	function getPlayerAverageRating(player: BoxScorePlayer): number | null {
 		const playerAverage = averagePerformanceRatings.find(
-			(average) => average.playerId === player.player.id
+			(average) => average.playerId === player.player!.id
 		);
 		return playerAverage ? playerAverage.averageRating : null;
 	}
 
 	function getPlayerOwnRating(player: BoxScorePlayer): number | null {
 		const playerAverage = averagePerformanceRatings.find(
-			(average) => average.playerId === player.player.id
+			(average) => average.playerId === player.player!.id
 		);
 		return playerAverage ? playerAverage.ownRating : null;
 	}

@@ -7,23 +7,40 @@
 	import type { PageData } from './$types';
 	import { initializeStores, Modal, Toast } from '@skeletonlabs/skeleton';
 	import type NotificationModel from '$lib/models/user_features/notifications/NotificationModel';
-			
+	import LeftBar from '$lib/components/shared/LeftBar.svelte';
+	import { onMount } from 'svelte';
+
 	initializeStores();
 	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow });
 
 	export let data: PageData;
-
+	let hamburgerOpen: boolean = false;
 	const fanInfo = data.fanInfo;
 	const unreadNotificationsCount: number = data.unreadNotificationsCount;
 	const unreadNotifications: NotificationModel[] = data.unreadNotifications;
 	const allNotifications: NotificationModel[] = data.allNotifications;
+
+	onMount(() => {
+		console.log("WAWA");
+		hamburgerOpen = false;
+	});
 </script>
 
 <Toast />
 <Modal />
+
 <AppShell>
 	<svelte:fragment slot="header">
-		<NavBar {fanInfo} {unreadNotificationsCount} {unreadNotifications} {allNotifications} />
+		<NavBar
+			bind:hamburgerOpen
+			{fanInfo}
+			{unreadNotificationsCount}
+			{unreadNotifications}
+			{allNotifications}
+		/>
+	</svelte:fragment>
+	<svelte:fragment slot="sidebarLeft">
+		<LeftBar bind:hamburgerOpen />
 	</svelte:fragment>
 	<slot />
 </AppShell>
