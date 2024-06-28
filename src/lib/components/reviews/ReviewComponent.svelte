@@ -25,7 +25,7 @@
 	};
 </script>
 
-<div class="w-full px-[8%] variant-filled-surface py-5">
+<div class="w-full md:px-[8%] variant-filled-surface md:py-5">
 	<div>
 		<header class="flex justify-between px-2 items-center">
 			<div class="flex">
@@ -33,7 +33,7 @@
 				<span class="pr-2">&bull;</span>
 				<span class="flex items-center">
 					<StarRating config={reviewStarConfig} />
-                    <p class="text-sm font-semibold pl-2">{review.rating} / 5</p>
+					<p class="font-semibold pl-2 md:text-base text-xs">{review.rating} / 5</p>
 				</span>
 				<span class="px-2">&bull;</span>
 				<TimeAgo time={review.createdDate} />

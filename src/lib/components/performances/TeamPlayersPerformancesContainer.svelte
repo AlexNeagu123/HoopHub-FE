@@ -26,13 +26,15 @@
 	}
 </script>
 
-<div class="w-[40%] flex flex-col">
-	{#each players as playerWithBoxScore}
-		<PlayerPerformanceCard
-			{playerWithBoxScore}
-			averageRating={getPlayerAverageRating(playerWithBoxScore)}
-			ownRating={getPlayerOwnRating(playerWithBoxScore)}
-			{gameDetails}
-		/>
-	{/each}
+<div class="flex md:w-[40%] justify-center md:justify-start">
+	<div class="w-full flex flex-col">
+		{#each players as playerWithBoxScore}
+			<PlayerPerformanceCard
+				{playerWithBoxScore}
+				averageRating={getPlayerAverageRating(playerWithBoxScore)}
+				ownRating={getPlayerOwnRating(playerWithBoxScore)}
+				{gameDetails}
+			/>
+		{/each}
+	</div>
 </div>

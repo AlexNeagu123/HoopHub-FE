@@ -231,7 +231,7 @@
 {:else}
 	<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.BOX_SCORE} {gameReviewAverages}>
 		<div class="flex md:justify-between w-full justify-between">
-			<div class="w-[20%] md:w-1/4">
+			<div class="w-[20%] md:w-1/4 ml-5 md:ml-0">
 				<SlideToggle
 					active="bg-primary-800"
 					background="bg-surface-700"
@@ -240,7 +240,7 @@
 					on:click={toggleBoxScore}
 				/>
 			</div>
-			<div class="flex w-[60%] justify-between md:w-full md:justify-center mx-4">
+			<div class="flex w-[80%] justify-between md:w-full md:justify-center mx-4">
 				<GameSelectContainer
 					bind:selectedValue={statsTypeSelectedValue}
 					labelTitle={'Stats Type'}
@@ -255,7 +255,7 @@
 				/>
 			</div>
 
-			<div class="w-[20%] md:w-1/4 flex md:justify-end">
+			<div class="w-[20%] md:w-1/4 flex md:justify-end mr-5 md:mr-0">
 				<SlideToggle
 					active="bg-primary-800"
 					background="bg-surface-700"

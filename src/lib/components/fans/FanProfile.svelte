@@ -45,7 +45,7 @@
 <InformativePopUps />
 
 <div class="flex justify-center">
-	<div class="card m-10 w-1/2 px-10 py-3 drop-shadow variant-filled-surface">
+	<div class="card md:m-10 w-full md:w-1/2 px-4 md:px-10 py-3 drop-shadow variant-filled-surface">
 		<div class="flex justify-between">
 			<div class="flex flex-col w-1/2">
 				<div class="w-full">
@@ -86,7 +86,7 @@
 				/>
 			{/if}
 		</div>
-		<div class="w-1/2">
+		<div class="md:w-1/2">
 			<FanStatsContainer
 				upvotes={profilePageInfo.fanInfo.upVotes}
 				downvotes={profilePageInfo.fanInfo.downVotes}
@@ -95,7 +95,7 @@
 			/>
 		</div>
 		<div class="w-full flex justify-between">
-			<div class="mt-4 mb-2">
+			<div class="mt-4 mb-2 flex flex-col md:flex-row">
 				<TabGroup
 					border="none"
 					justify="justify-start"
@@ -110,18 +110,27 @@
 						href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/comments"
 						selected={profilePageType === ProfilePageTypes.COMMENTS}>Comments</TabAnchor
 					>
-					<TabAnchor
-						href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/reviews"
-						selected={profilePageType === ProfilePageTypes.REVIEWS}>Reviews</TabAnchor
-					>
-					<TabAnchor
-						href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/following"
-						selected={profilePageType === ProfilePageTypes.FOLLOWING}>Following</TabAnchor
-					>
 				</TabGroup>
+				<div class="mt-2 md:mt-0">
+					<TabGroup
+						border="none"
+						justify="justify-start"
+						active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
+						hover="hover:bg-secondary-500"
+					>
+						<TabAnchor
+							href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/reviews"
+							selected={profilePageType === ProfilePageTypes.REVIEWS}>Reviews</TabAnchor
+						>
+						<TabAnchor
+							href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/following"
+							selected={profilePageType === ProfilePageTypes.FOLLOWING}>Following</TabAnchor
+						>
+					</TabGroup>
+				</div>
 			</div>
 			{#if isOwnProfile}
-				<div class="mt-4 mb-2">
+				<div class="mt-4 mb-2 flex flex-col justify-center w-1/3 md:w-1/5">
 					<button
 						type="button"
 						class="btn variant-ghost-primary font-semibold {!changesMade

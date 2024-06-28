@@ -26,7 +26,7 @@
 	<LoadingIcon />
 {:else}
 	<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.PERFORMANCES} {gameReviewAverages}>
-		<div class="flex w-full justify-around flex-wrap">
+		<div class="flex flex-col md:flex-row w-full justify-around flex-wrap">
 			<TeamPlayersPerformancesContainer
 				players={gameDetails.visitorTeam.players}
 				{averagePerformanceRatings}

@@ -127,7 +127,9 @@
 <div class="flex justify-center">
 	<div class="w-full md:w-5/6 shadow md:p-5 my-5 rounded-2xl">
 		<div class="w-full flex justify-between">
-			<div class="w-1/4 md:w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
+			<div
+				class="w-1/4 md:w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600"
+			>
 				{#if isLoadingPredictions}
 					<PredictionLoader />
 				{:else if !predictionsHidden}
@@ -144,7 +146,9 @@
 					Toggle Pre-Game Predictions
 				</button>
 			</div>
-			<div class="w-1/4 md:w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
+			<div
+				class="w-1/4 md:w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600"
+			>
 				{#if isLoadingPredictions}
 					<PredictionLoader />
 				{:else if !predictionsHidden}

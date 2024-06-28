@@ -8,7 +8,7 @@
 
 <a
 	href="{AppRoute.PLAYER}/{player.id}"
-	class="card mx-3 w-3/4 drop-shadow variant-filled-surface flex justify-between card-hover
+	class="card md:mx-3 w-full md:w-3/4 drop-shadow variant-filled-surface flex justify-between card-hover
             hover:bg-primary-200 cursor-pointer"
 >
 	<div class="flex align-middle justify-center ml-8">

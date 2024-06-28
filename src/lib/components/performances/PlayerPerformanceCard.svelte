@@ -111,12 +111,12 @@
 			<h4 class="text-gray-500 h6">Average Rating</h4>
 			<div class="flex w-full justify-end">
 				<StarRating config={getReviewStarConfig(averageRating)} />
-				<p class="px-3 font-semibold text-gray-500">{averageRating ?? '-'} / 5</p>
+				<p class="px-3 font-semibold text-gray-500 text-xs md:text-base">{averageRating ?? '-'} / 5</p>
 			</div>
 			<h4 class="text-gray-500 h6">Your rating</h4>
 			<div class="flex w-full justify-end">
 				<StarRating config={getReviewStarConfig(ownRating)} />
-				<p class="px-3 font-semibold text-gray-500">{ownRating ?? '-'} / 5</p>
+				<p class="px-3 font-semibold text-gray-500 text-xs md:text-base">{ownRating ?? '-'} / 5</p>
 			</div>
 		</div>
 		<p class="text-gray-500 text-sm font-semibold flex justify-end py-2">
