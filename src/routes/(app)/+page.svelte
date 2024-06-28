@@ -36,6 +36,8 @@
 		<LoadingIcon />
 	</div>
 {:else}
-	<RecentGamesCarousel {recentGames} />
-	<ImpressivePerformancesCarousel boxScores={recentBoxScores} />
+	<div class="flex flex-col h-full items-center justify-center">
+		<RecentGamesCarousel {recentGames} />
+		<ImpressivePerformancesCarousel boxScores={recentBoxScores} />
+	</div>
 {/if}

@@ -9,7 +9,7 @@
 
 <div class="flex justify-center">
 	<a
-		class="variant-filled-surface m-3 w-3/4 p-5 shadow hover:bg-primary-200 cursor-pointer"
+		class="variant-filled-surface md:m-3 w-full md:w-3/4 p-5 shadow hover:bg-primary-200 cursor-pointer"
 		href="{AppRoute.PLAYER}/{player.id}"
 	>
 		<div class="mt-1 w-full flex">
