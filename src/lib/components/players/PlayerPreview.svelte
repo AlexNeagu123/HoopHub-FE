@@ -8,11 +8,20 @@
 
 <a
 	href="{AppRoute.PLAYER}/{player.id}"
-	class="card mt-5 xl:w-[49%] sm:w-full drop-shadow variant-filled-surface flex justify-between card-hover
-            hover:bg-primary-200 cursor-pointer"
+	class="card
+	mt-5
+	xl:w-[49%]
+	w-full
+	drop-shadow
+	variant-filled-surface
+	flex
+	justify-center
+	md:justify-between
+	card-hover
+    hover:bg-primary-200 cursor-pointer"
 >
-	<div class="flex align-middle justify-center ml-8">
-		<div class="mr-3 mt-3">
+	<div class="flex align-middle justify-center md:ml-8">
+		<div class="mx-3 mt-3">
 			<div class="font-semibold h3">{player.jerseyNumber}</div>
 			<div class="text-gray-500">{player.position}</div>
 		</div>
@@ -20,8 +29,8 @@
 			<Avatar src={player.imageUrl} width="w-40" rounded="rounded-lg" background="bg-transparent" />
 		</div>
 	</div>
-	<div class="mt-3 mr-9">
-		<p class="mr-0 h3 font-semibold">
+	<div class="mt-3 mr-1 md:mr-9">
+		<p class="mr-1 h3 font-semibold">
 			{player.firstName}
 			{player.lastName}
 		</p>

@@ -5,7 +5,7 @@
 	export let labelTitle: string;
 </script>
 
-<div class="flex w-1/2 items-center my-5 mx-2 justify-around">
+<div class="flex w-full md:w-1/2 items-center my-5 mx-2 justify-around">
 	<label for="sortSelect" class="w-1/2 text-gray-600">{labelTitle}</label>
 	<select
 		id="sortSelect"

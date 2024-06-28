@@ -55,10 +55,12 @@
 	<div class="flex flex-col">
 		<div class="flex justify-center w-full">
 			<div class="flex flex-col">
-				<h5 class="h5 flex justify-center text-gray-400 py-1 font-semibold">Average Rating</h5>
+				<h5 class="h6 md:h5 flex justify-center text-gray-400 py-1 font-semibold">
+					Average Rating
+				</h5>
 				<div class="flex items-center justify-center">
 					<StarRating config={reviewStarConfig} />
-					<p class="px-3 font-semibold text-gray-500">{average ?? '-'} / 5</p>
+					<p class="px-3 font-semibold text-xs md:text-md text-gray-500">{average ?? '-'} / 5</p>
 				</div>
 			</div>
 		</div>
@@ -67,17 +69,17 @@
 				<div class="flex justify-center">
 					<Avatar
 						src={game.visitorTeam.imageUrl}
-						width={imageWidth}
+						width="w-full md:{imageWidth}"
 						rounded="rounded-lg"
 						background="bg-transparent"
 					/>
 				</div>
-				<p class="lg:font-semibold lg:ext-lg text-gray-800">
+				<p class="text-xs md:font-semibold md:text-lg text-gray-800">
 					{game.visitorTeam.fullName.split(' ').pop()}
 				</p>
 			</div>
-			<div class="w-1/2 flex justify-around items-center">
-				<div class="w-1/3">
+			<div class="w-1/2 md:w-1/2 flex justify-around items-center">
+				<div class="text-start md:w-1/3">
 					{#if !hiddenScores}
 						<p class="lg:font-semibold lg:text-lg">
 							{isLive
@@ -103,10 +105,10 @@
 							<span>{gameFromSocket.time}</span>
 						</div>
 					{:else}
-						{statusToET(game.status)}
+						<p class="text-xs md:text-lg">{statusToET(game.status)}</p>
 					{/if}
 				</h6>
-				<div class="text-end w-1/3">
+				<div class="text-end md:w-1/3">
 					{#if !hiddenScores}
 						<p class="lg:font-semibold lg:text-lg">
 							{isLive
@@ -124,12 +126,12 @@
 				<div class="flex justify-center">
 					<Avatar
 						src={game.homeTeam.imageUrl}
-						width={imageWidth}
+						width="w-full md:{imageWidth}"
 						rounded="rounded-lg"
 						background="bg-transparent"
 					/>
 				</div>
-				<p class="lg:font-semibold lg:text-lg text-gray-800">
+				<p class="text-xs md:font-semibold md:text-lg text-gray-800">
 					{game.homeTeam.fullName.split(' ').pop()}
 				</p>
 			</div>

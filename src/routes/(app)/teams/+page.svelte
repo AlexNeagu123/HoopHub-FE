@@ -55,11 +55,12 @@
 	}
 </script>
 
-<div class="flex w-full justify-center mt-5 shadow py-7">
-	<div class="container ml-5 w-1/3">
+<div class="flex w-full md:justify-center mt-5 shadow py-7">
+	<div class="container ml-5 w-full md:w-1/3">
 		<input
 			class="shadow variant-filled-surface
-                autocomplete w-1/2 placeholder-black rounded-full border border-primary-600
+                autocomplete w-3/4 md:w-1/2 placeholder-black rounded-full border border-primary-600
+                text-sm md:text-md
                 focus:outline-0 focus:border-primary-600 focus:ring-0"
 			type="search"
 			name="autocomplete-search"

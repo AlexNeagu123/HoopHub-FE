@@ -101,16 +101,20 @@
 	{#if isLoading}
 		<LoadingIcon />
 	{:else}
-		<div class="w-1/2">
-			<GameCountSelect
-				bind:selectedValue={selectedGameCount}
-				changeFunction={handleGameCountChange}
-				optionsArray={latestGameOptions}
-				labelTitle="Games Count"
-			/>
+		<div class="flex justify-center md:justify-start">
+			<div class="w-1/2">
+				<GameCountSelect
+					bind:selectedValue={selectedGameCount}
+					changeFunction={handleGameCountChange}
+					optionsArray={latestGameOptions}
+					labelTitle="Games Count"
+				/>
+			</div>
 		</div>
-		<div class="w-3/4">
-			<TeamLatestGamesTable {table} {hasWon} />
+		<div class="flex justify-center md:justify-start">
+			<div class="w-3/4">
+				<TeamLatestGamesTable {table} {hasWon} />
+			</div>
 		</div>
 	{/if}
 </TeamExpanded>

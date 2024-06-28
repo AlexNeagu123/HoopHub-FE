@@ -26,13 +26,14 @@
 
 	export let threadVoteStatus: VoteStatus;
 	export let threadWidthType: string = ThreadWidthTypes.HALF;
+	const widthStr = ThreadWidthTypesConverter[threadWidthType];
 </script>
 
 <a
 	href="{AppRoute.TEAM_THREAD}/{id}?{commentsListQueryParams.SORTING_TYPE}={commentListTypes.NEWEST}"
-	class="{ThreadWidthTypesConverter[
-		threadWidthType
-	]} card card-hover variant-filled-surface shadow px-5 py-3 my-2 cursor-pointer"
+	class="w-full card card-hover variant-filled-surface shadow px-5 py-3 my-2 cursor-pointer"
+	class:md:w-[48%]={threadWidthType === ThreadWidthTypes.HALF}
+	class:md:w-[80%]={threadWidthType === ThreadWidthTypes.FULL}
 >
 	<div class="flex flex-col">
 		<div class="flex flex-start justify-between py-3">

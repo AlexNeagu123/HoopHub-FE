@@ -44,9 +44,9 @@
 </script>
 
 <div class="flex">
-	<p class="h4 font-semibold {!$currentUser.isLoggedIn ? 'text-gray-500' : ''}">
+	<p class="h3 md:h4 font-semibold {!$currentUser.isLoggedIn ? 'text-gray-500' : ''}">
 		Follow Team
-		<button type="button" class="h3 btn-icon variant-filled-surface" on:click={followClickHandle}>
+		<button type="button" class="h2 md:h3 btn-icon variant-filled-surface" on:click={followClickHandle}>
 			{#if isTeamFollowed}
 				<FullStar />
 			{:else}

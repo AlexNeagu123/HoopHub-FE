@@ -56,12 +56,12 @@
 	}
 </script>
 
-<div class="flex justify-center">
-	<div class="card variant-filled-surface m-10 w-3/4 p-5 px-10 drop-shadow">
-		<div class="flex items-center justify-between">
+<div class="md:flex md:justify-center flex">
+	<div class="card variant-filled-surface md:m-10 w-full md:w-3/4 md:p-5 md:px-10 drop-shadow">
+		<div class="flex md:flex-row items-center justify-between flex-col">
 			<TeamHeader {team} />
 
-			<div class="flex text-center w-1/2">
+			<div class="flex text-center justify-center w-full md:w-1/2">
 				<StatCard title="SRS" border={true} content={team.teamBio[0].srs} />
 				<StatCard title="ORTG" border={true} content={team.teamBio[0].oRtg} />
 				<StatCard title="DRTG" border={true} content={team.teamBio[0].dRtg} />
@@ -69,12 +69,12 @@
 				<StatCard title="W-L %" border={false} content={team.teamBio[0].winLossRatio} />
 			</div>
 
-			<div class="w-1/5 flex justify-end">
-				<FollowTeamBox teamId={team.id} teamName={team.fullName} {teamFollows}/>
+			<div class="text-center md:w-1/5 flex justify-center mt-2 md:my-0">
+				<FollowTeamBox teamId={team.id} teamName={team.fullName} {teamFollows} />
 			</div>
 		</div>
 
-		<dl class="list-dl text-center mt-5">
+		<dl class="list-dl text-center mt-1 md:mt-5">
 			<div>
 				<AboutCard title="Abbreviation" content={team.abbreviation} />
 				<AboutCard title="City" content={team.city} />
@@ -83,7 +83,9 @@
 			</div>
 		</dl>
 
-		<div class="mt-5 flex justify-between">
+		<div
+			class="mt-3 md:mt-5 flex flex-col md:flex-row items-center justify-center md:justify-between"
+		>
 			<TabGroup
 				border="none"
 				justify="justify-start"

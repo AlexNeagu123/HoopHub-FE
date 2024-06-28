@@ -10,7 +10,7 @@
 
 <TeamExpanded team={data.team} pageType={TeamPageTypes.ROSTER} {teamFollows}>
 	<section>
-		<div class="flex justify-between flex-wrap">
+		<div class="flex flex-col md:flex-row justify-between items-center md:flex-wrap">
 			{#each data.team.players as player}
 				<PlayerPreview {player} />
 			{/each}
