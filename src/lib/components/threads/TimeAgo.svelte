@@ -4,7 +4,7 @@
 </script>
 
 <div>
-	<p class="text-gray-600 font-light">
+	<p class="text-gray-600 font-light text-sm">
 		<Time relative timestamp={time} />
 	</p>
 </div>

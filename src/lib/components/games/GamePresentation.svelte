@@ -60,7 +60,7 @@
 				</h5>
 				<div class="flex items-center justify-center">
 					<StarRating config={reviewStarConfig} />
-					<p class="px-3 font-semibold text-xs md:text-md text-gray-500">{average ?? '-'} / 5</p>
+					<p class="px-3 font-semibold text-xs md:text-base text-gray-500">{average ?? '-'} / 5</p>
 				</div>
 			</div>
 		</div>

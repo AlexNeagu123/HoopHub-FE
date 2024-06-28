@@ -14,6 +14,6 @@
      border-l-2 border-l-primary-600
      border-b-2 border-b-primary-600 border-t-2 border-t-primary-600 shadow cursor-default"
 >
-	<dt class="text-gray-500}">{title}</dt>
-	<dd class="font-semibold">{content}</dd>
+	<dt class="text-gray-500 md:text-base text-sm">{title}</dt>
+	<dd class="font-semibold md:text-base text-sm">{content}</dd>
 </div>

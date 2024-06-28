@@ -125,9 +125,9 @@
 </script>
 
 <div class="flex justify-center">
-	<div class="w-5/6 shadow p-5 my-5 rounded-2xl">
+	<div class="w-full md:w-5/6 shadow md:p-5 my-5 rounded-2xl">
 		<div class="w-full flex justify-between">
-			<div class="w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
+			<div class="w-1/4 md:w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
 				{#if isLoadingPredictions}
 					<PredictionLoader />
 				{:else if !predictionsHidden}
@@ -144,7 +144,7 @@
 					Toggle Pre-Game Predictions
 				</button>
 			</div>
-			<div class="w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
+			<div class="w-1/4 md:w-1/4 flex flex-col justify-center items-center font-semibold text-gray-600">
 				{#if isLoadingPredictions}
 					<PredictionLoader />
 				{:else if !predictionsHidden}
@@ -160,42 +160,54 @@
 			imageWidth="w-1/3"
 			average={getGameAverage()}
 		/>
-		<div class="flex justify-center my-10 mx-4">
-			<TabGroup
-				border="none"
-				justify="justify-start"
-				active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
-				hover="hover:bg-secondary-500"
-			>
-				<TabAnchor href={boxScoresUrl} selected={pageType === GamePageTypes.BOX_SCORE}
-					>Box Scores</TabAnchor
+		<div class="flex md:flex-row flex-col justify-between md:justify-center my-10 mx-4">
+			<div class="flex md:justify-start justify-center">
+				<TabGroup
+					border="none"
+					justify="justify-start"
+					active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
+					hover="hover:bg-secondary-500"
 				>
-				<TabAnchor
-					href={chartsUrl}
-					selected={pageType === GamePageTypes.CHARTS}
-					on:click={checkGameStarted}>Game Charts</TabAnchor
+					<TabAnchor href={boxScoresUrl} selected={pageType === GamePageTypes.BOX_SCORE}
+						>Box Scores</TabAnchor
+					>
+					<TabAnchor
+						href={chartsUrl}
+						selected={pageType === GamePageTypes.CHARTS}
+						on:click={checkGameStarted}>Game Charts</TabAnchor
+					>
+					<TabAnchor
+						on:click={checkLoggedIn}
+						href={threadUrl}
+						selected={pageType === GamePageTypes.THREAD}
+						on:click={checkThreadExists}>Thread</TabAnchor
+					>
+				</TabGroup>
+			</div>
+
+			<div class="flex md:justify-start justify-center md:mt-0 mt-3">
+				<TabGroup
+					border="none"
+					justify="justify-start"
+					active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
+					hover="hover:bg-secondary-500"
 				>
-				<TabAnchor
-					on:click={checkLoggedIn}
-					href={threadUrl}
-					selected={pageType === GamePageTypes.THREAD}
-					on:click={checkThreadExists}>Thread</TabAnchor
-				>
-				<TabAnchor
-					on:click={checkLoggedIn}
-					href={reviewsUrl}
-					selected={pageType === GamePageTypes.REVIEWS}
-				>
-					Reviews
-				</TabAnchor>
-				<TabAnchor
-					on:click={checkLoggedIn}
-					href={performancesUrl}
-					selected={pageType === GamePageTypes.PERFORMANCES}
-				>
-					Performances
-				</TabAnchor>
-			</TabGroup>
+					<TabAnchor
+						on:click={checkLoggedIn}
+						href={reviewsUrl}
+						selected={pageType === GamePageTypes.REVIEWS}
+					>
+						Reviews
+					</TabAnchor>
+					<TabAnchor
+						on:click={checkLoggedIn}
+						href={performancesUrl}
+						selected={pageType === GamePageTypes.PERFORMANCES}
+					>
+						Performances
+					</TabAnchor>
+				</TabGroup>
+			</div>
 		</div>
 
 		<div class="mt-3">

@@ -16,14 +16,14 @@
 </script>
 
 <div class="flex justify-center">
-    <div class="card container w-3/4 variant-filled-surface shadow p-6">
+    <div class="card container w-full md:w-3/4 variant-filled-surface shadow p-6">
         <div class="card-header flex justify-around">
-            <Avatar src="{game.visitorTeam.imageUrl}" width="w-1/12" rounded="rounded-lg"
+            <Avatar src="{game.visitorTeam.imageUrl}" width="w-1/4 md:w-1/12" rounded="rounded-lg"
                     background="bg-transparent"/>
             <div class="flex items-center">
                 <h2 class="h2 font-semibold text-gray-600">Leaders</h2>
             </div>
-            <Avatar src="{game.homeTeam.imageUrl}" width="w-1/12" rounded="rounded-lg"
+            <Avatar src="{game.homeTeam.imageUrl}" width="w-1/4 md:w-1/12" rounded="rounded-lg"
                     background="bg-transparent"/>
         </div>
         <div class="flex flex-wrap">

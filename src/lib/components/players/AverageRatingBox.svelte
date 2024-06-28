@@ -18,7 +18,7 @@
 	}
 </script>
 
-<div class="flex flex-col items-center py-2">
+<div class="flex flex-col items-center mx-2 md:py-2">
 	<h4 class="text-gray-500 h4 font-semibold py-2">User Rating</h4>
 	<StarRating config={getReviewStarConfig(average)} />
 	<p class="px-3 text-gray-600 py-1 font-semibold text-lg">{average ?? '-'} / 5</p>

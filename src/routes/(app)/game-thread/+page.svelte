@@ -75,7 +75,7 @@
 
 <GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.THREAD} {gameReviewAverages}>
 	<div class="flex justify-center">
-		<div class="w-[80%]">
+		<div class="w-full md:w-[80%]">
 			<div
 				class="card flex flex-col variant-filled-surface border-b-2 border-primary-400 w-full justify-between"
 			>

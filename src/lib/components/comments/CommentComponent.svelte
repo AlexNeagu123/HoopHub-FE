@@ -78,39 +78,40 @@
 </script>
 
 {#if !editMode}
-	<div
-		class="w-full variant-filled-surface p-2 my-1 {replyActive
-			? 'drop-shadow rounded-lg'
-			: 'rounded-none'}
+	<div class="flex md:justify-start justify-center w-full">
+		<div
+			class="w-full variant-filled-surface p-2 my-1 {replyActive
+				? 'drop-shadow rounded-lg'
+				: 'rounded-none'}
 			{firstCommentId === comment.id ? 'shadow' : ''}"
-	>
-		<div>
-			<header class="flex justify-between px-2 items-center">
-				<div class="flex">
-					<ProfileLink author={comment.fan} />
-					<span class="pr-2">&bull;</span>
-					<TimeAgo time={comment.createdDate} />
-				</div>
-				<button
-					class="btn btn-primary hover:variant-filled-primary flex items-center"
-					on:click={toggleActiveReply}
-				>
-					<Reply />
-					<p class="px-2">Reply</p>
-				</button>
-			</header>
-			<main>
-				<div
-					class="variant-filled-surface w-full px-2 mb-2 rounded-md
+		>
+			<div>
+				<header class="flex justify-between pl-2 md:px-2 items-center">
+					<div class="flex">
+						<ProfileLink author={comment.fan} />
+						<span class="pr-2">&bull;</span>
+						<TimeAgo time={comment.createdDate} />
+					</div>
+					<button
+						class="btn btn-primary hover:variant-filled-primary flex items-center"
+						on:click={toggleActiveReply}
+					>
+						<Reply />
+						<p class="px-2">Reply</p>
+					</button>
+				</header>
+				<main>
+					<div
+						class="variant-filled-surface w-[97%] md:w-full px-2 mb-2 rounded-md
             focus:outline-0 focus:border-primary-700 focus:ring-1 focus:ring-primary-700 resize-none"
-				>
-					{comment.content}
-				</div>
-				<CommentVotingContainer {comment} onDelete={onDeleteComment} onEdit={onEditComment} />
-			</main>
+					>
+						{comment.content}
+					</div>
+					<CommentVotingContainer {comment} onDelete={onDeleteComment} onEdit={onEditComment} />
+				</main>
+			</div>
 		</div>
 	</div>
-
 	<WriteCommentContainer bind:active={replyActive} onSubmit={onSubmitReply} bind:validationErrors />
 	{#if comment.repliesCount > 0}
 		<ViewReplies {arrowType} repliesNo={comment.repliesCount} onClick={onViewReplies} />

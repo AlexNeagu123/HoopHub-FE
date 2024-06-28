@@ -41,13 +41,15 @@
 {#if isLoading}
 	<LoadingIcon />
 {:else}
-	<div class="w-1/2">
-		<CommentSelectContainer
-			bind:selectedValue={selectedType}
-			changeFunction={changeCommentsType}
-			labelTitle={'Filter by'}
-			optionsArray={[commentListTypes.NEWEST, commentListTypes.POPULAR]}
-		/>
+	<div class="flex w-full justify-center md:justify-start">
+		<div class="w-3/4 md:w-1/2">
+			<CommentSelectContainer
+				bind:selectedValue={selectedType}
+				changeFunction={changeCommentsType}
+				labelTitle={'Filter by'}
+				optionsArray={[commentListTypes.NEWEST, commentListTypes.POPULAR]}
+			/>
+		</div>
 	</div>
 	<div class="flex flex-col items-end w-full">
 		{#each comments as comment}

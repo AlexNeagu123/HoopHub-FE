@@ -60,7 +60,7 @@
 		<input
 			class="shadow variant-filled-surface
                 autocomplete w-3/4 md:w-1/2 placeholder-black rounded-full border border-primary-600
-                text-sm md:text-md
+                text-sm md:text-base
                 focus:outline-0 focus:border-primary-600 focus:ring-0"
 			type="search"
 			name="autocomplete-search"

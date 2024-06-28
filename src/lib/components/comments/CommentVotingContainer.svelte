@@ -50,7 +50,11 @@
 	};
 </script>
 
-<div class="flex {$currentUser.userId === comment.fan.id ? 'w-[13%]' : 'w-[10%]'} justify-start">
+<div
+	class="flex {$currentUser.userId === comment.fan.id
+		? 'w-1/3 md:w-[13%]'
+		: 'w-1/4 md:last:w-[10%]'} justify-start"
+>
 	<button
 		on:click={(event) => {
 			event.preventDefault();
@@ -58,7 +62,7 @@
 		}}
 		class="flex hover:variant-filled-primary items-center rounded-full {voteButtonWidth} justify-center"
 	>
-		<Upvote height={16} width={16} isClicked={comment.voteStatus === VoteStatus.UpVoted} />
+		<Upvote height={20} width={20} isClicked={comment.voteStatus === VoteStatus.UpVoted} />
 		<p class="px-1">
 			{comment.upVotes}
 		</p>
@@ -68,9 +72,9 @@
 			event.preventDefault();
 			toggleVote(false);
 		}}
-		class="flex hover:variant-filled-primary items-center rounded-full {voteButtonWidth} justify-center"
+		class="flex hover:variant-filled-primary items-center rounded-full {voteButtonWidth} justify-center mr-2 md:mr-0"
 	>
-		<Downvote height={16} width={16} isClicked={comment.voteStatus === VoteStatus.DownVoted} />
+		<Downvote height={20} width={20} isClicked={comment.voteStatus === VoteStatus.DownVoted} />
 		<p class="px-1">
 			{comment.downVotes}
 		</p>
@@ -84,15 +88,16 @@
 		>
 			<i class="fa-solid fa-ellipsis-vertical"></i>
 		</button>
-		<div class="z-50 variant-filled-primary card w-20 shadow-xl py-2" data-popup={'popupCombobox' + comment.id}>
+		<div
+			class="z-50 variant-filled-primary card w-20 shadow-xl py-2"
+			data-popup={'popupCombobox' + comment.id}
+		>
 			<ListBox rounded="rounded-none">
-				<button
-					class="btn rounded-none w-full hover:variant-filled-surface"
-					on:click={onEdit}>Edit</button
+				<button class="btn rounded-none w-full hover:variant-filled-surface" on:click={onEdit}
+					>Edit</button
 				>
-				<button
-					class="btn rounded-none w-full hover:variant-filled-surface"
-					on:click={onDelete}>Delete</button
+				<button class="btn rounded-none w-full hover:variant-filled-surface" on:click={onDelete}
+					>Delete</button
 				>
 			</ListBox>
 		</div>

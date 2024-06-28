@@ -118,7 +118,7 @@
 </script>
 
 <div class="flex justify-center">
-	<div class="flex flex-col items-center w-2/3">
+	<div class="flex flex-col items-center w-full md:w-2/3">
 		<TeamThreadFullView {teamThread} {team} />
 		<div
 			class="card variant-filled-surface flex border-b-2 border-primary-400 w-full justify-between"

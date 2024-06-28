@@ -230,16 +230,17 @@
 	<LoadingIcon />
 {:else}
 	<GameWithBoxScoreC {gameDetails} pageType={GamePageTypes.BOX_SCORE} {gameReviewAverages}>
-		<div class="flex justify-between mx-10">
-			<SlideToggle
-				active="bg-primary-800"
-				background="bg-surface-700"
-				name="slider-label"
-				bind:checked={isVisitorteamStats}
-				on:click={toggleBoxScore}
-			/>
-
-			<div class="flex w-full justify-center">
+		<div class="flex md:justify-between w-full justify-between">
+			<div class="w-[20%] md:w-1/4">
+				<SlideToggle
+					active="bg-primary-800"
+					background="bg-surface-700"
+					name="slider-label"
+					bind:checked={isVisitorteamStats}
+					on:click={toggleBoxScore}
+				/>
+			</div>
+			<div class="flex w-[60%] justify-between md:w-full md:justify-center mx-4">
 				<GameSelectContainer
 					bind:selectedValue={statsTypeSelectedValue}
 					labelTitle={'Stats Type'}
@@ -254,13 +255,15 @@
 				/>
 			</div>
 
-			<SlideToggle
-				active="bg-primary-800"
-				background="bg-surface-700"
-				name="slider-label"
-				bind:checked={isHometeamStats}
-				on:click={toggleBoxScore}
-			/>
+			<div class="w-[20%] md:w-1/4 flex md:justify-end">
+				<SlideToggle
+					active="bg-primary-800"
+					background="bg-surface-700"
+					name="slider-label"
+					bind:checked={isHometeamStats}
+					on:click={toggleBoxScore}
+				/>
+			</div>
 		</div>
 		{#if statsNumber === 0}
 			<p class="text-center text-gray-500 mt-7">Statistics of these type are not yet available</p>

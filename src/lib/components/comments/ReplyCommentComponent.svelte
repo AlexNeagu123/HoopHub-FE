@@ -70,15 +70,17 @@
 	>
 		<div>
 			<header class="flex justify-between px-2 items-center">
-				<div class="flex">
-					<ProfileLink author={reply.fan} />
-					<span class="pr-2">&bull;</span>
-					<p class="font-thin">
-						Replies to <a
-							class="hover:underline font-semibold text-secondary-800"
-							href="{AppRoute.PROFILE}/{reply.respondsToFan.id}">{reply.respondsToFan.username}</a
-						>
-					</p>
+				<div class="flex flex-row justify-start">
+					<div class="flex md:flex-row flex-col">
+						<ProfileLink author={reply.fan} />
+						<span class="pr-2 hidden md:block">&bull;</span>
+						<p class="font-thin text-base md:my-0 my-2">
+							Replies to <a
+								class="hover:underline font-semibold text-secondary-800"
+								href="{AppRoute.PROFILE}/{reply.respondsToFan.id}">{reply.respondsToFan.username}</a
+							>
+						</p>
+					</div>
 					<span class="px-2">&bull;</span>
 					<TimeAgo time={reply.createdDate} />
 				</div>

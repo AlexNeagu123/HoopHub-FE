@@ -15,18 +15,17 @@
 {#if isLoading}
 	<LoadingIcon />
 {:else}
-	<div class="flex flex-col items-end w-full">
-		{#each commentReplies as reply}
-			<ReplyCommentComponent
-				{onViewReplies}
-				{reply}
-				{parentId}
-				bind:commentReplies
-				bind:replyCount
-			/>
-		{/each}
+	<div class="flex md:justify-start justify-center w-full">
+		<div class="flex flex-col items-end w-[97%] md:w-full">
+			{#each commentReplies as reply}
+				<ReplyCommentComponent
+					{onViewReplies}
+					{reply}
+					{parentId}
+					bind:commentReplies
+					bind:replyCount
+				/>
+			{/each}
+		</div>
 	</div>
 {/if}
-
-
-

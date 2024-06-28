@@ -31,7 +31,7 @@
 		</div>
 		<div class="flex justify-between">
 			<ThreadVotingContainer
-				voteButtonWidth="w-1/4"
+				voteButtonWidth="w-full md:w-1/4"
 				upvotes={teamThread.upVotes}
 				downvotes={teamThread.downVotes}
 				id={teamThread.id}

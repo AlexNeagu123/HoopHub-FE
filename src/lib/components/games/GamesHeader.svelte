@@ -19,7 +19,7 @@
 			inputClasses="relative z-100 cursor-pointer border-none h-full variant-filled-surface drop-shadow rounded"
 		/>
 	</div>
-	<div class="flex justify-end items-center py-5 md:py-0 text-md md:text-lg">
+	<div class="flex justify-end items-center py-5 md:py-0 text-xs md:text-lg">
 		<SlideToggle
 			active="bg-secondary-700"
 			background="bg-surface-700"

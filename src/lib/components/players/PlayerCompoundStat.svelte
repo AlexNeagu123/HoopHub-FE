@@ -11,11 +11,11 @@
      border-t-2 border-t-primary-600 border-b-2 border-b-primary-600 shadow w-full"
 >
 	<div class="hover:bg-primary-400 h-1/2 py-2 border-b-2 border-b-primary-600 text-center">
-		<dt class="text-gray-500">{titles[0]}</dt>
-		<dd class="font-semibold">{contents[0]}</dd>
+		<dt class="text-gray-500 md:text-base text-xs">{titles[0]}</dt>
+		<dd class="font-semibold md:text-base text-xs">{contents[0]}</dd>
 	</div>
 	<div class="hover:bg-primary-400 h-1/2 py-2 text-center">
-		<dt class="text-gray-500">{titles[1]}</dt>
-		<dd class="font-semibold">{contents[1]}</dd>
+		<dt class="text-gray-500 md:text-base text-xs">{titles[1]}</dt>
+		<dd class="font-semibold md:text-base text-xs">{contents[1]}</dd>
 	</div>
 </div>
