@@ -11,24 +11,28 @@
 	}
 </script>
 
-<div class="flex justify-center">
-	<div class="card m-10 w-1/3 px-10 py-3 drop-shadow variant-filled-surface">
-		<div class="w-full flex justify-between py-5">
-			<div class="flex flex-col">
-				<h3 class="h3 font-semibold {rankColors[ownInfo.fanInfo.fanBadge]}">
-					{rankTexts[ownInfo.fanInfo.fanBadge]}
-					<div class="h1 font-bold {rankColors[ownInfo.fanInfo.fanBadge]}">
-						{ownInfo.fanInfo.username}
+<div class="flex flex-col md:justify-start justify-center h-full">
+	<div class="flex justify-center">
+		<div
+			class="card md:m-10 m-5 w-full md:w-1/3 px-5 md:px-10 py-3 drop-shadow variant-filled-surface"
+		>
+			<div class="w-full flex justify-between py-5">
+				<div class="flex flex-col">
+					<h3 class="h3 font-semibold {rankColors[ownInfo.fanInfo.fanBadge]}">
+						{rankTexts[ownInfo.fanInfo.fanBadge]}
+						<div class="h1 font-bold {rankColors[ownInfo.fanInfo.fanBadge]}">
+							{ownInfo.fanInfo.username}
+						</div>
+					</h3>
+					<div class="my-3">
+						<button class="btn variant-filled-secondary" on:click={handleEditProfile}>
+							Edit Fan Profile
+						</button>
 					</div>
-				</h3>
-				<div class="my-3">
-					<button class="btn variant-filled-secondary" on:click={handleEditProfile}>
-						Edit Fan Profile
-					</button>
 				</div>
+				<Avatar width="w-1/4" rounded="rounded-full" background="bg-transparent" src={avatarUrl} />
 			</div>
-			<Avatar width="w-1/4" rounded="rounded-full" background="bg-transparent" src={avatarUrl} />
+			<slot />
 		</div>
-		<slot />
 	</div>
 </div>

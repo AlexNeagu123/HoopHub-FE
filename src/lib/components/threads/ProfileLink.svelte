@@ -11,7 +11,7 @@
 		<h6 class="h6 px-2 font-semibold">Anonymous</h6>
 	</div>
 {:else}
-	<a class="flex justify-start hover:underline" href="{AppRoute.PROFILE}/{author.id}">
+	<a class="flex justify-start hover:underline items-center" href="{AppRoute.PROFILE}/{author.id}">
 		<Avatar src={author.avatarPhotoUrl} width="w-5" background="bg-transparent" />
 		<h6 class="h6 px-2 font-semibold">
 			@{author.username}

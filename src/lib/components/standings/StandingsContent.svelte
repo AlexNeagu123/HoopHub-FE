@@ -64,9 +64,9 @@
 </script>
 
 <div class="flex justify-center">
-    <div class="w-[55%] flex justify-center flex-col">
+    <div class="w-full md:w-[55%] flex justify-center flex-col">
         {#each tables as table, index}
-            <h3 class="h3 font-bold mt-7">{tableTitles[index]}</h3>
+            <h3 class="h3 font-bold mt-7 text-center md:text-start">{tableTitles[index]}</h3>
             <StandingsTable table={table}/>
         {/each}
     </div>

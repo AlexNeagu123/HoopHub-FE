@@ -21,18 +21,20 @@
 	<div>
 		<header class="flex justify-between px-2 py-2 items-center">
 			<div class="flex">
-				<ProfileLink author={comment.fan} />
-				<span class="pr-2">&bull;</span>
+				<div class="hidden md:flex">
+					<ProfileLink author={comment.fan} />
+					<span class="pr-2">&bull;</span>
+				</div>
 
 				{#if comment.respondsToFan !== null}
-					<p class="font-thin">
+					<p class="font-thin md:block hidden">
 						Replies to <a
 							class="hover:underline font-semibold text-secondary-800"
 							href="{AppRoute.PROFILE}/{comment.respondsToFan.id}"
 							>{comment.respondsToFan.username}</a
 						>
 					</p>
-					<span class="px-2">&bull;</span>
+					<span class="px-2 md:block hidden">&bull;</span>
 				{/if}
 				{#if comment.gameThread !== null}
 					<VersusLink {homeTeam} {visitorTeam} />

@@ -25,7 +25,7 @@
 		score: review.rating,
 		showScore: false,
 		name: '',
-		starConfig: getDynamicStarConfig(review.rating)
+		starConfig: getDynamicStarConfig(review.rating, 15)
 	};
 </script>
 
@@ -35,19 +35,20 @@
 >
 	<div class="p-2">
 		<div>
-			<header class="flex justify-between px-2 items-center">
+			<header class="flex justify-between md:px-2 items-center">
 				<div class="flex">
-					<ProfileLink author={review.fan} />
-					<span class="pr-2">&bull;</span>
-					<span class="flex items-center">
+					<div class="hidden md:flex">
+						<ProfileLink author={review.fan} />
+						<span class="md:pr-2">&bull;</span>
+					</div>
+					<span class="items-center md:flex hidden">
 						<StarRating config={reviewStarConfig} />
-						<p class="text-sm font-semibold pl-2">{review.rating} / 5</p>
 					</span>
+					<div class="flex items-center">
+						<p class="text-sm font-semibold pl-2">{review.rating} / 5</p>
+					</div>
 					<span class="px-2">&bull;</span>
-                    <VersusLink
-						{homeTeam}
-						{visitorTeam}
-					/>
+					<VersusLink {homeTeam} {visitorTeam} />
 					<span class="px-2">&bull;</span>
 					<TimeAgo time={review.createdDate} />
 				</div>

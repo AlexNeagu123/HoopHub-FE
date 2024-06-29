@@ -45,7 +45,7 @@
 <InformativePopUps />
 
 <div class="flex justify-center">
-	<div class="card md:m-10 w-full md:w-1/2 px-4 md:px-10 py-3 drop-shadow variant-filled-surface">
+	<div class="card md:m-10 w-full md:w-1/2 px-8 md:px-10 py-3 drop-shadow variant-filled-surface">
 		<div class="flex justify-between">
 			<div class="flex flex-col w-1/2">
 				<div class="w-full">
