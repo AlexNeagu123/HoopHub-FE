@@ -81,7 +81,10 @@
 							>
 						</p>
 					</div>
-					<span class="px-2">&bull;</span>
+					<div class="flex items-center">
+						<span class="px-2">&bull;</span>
+					</div>
+
 					<TimeAgo time={reply.createdDate} />
 				</div>
 				<button

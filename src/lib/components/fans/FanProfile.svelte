@@ -45,7 +45,7 @@
 <InformativePopUps />
 
 <div class="flex justify-center">
-	<div class="card md:m-10 w-full md:w-1/2 px-8 md:px-10 py-3 drop-shadow variant-filled-surface">
+	<div class="card md:m-10 w-full md:w-1/2 px-5 md:px-10 py-3 drop-shadow variant-filled-surface">
 		<div class="flex justify-between">
 			<div class="flex flex-col w-1/2">
 				<div class="w-full">
@@ -95,23 +95,25 @@
 			/>
 		</div>
 		<div class="w-full flex justify-between">
-			<div class="mt-4 mb-2 flex flex-col md:flex-row">
-				<TabGroup
-					border="none"
-					justify="justify-start"
-					active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
-					hover="hover:bg-secondary-500"
-				>
-					<TabAnchor
-						href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}"
-						selected={profilePageType === ProfilePageTypes.THREADS}>Threads</TabAnchor
+			<div class="mt-4 mb-2 flex {isOwnProfile ? 'flex-col' : 'flex-row'} md:flex-row">
+				<div class="{isOwnProfile ? 'mt-2' : 'mt-0'} md:mt-0">
+					<TabGroup
+						border="none"
+						justify="justify-start"
+						active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
+						hover="hover:bg-secondary-500"
 					>
-					<TabAnchor
-						href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/comments"
-						selected={profilePageType === ProfilePageTypes.COMMENTS}>Comments</TabAnchor
-					>
-				</TabGroup>
-				<div class="mt-2 md:mt-0">
+						<TabAnchor
+							href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}"
+							selected={profilePageType === ProfilePageTypes.THREADS}>Threads</TabAnchor
+						>
+						<TabAnchor
+							href="{AppRoute.PROFILE}/{profilePageInfo.fanInfo.id}/comments"
+							selected={profilePageType === ProfilePageTypes.COMMENTS}>Comments</TabAnchor
+						>
+					</TabGroup>
+				</div>
+				<div class="{isOwnProfile ? 'mt-2' : 'mt-0'} md:mt-0">
 					<TabGroup
 						border="none"
 						justify="justify-start"
