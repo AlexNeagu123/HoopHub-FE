@@ -45,7 +45,7 @@
 				<a
 					type="button"
 					class="btn bg-surface-400 text-xl"
-					href="{AppRoute.PLAYOFFS}?season={seasonFromIntToStr(SeasonConstants.currentSeason - 1)}"
+					href="{AppRoute.PLAYOFFS}?season={seasonFromIntToStr(SeasonConstants.currentSeason)}"
 				>
 					Playoffs
 				</a>

@@ -14,7 +14,7 @@
 	export let player: Player;
 	export let pageType: string;
 	export let playerFollows: PlayerFollowEntry[] = [];
-
+	
 	$: isLatest = pageType == 'latest';
 	let playerStats: SeasonAverageStats = player.seasonAverageStats[0];
 	let id = $page.params.id;
@@ -93,8 +93,8 @@
 				active="hover:bg-secondary-500 border-b-2 border-secondary-600 font-semibold"
 				hover="hover:bg-secondary-500"
 			>
-				<TabAnchor href="{AppRoute.PLAYER}/{id}" selected={isLatest}>Latest</TabAnchor>
 				<TabAnchor href="{AppRoute.PLAYER}/{id}/bio" selected={!isLatest}>History</TabAnchor>
+				<TabAnchor href="{AppRoute.PLAYER}/{id}" selected={isLatest}>Latest</TabAnchor>
 			</TabGroup>
 		</div>
 		<div class="mt-3">

@@ -4,7 +4,7 @@
 	export let season;
 	export let seasonChangeCallback;
 
-	let selectedSeasonIndex = 1;
+	let selectedSeasonIndex = 0;
 
 	async function updatePlayoffsSeason(newSeason: string) {
 		season = newSeason;

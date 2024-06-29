@@ -7,7 +7,7 @@
 </script>
 
 <a
-	href="{AppRoute.PLAYER}/{player.id}"
+	href="{AppRoute.PLAYER}/{player.id}/bio"
 	class="card
 	mt-5
 	xl:w-[49%]

@@ -32,4 +32,4 @@ interface SeasonAverageStats {
     teamId: string;
 }
 
-export type {SeasonAverageStats}
+export type { SeasonAverageStats }
